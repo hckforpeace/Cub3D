@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/29 18:47:51 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/15 00:23:50 by pierre            #+#    #+#             */
+/*   Updated: 2024/04/15 00:23:50 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/libft.h"
 
-int	main(int argc, char **argv)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	t_data data;
-	
-	data.fd_list = NULL;
-	if (!parser(argc, argv, &data))
-		return (1);
-	close(data.fd);
-	return (0);
+	size_t	src_len;
+
+	src_len = ft_strlen(src);
+	if (size == 0)
+		return (src_len);
+	while (*src && size > 1)
+	{
+		*dst++ = *src++;
+		size--;
+	}
+	*dst = '\0';
+	return (src_len);
 }

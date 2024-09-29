@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/29 18:47:51 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/15 00:21:13 by pierre            #+#    #+#             */
+/*   Updated: 2024/06/13 01:10:30 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/libft.h"
 
-int	main(int argc, char **argv)
+int	ft_isdigit(int c)
 {
-	t_data data;
-	
-	data.fd_list = NULL;
-	if (!parser(argc, argv, &data))
+	if (c >= '0' && c <= '9')
 		return (1);
-	close(data.fd);
 	return (0);
 }

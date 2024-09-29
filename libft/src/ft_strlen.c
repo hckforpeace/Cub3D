@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/29 18:47:51 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/15 00:23:54 by pierre            #+#    #+#             */
+/*   Updated: 2024/07/18 10:48:16 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/libft.h"
 
-int	main(int argc, char **argv)
+size_t	ft_strlen(const char *s)
 {
-	t_data data;
-	
-	data.fd_list = NULL;
-	if (!parser(argc, argv, &data))
-		return (1);
-	close(data.fd);
-	return (0);
+	size_t	n;
+
+	if (!s)
+		return (0);
+	n = 0;
+	while (s[n])
+		n++;
+	return (n);
 }

@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/29 18:47:51 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/15 00:24:27 by pierre            #+#    #+#             */
+/*   Updated: 2024/04/15 00:34:42 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/libft.h"
 
-int	main(int argc, char **argv)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_data data;
-	
-	data.fd_list = NULL;
-	if (!parser(argc, argv, &data))
-		return (1);
-	close(data.fd);
-	return (0);
+	char			*str;
+	int				n;
+	char			*res;
+	unsigned char	v;
+
+	v = c;
+	res = NULL;
+	str = (char *)s;
+	n = 0;
+	while (str[n])
+	{
+		if ((unsigned char)str[n] == v)
+			res = &str[n];
+		n++;
+	}
+	if ((unsigned char)str[n] == v)
+		return (&str[n]);
+	return (res);
 }

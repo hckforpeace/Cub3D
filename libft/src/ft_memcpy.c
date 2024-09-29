@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/29 18:47:51 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/08 16:47:30 by pierre            #+#    #+#             */
+/*   Updated: 2024/04/15 00:29:28 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/libft.h"
 
-int	main(int argc, char **argv)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	t_data data;
-	
-	data.fd_list = NULL;
-	if (!parser(argc, argv, &data))
-		return (1);
-	close(data.fd);
-	return (0);
+	unsigned int		i;
+	unsigned char		*dst;
+	const unsigned char	*sr;
+
+	dst = (unsigned char *)dest;
+	sr = (const unsigned char *)src;
+	i = 0;
+	if (!dest && !src)
+		return (NULL);
+	while (i < n)
+	{
+		dst[i] = sr[i];
+		i++;
+	}
+	return (dest);
 }

@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/29 18:47:51 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/15 00:22:47 by pierre            #+#    #+#             */
+/*   Updated: 2024/04/15 00:30:50 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/libft.h"
 
-int	main(int argc, char **argv)
+void	ft_putnbr_fd(long n, int fd)
 {
-	t_data data;
-	
-	data.fd_list = NULL;
-	if (!parser(argc, argv, &data))
-		return (1);
-	close(data.fd);
-	return (0);
+	long	temp;
+
+	if (n / 10 == 0)
+	{
+		if (n < 0)
+		{
+			ft_putchar_fd('-', fd);
+			n *= -1;
+		}
+		ft_putchar_fd(n + '0', fd);
+	}
+	else
+	{
+		temp = (long)n;
+		if (n < 0)
+			temp *= -1;
+		else
+			temp = n;
+		ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd((temp % 10) + '0', fd);
+	}
 }

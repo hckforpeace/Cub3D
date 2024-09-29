@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/29 18:47:51 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/15 00:20:43 by pierre            #+#    #+#             */
+/*   Updated: 2024/04/15 00:25:51 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/libft.h"
 
-int	main(int argc, char **argv)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	t_data data;
-	
-	data.fd_list = NULL;
-	if (!parser(argc, argv, &data))
-		return (1);
-	close(data.fd);
-	return (0);
+	void	*ptr;
+
+	if (nmemb <= 0 || size <= 0)
+	{
+		size = 1;
+		nmemb = 1;
+	}
+	if (size > 2147483647 || nmemb > 2147483647 || size * nmemb > 2147483647)
+		return (NULL);
+	ptr = malloc(size * nmemb);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, nmemb * size);
+	return (ptr);
 }

@@ -1,24 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/29 18:47:51 by pierre           ###   ########.fr       */
+/*   Created: 2024/04/15 00:23:41 by pierre            #+#    #+#             */
+/*   Updated: 2024/04/15 00:33:43 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/libft.h"
 
-int	main(int argc, char **argv)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	t_data data;
-	
-	data.fd_list = NULL;
-	if (!parser(argc, argv, &data))
-		return (1);
-	close(data.fd);
-	return (0);
+	char	*join;
+	int		i;
+
+	i = 0;
+	join = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (join == NULL)
+		return (NULL);
+	join[0] = '\0';
+	while (*s1)
+	{
+		join[i] = *s1;
+		i++;
+		s1++;
+	}
+	while (*s2)
+	{
+		join[i] = *s2;
+		i++;
+		s2++;
+	}
+	join[i] = '\0';
+	return (join);
 }
