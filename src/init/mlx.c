@@ -6,20 +6,16 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 13:47:11 by pajimene          #+#    #+#             */
-/*   Updated: 2024/09/30 14:47:52 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:18:53 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_mlx_init(t_data *data)
+int	ft_mlx_init(t_mlx *mlx)
 {
-	t_mlx	*mlx;
-	
-	mlx = data->mlx;
-	printf("coucou\n");
-	data->mlx->mlx_con = mlx_init();
-	if (!data->mlx->mlx_con)
+	mlx->mlx_con = mlx_init();
+	if (!mlx->mlx_con)
 		return (printf(MLX_CON), 1);
 	mlx->mlx_win = mlx_new_window(mlx->mlx_con, WIDTH, HEIGHT, "cub3d");
 	if (!mlx->mlx_win)
@@ -43,11 +39,8 @@ int	ft_mlx_init(t_data *data)
 
 void	ft_events_init(t_data *data)
 {
-	t_mlx *mlx;
-	
-	mlx = data->mlx;
 	//mlx_hook(mlx->mlx_win, KeyPress, KeyPressMask, ft_key, raycast);
 	//mlx_hook(mlx->mlx_win, ButtonPress, ButtonPressMask, ft_mouse, raycast);
 	//mlx_hook(mlx->mlx_win, MotionNotify, PointerMotionMask, track, raycast);
-	mlx_hook(mlx->mlx_win, DestroyNotify, StructureNotifyMask, ft_close, mlx);
+	mlx_hook(data->mlx->mlx_win, DestroyNotify, StructureNotifyMask, ft_close, data);
 }

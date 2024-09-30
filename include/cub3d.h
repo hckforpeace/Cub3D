@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/30 14:39:31 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:19:01 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_data
 // added by Pablo
 
 /*Mlx init*/
-int		ft_mlx_init(t_data *data);
+int		ft_mlx_init(t_mlx *mlx);
 void	ft_events_init(t_data *data);
 
 /*Events handlers*/
