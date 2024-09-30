@@ -6,7 +6,7 @@
 /*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:24:41 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/05 16:01:46 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/09/30 12:48:46 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int		ft_atoi_base(char *str, char *base, int base_len);
-
+int		ft_tablen(char **tab);
 // printf
 
 typedef struct s_disp
