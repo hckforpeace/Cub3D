@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:49:22 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/01 00:48:33 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/01 00:53:30 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_list	*txture_color(t_data *data, t_list* list)
 
 static t_list	*color_txture(t_data *data, t_list* list)
 {
-	list = save_texture(list, data);
+	list = save_color(list, data);
 	if (!list)
 		return (0);
 	if (!ft_isemptyline((char *)list->content))
@@ -40,7 +40,7 @@ static t_list	*color_txture(t_data *data, t_list* list)
 		list = list->next;
 	if (!list)
 		return (/* empty file*/0);
-	list = save_color(list, data);
+	list = save_texture(list, data);
 	if (!list)
 		return (0);
 	return (list);
