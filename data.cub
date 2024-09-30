@@ -1,6 +1,8 @@
-je
-sui
+NO      ./chemin_vers_un_certain_fichier
+WE ./WeST
+EA ./east
+SO ./SOUTH
 
-pierre
-beylouni
-                   
+C 225,30,3
+F 74,33,4
+

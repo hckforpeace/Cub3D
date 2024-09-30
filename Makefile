@@ -2,15 +2,18 @@ NAME= cub3D
 
 MAIN= src/main.c
 
-PARSER= parser.c parse_header.c
+PARSER= parser.c parser_header.c parser_save.c
+
+UTILS= utils_parse.c
 
 DISPLAY= display.c
 
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
-
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))
+OBJS_UTILS = $(addprefix src/utils/, $(UTILS:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY)
+
+OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS)
 
 CFLAGS= -Wall -Werror -Wextra
 
@@ -29,8 +32,8 @@ $(NAME): $(OBJS)
 clean:
 	rm -f $(OBJS)
 
-fclean:
+fclean: clean
 	make fclean -C libft
 	rm -f $(NAME)
 
-re: fclean re
+re: fclean all

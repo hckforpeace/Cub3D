@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tablen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:44:31 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/09/30 13:38:15 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/09/30 19:46:48 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_tablen(char **tab)
 	i = 0;
 	if (!tab)
 		return (-1);
-	if (tab[i])
+	while (tab[i])
 		i++;
 	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/30 11:50:03 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/01 00:34:22 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ int	parser(int argc, char **argv, t_data *data)
 	if (data->fd < 0)
 		return (printf("%s", INVALIDFD_ERROR), 0);
 	file_to_list(data);
-	// display(data->fd_list);
+	if (!parse_header(data, data->fd_list))
+		return (printf("there is an error in the file"), 0);	
+	else
+		display_data(data);
 	return (1);
 }
