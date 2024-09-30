@@ -6,30 +6,41 @@ PARSER= parser.c
 
 DISPLAY= display.c
 
+INIT= mlx.c
+
+EVENT= handler.c
+
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY)
+OBJS_INIT = $(addprefix src/init/, $(INIT:.c=.o))
 
-CFLAGS= -Wall -Werror -Wextra
+OBJS_EVENT = $(addprefix src/event/, $(EVENT:.c=.o))
+
+OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_INIT) $(OBJS_EVENT)
+
+CFLAGS= -Wall -Werror -Wextra -g3
 
 CC=cc
 
 all: $(NAME)
 
-$(NAME): $(OBJS) 
-	@make -C libft
-	@$(CC) $(CFLAGS) $^  -lft -L./libft -o $@
-#   -Lmlx_linux -lmlx_Linux -L/usr/lib -lft -L./libft -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+$(NAME): $(OBJS)
+	make -C libft
+	 $(CC) $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -lft -L./libft -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 %.o : %.c
-	@$(CC) $(CFLAGS) -I./include -c $< -o $@
+	$(CC) $(CFLAGS) -I./include -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 clean:
-	@rm -f $(OBJS)
-# $(info()) 
+	make clean -C libft
+	rm -f $(OBJS)
+
 fclean:
 	make fclean -C libft
 	rm -f $(NAME)
-re: fclean re
+
+re: fclean all
+
+.PHONY: all clean fclean re
