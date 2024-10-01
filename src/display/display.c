@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:29:05 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/01 00:15:37 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:19:48 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,13 @@ void	display_data(t_data *data)
 		printf("WE: %s\n", data->WE);
 	printf("Frgp: %d,%d,%d\n", data->frgb[0], data->frgb[1], data->frgb[2]);
 	printf("Crgp: %d,%d,%d\n", data->crgb[0], data->crgb[1], data->crgb[2]);
+
+	printf("Display map stored\n");
+	int i = 0;
+	while (data->map[i])
+	{
+		// printf("ici\n");
+		printf("i:  %d  %s", i, data->map[i]);
+		i++;
+	}
 }

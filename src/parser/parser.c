@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/01 00:34:22 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/01 14:32:17 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,19 @@ static int	is_valid_file_name(char *filename)
 // general parsing function
 int	parser(int argc, char **argv, t_data *data)
 {
+	t_list *temp;
+
 	if (argc != 2 || !is_valid_file_name(argv[1]))
 		return (printf("%s", INPUT_ERROR), 0);
 	data->fd = open(argv[1], O_RDONLY);
 	if (data->fd < 0)
 		return (printf("%s", INVALIDFD_ERROR), 0);
 	file_to_list(data);
-	if (!parse_header(data, data->fd_list))
+	temp = parse_header(data, data->fd_list);
+	if (!temp)
 		return (printf("there is an error in the file"), 0);	
-	else
-		display_data(data);
+	if (!parse_map(data, temp))
+		return (printf("there is an error in the file"), 0);			
+	display_data(data);
 	return (1);
 }

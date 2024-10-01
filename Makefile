@@ -2,9 +2,9 @@ NAME= cub3D
 
 MAIN= src/main.c
 
-PARSER= parser.c parser_header.c parser_save.c
+PARSER= parser.c parser_header.c parser_map.c parser_save.c
 
-UTILS= utils_parse.c
+UTILS= utils_parse.c utils_lst.c
 
 DISPLAY= display.c
 
