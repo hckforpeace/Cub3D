@@ -6,9 +6,11 @@ PARSER= parser.c
 
 DISPLAY= display.c
 
-INIT= mlx.c
+INIT= mlx.c player.c
 
 EVENT= handler.c
+
+RAYCAST= utils.c raycast.c
 
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 
@@ -18,7 +20,9 @@ OBJS_INIT = $(addprefix src/init/, $(INIT:.c=.o))
 
 OBJS_EVENT = $(addprefix src/event/, $(EVENT:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_INIT) $(OBJS_EVENT)
+OBJS_RAYCAST = $(addprefix src/raycast/, $(RAYCAST:.c=.o))
+
+OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST)
 
 CFLAGS= -Wall -Werror -Wextra -g3
 

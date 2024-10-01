@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/01 10:53:50 by pajimene         ###   ########.fr       */
+/*   Created: 2024/10/01 14:23:50 by pajimene          #+#    #+#             */
+/*   Updated: 2024/10/01 16:04:11 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_close(t_data *data)
+void	ft_player_init(t_player *p)
 {
-	t_mlx	*mlx;
-
-	mlx = data->mlx;
-	mlx_destroy_image(mlx->mlx_con, mlx->img);
-	mlx_destroy_window(mlx->mlx_con, mlx->mlx_win);
-	mlx_destroy_display(mlx->mlx_con);
-	free(mlx->mlx_con);
-	free(data->mlx);
-	free(data);
-	exit(0);
+	p->pos.x = 4;
+	p->pos.y = 4;
+	p->dir.x = -1;
+	p->dir.y = 0;
+	p->plane.x = 0;
+	p->plane.y = 0.66;
 }
