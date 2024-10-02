@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/02 18:50:38 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:01:42 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,9 @@ int ft_key(int keysym, t_data *data)
 		p->pos.y -= p->plane.y * 0.1;
 	}
 	else if (keysym == XK_Right)
-	{
-		p->angle += 0.1;
 		ft_rotate(p, p->angle);
-	}
 	else if (keysym == XK_Left)
-	{
-		p->angle += 0.1;
 		ft_rotate(p, -p->angle);
-	}
 	ft_render_map(data);
 	return (0);
 }
