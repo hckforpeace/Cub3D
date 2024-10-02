@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/02 15:55:40 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:43:58 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	ft_init_rays(t_raycast *ray, t_player *p, int x)
 	cam_x = 2 * x / (double)WIDTH - 1;
 	ray->dir.x = p->dir.x + p->plane.x * cam_x;
 	ray->dir.y = p->dir.y + p->plane.y * cam_x;
-
 	ray->map.x = (int)p->pos.x;
 	ray->map.y = (int)p->pos.y;
 	if (ray->dir.x != 0)
@@ -68,7 +67,7 @@ static	void	ft_dda(t_raycast *ray, t_data *data)
 			ray->map.y += ray->step.y;
 			ray->side_col = 1;
 		}
-		if (data->map[(int)ray->map.x][(int)ray->map.y] == '1')
+		if (data->map[(int)ray->map.y][(int)ray->map.x] == '1')
 			break ;
 	}
 }
@@ -106,7 +105,7 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 			ft_draw_vertical(x, ray->y_start, ray->y_end, RED1, data);
 		else
 			ft_draw_vertical(x, ray->y_start, ray->y_end, RED2, data);		
-		printf("p->pos.x : %f, p->pos.y : %f, p->jump : %f\n", p->pos.x, p->pos.y, p->jump);
+		printf("p->pos.x : %f, p->pos.y : %f\n", p->pos.x, p->pos.y);
 		x++;
 	}
 }

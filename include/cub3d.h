@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 15:29:41 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:47:38 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define MLX_CON "\n\nError while initilaizing the mlx\n"
 # define MLX_WIN "\n\nError while creating\n"
 # define MLX_IMG "\n\nError while creating the image\n"
+# define PI 3.1415
 
 /*Window dimensions*/
 # define WIDTH 1200
@@ -65,7 +66,8 @@ typedef struct s_player
 	struct s_point	pos;
 	struct s_point	dir;
 	struct s_point	plane;
-	double			jump;
+	double			angle;
+	//double			jump;
 }	t_player;
 
 

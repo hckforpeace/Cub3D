@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:23:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/02 15:55:27 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:42:32 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ int	ft_player_init(t_data *data)
 	data->p = p;
 	p->pos.x = 4;
 	p->pos.y = 4;
+	p->angle = 0;
 	//p->jump = 0.0;
-	p->direction = 'W';
+	p->direction = 'E';
 	if (p->direction == 'N')
 	{
 		p->dir.x = 0;
