@@ -3,30 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/01 14:32:17 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:29:55 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // reads all the content of the file and stores it in a chained list 
-static int file_to_list(t_data *data)
+static int	file_to_list(t_file *fdata)
 {
 	char	*line;
-	char	*line_trim;
 
-	line = get_next_line(data->fd);
+	line = get_next_line(fdata->fd);
 	if (!line)
 		return (0);
 	while (line)
 	{
-		line_trim = ft_strtrim(line, " ");
-		ft_lstadd_back_b(&data->fd_list, ft_lstnew_b(line_trim, ft_strlen(line_trim)));
+		ft_lstadd_back_b(&fdata->fd_list, ft_lstnew_b(ft_strdup(line),
+				ft_strlen(line)));
 		free(line);
-		line = get_next_line(data->fd);
+		line = get_next_line(fdata->fd);
 	}
 	return (1);
 }
@@ -34,7 +33,7 @@ static int file_to_list(t_data *data)
 /* 
 	-checks the file name is not empty
 	-checks the file name ends with ".cub"
-*/ 
+*/
 static int	is_valid_file_name(char *filename)
 {
 	if (!filename || !*filename || *filename == '.')
@@ -47,21 +46,18 @@ static int	is_valid_file_name(char *filename)
 }
 
 // general parsing function
-int	parser(int argc, char **argv, t_data *data)
+void	parser(int argc, char **argv, t_file *fdata)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (argc != 2 || !is_valid_file_name(argv[1]))
-		return (printf("%s", INPUT_ERROR), 0);
-	data->fd = open(argv[1], O_RDONLY);
-	if (data->fd < 0)
-		return (printf("%s", INVALIDFD_ERROR), 0);
-	file_to_list(data);
-	temp = parse_header(data, data->fd_list);
-	if (!temp)
-		return (printf("there is an error in the file"), 0);	
-	if (!parse_map(data, temp))
-		return (printf("there is an error in the file"), 0);			
-	display_data(data);
-	return (1);
+		parser_exit(fdata, "invalid filename", 1);
+	fdata->fd = open(argv[1], O_RDONLY);
+	if (fdata->fd < 0)
+		parser_exit(fdata, "failed to open the file !", 1);
+	file_to_list(fdata);
+	close(fdata->fd);
+	temp = parse_header(fdata, fdata->fd_list);
+	parse_map(fdata, temp);
+	display_data(fdata);
 }

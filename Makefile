@@ -2,9 +2,9 @@ NAME= cub3D
 
 MAIN= src/main.c
 
-PARSER= parser.c parser_header.c parser_map.c parser_save.c
+PARSER= parser.c parser_header.c parser_map.c parser_save.c parser_exit.c
 
-UTILS= utils_parse.c utils_lst.c
+UTILS= utils_parse.c utils_lst.c utils_save_map.c
 
 DISPLAY= display.c
 
@@ -15,7 +15,7 @@ OBJS_UTILS = $(addprefix src/utils/, $(UTILS:.c=.o))
 
 OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS)
 
-CFLAGS= -Wall -Werror -Wextra
+# CFLAGS= -Wall -Werror -Wextra
 
 CC=cc
 

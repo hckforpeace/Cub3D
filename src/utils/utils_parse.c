@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:44:28 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/01 00:24:58 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/02 15:40:40 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@
 */
 int	ft_istexture(char *str)
 {
-	char **info;
+	char	**info;
+	char	*trim;
 
-	info = ft_split(str, ' ');
+	trim = ft_strtrim(str, " ");
+	info = ft_split(trim, ' ');
+	free(trim);
 	if (!info)
 		return (0);
-	if (!*info || ft_tablen(info) != 2 )
+	if (!*info || ft_tablen(info) != 2)
 		return (clear_wordar(info), 0);
 	if (!ft_strcmp(*info, "NO") || !ft_strcmp(*info, "SO")
 		|| !ft_strcmp(*info, "WE") || !ft_strcmp(*info, "EA"))
@@ -36,12 +39,15 @@ int	ft_istexture(char *str)
 
 int	ft_iscolor(char *str)
 {
-	char **info;
+	char	**info;
+	char	*trim;
 
-	info = ft_split(str, ' ');
+	trim = ft_strtrim(str, " ");
+	info = ft_split(trim, ' ');
+	free(trim);
 	if (!info)
 		return (clear_wordar(info), 0);
-	if (!*info || ft_tablen(info) != 2 )
+	if (!*info || ft_tablen(info) != 2)
 		return (clear_wordar(info), 0);
 	if (!ft_strcmp(*info, "C") || !ft_strcmp(*info, "F"))
 		return (clear_wordar(info), 1);
@@ -65,7 +71,7 @@ int	ft_isemptyline(char *str)
 	return (0);
 }
 
-t_list	*save_texture(t_list *list, t_data *data)
+t_list	*save_texture(t_list *list, t_file *data)
 {
 	int		i;
 	char	**info;
@@ -86,7 +92,7 @@ t_list	*save_texture(t_list *list, t_data *data)
 	return (list);
 }
 
-t_list	*save_color(t_list *list, t_data *data)
+t_list	*save_color(t_list *list, t_file *data)
 {
 	int		i;
 	char	**info;
