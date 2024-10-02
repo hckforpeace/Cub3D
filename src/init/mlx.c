@@ -6,14 +6,20 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 13:47:11 by pajimene          #+#    #+#             */
-/*   Updated: 2024/09/30 15:18:53 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:34:23 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_mlx_init(t_mlx *mlx)
+int	ft_mlx_init(t_data *data)
 {
+	t_mlx	*mlx;
+	
+	mlx = (t_mlx *)malloc(sizeof(t_mlx));
+	if (!mlx)
+		return (-1);
+	data->mlx = mlx;
 	mlx->mlx_con = mlx_init();
 	if (!mlx->mlx_con)
 		return (printf(MLX_CON), 1);
@@ -39,7 +45,7 @@ int	ft_mlx_init(t_mlx *mlx)
 
 void	ft_events_init(t_data *data)
 {
-	//mlx_hook(mlx->mlx_win, KeyPress, KeyPressMask, ft_key, raycast);
+	mlx_hook(data->mlx->mlx_win, KeyPress, KeyPressMask, ft_key, data);
 	//mlx_hook(mlx->mlx_win, ButtonPress, ButtonPressMask, ft_mouse, raycast);
 	//mlx_hook(mlx->mlx_win, MotionNotify, PointerMotionMask, track, raycast);
 	mlx_hook(data->mlx->mlx_win, DestroyNotify, StructureNotifyMask, ft_close, data);

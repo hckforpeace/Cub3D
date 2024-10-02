@@ -12,6 +12,8 @@ EVENT= handler.c
 
 RAYCAST= utils.c raycast.c
 
+DRAW= draw.c
+
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))
@@ -22,7 +24,9 @@ OBJS_EVENT = $(addprefix src/event/, $(EVENT:.c=.o))
 
 OBJS_RAYCAST = $(addprefix src/raycast/, $(RAYCAST:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST)
+OBJS_DRAW = $(addprefix src/draw/, $(DRAW:.c=.o))
+
+OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW)
 
 CFLAGS= -Wall -Werror -Wextra -g3
 

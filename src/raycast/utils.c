@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:11:48 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/01 11:46:24 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:22:45 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	ft_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	ft_bresenham(t_pt p0, t_pt p1, t_data *data)
+void	ft_bresenham(t_point p0, t_point p1, t_data *data)
 {
-	t_pt	d;
-	t_pt	s;
+	t_point	d;
+	t_point	s;
 	double	gradient_err_1;
 	double	gradient_err_2;
 

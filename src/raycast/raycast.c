@@ -6,115 +6,113 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/01 16:11:49 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:55:40 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3d.h"
 
-void	ft_raycast(t_data *data, t_player *p)
+static void	ft_init_rays(t_raycast *ray, t_player *p, int x)
 {
-	//init rays
-	int	x;
 	double	cam_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
 
-	//precalculate dda
-	int		map_x;
-	int		map_y;
-	double	side_x;
-	double	side_y;
-	double	delta_x;
-	double	delta_y;
+	cam_x = 2 * x / (double)WIDTH - 1;
+	ray->dir.x = p->dir.x + p->plane.x * cam_x;
+	ray->dir.y = p->dir.y + p->plane.y * cam_x;
 
-	int		step_x;
-	int		step_y;	
+	ray->map.x = (int)p->pos.x;
+	ray->map.y = (int)p->pos.y;
+	if (ray->dir.x != 0)
+		ray->delta.x = fabs(1 / ray->dir.x);
+	if (ray->dir.y != 0)
+		ray->delta.y = fabs(1 / ray->dir.y);
+}
+
+static void	ft_step(t_raycast *ray, t_player *p)
+{
+	if (ray->dir.x < 0)
+	{
+		ray->step.x = -1;
+		ray->side.x = (p->pos.x - ray->map.x) * ray->delta.x;
+	}
+	else
+	{
+		ray->step.x = 1;
+		ray->side.x = (ray->map.x + 1.0 - p->pos.x) * ray->delta.x;
+	}
+	if (ray->dir.y < 0)
+	{
+		ray->step.y = -1;
+		ray->side.y = (p->pos.y - ray->map.y) * ray->delta.y;
+	}
+	else
+	{
+		ray->step.y = 1;
+		ray->side.y = (ray->map.y + 1.0 - p->pos.y) * ray->delta.y;
+	}
+}
+
+static	void	ft_dda(t_raycast *ray, t_data *data)
+{
+	while (1)
+	{
+		if (ray->side.x < ray->side.y)
+		{
+			ray->side.x += ray->delta.x;
+			ray->map.x += ray->step.x;
+			ray->side_col = 0;
+		}
+		else
+		{
+			ray->side.y += ray->delta.y;
+			ray->map.y += ray->step.y;
+			ray->side_col = 1;
+		}
+		if (data->map[(int)ray->map.x][(int)ray->map.y] == '1')
+			break ;
+	}
+}
+
+static void	ft_calculate_wall(t_raycast *ray, t_player *p)
+{
+	double	wall_dist;
+	int		line_height;
 	
+	if (ray->side_col == 0)
+		wall_dist = (ray->map.x - p->pos.x + (1 - ray->step.x) / 2) / ray->dir.x;
+	else
+		wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) / ray->dir.y;
+	line_height = (int)(HEIGHT / wall_dist);
+	ray->y_start = -line_height / 2 + HEIGHT / 2;
+	if (ray->y_start < 0)
+		ray->y_start = 0;
+	ray->y_end = line_height / 2 + HEIGHT / 2;
+	if (ray->y_end >= HEIGHT)
+		ray->y_end = HEIGHT - 1;
+}
+
+void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
+{
+	int	x;
+		
 	x = 0;
 	while (x < WIDTH)
 	{
-		cam_x = 2 * x / (double)WIDTH - 1;
-		ray_dir_x = p->dir.x + p->plane.x * cam_x;
-		ray_dir_y = p->dir.y + p->plane.y * cam_x;
-
-		map_x = (int)p->pos.x;
-		map_y = (int)p->pos.y;
-		if (ray_dir_x != 0)
-			delta_x = fabs(1 / ray_dir_x);
+		ft_init_rays(ray, p, x);
+		ft_step(ray, p);
+		ft_dda(ray, data);
+		ft_calculate_wall(ray, p);
+		if (ray->side_col == 0)
+			ft_draw_vertical(x, ray->y_start, ray->y_end, RED1, data);
 		else
-			delta_x = 10000000000000;
-		if (ray_dir_y != 0)
-			delta_y = fabs(1 / ray_dir_y);
-		else
-			delta_y = 10000000000000;
-		
-		if (ray_dir_x < 0)
-		{
-			step_x = -1;
-			side_x = (p->pos.x - map_x) * delta_x;
-		}
-		else
-		{
-			step_x = 1;
-			side_x = (map_x + 1.0 - p->pos.x) * delta_x;
-		}
-		if (ray_dir_y < 0)
-		{
-			step_y = -1;
-			side_y = (p->pos.y - map_y) * delta_y;
-		}
-		else
-		{
-			step_y = 1;
-			side_y = (map_y + 1.0 - p->pos.y) * delta_y;
-		}
-		int	side;
-		while (1)
-		{
-			if (side_x < side_y)
-			{
-				side_x += delta_x;
-				map_x += step_x;
-				side = 0;
-			}
-			else
-			{
-				side_y += delta_y;
-				map_y += step_y;
-				side = 1;
-			}
-			//printf("map_x=%d, map_y=%d\n", (int)p->pos.x, (int)p->pos.y);
-			if (data->map[map_x][map_y] == '1')
-				break ;
-		}
-		double	wall_dist;
-		if (side == 0)
-			wall_dist = (map_x - p->pos.x + (1 - step_x) / 2) / ray_dir_x;
-		else
-			wall_dist = (map_y - p->pos.y + (1 - step_y) / 2) / ray_dir_y;
-		// if (side == 0)
-		// 	wall_dist = (map_x - p->pos.x + (1 - step_x) / 2) / ray_dir_x;
-		// else
-		// 	wall_dist = (map_y - p->pos.y + (1 - step_y) / 2) / ray_dir_y;
-
-		//printf("Ray Dir: (%f, %f), Map: (%d, %d), WallDist: %f\n", ray_dir_x, ray_dir_y, map_x, map_y, wall_dist);
-		int line_height = (int)(HEIGHT / wall_dist);
-		printf("x : %d, line_height : %d\n", x, line_height);
-		int draw_start = -line_height / 2 + HEIGHT / 2;
-		if (draw_start < 0)
-			draw_start = 0;
-
-		int draw_end = line_height / 2 + HEIGHT / 2;
-		if (draw_end >= HEIGHT)
-			draw_end = HEIGHT - 1;
-		
-		//printf("x=%f, start->%d, end->%d\n", x, draw_start, draw_end);
-		// if (side == 0)
-		// 	wall_x = pos_y + wall_dist * ray->dy;
-		// else
-		// 	wall_x = pos_x + wall_dist * ray->dx;
-		// wall_x -= floor(wall_x);
+			ft_draw_vertical(x, ray->y_start, ray->y_end, RED2, data);		
+		printf("p->pos.x : %f, p->pos.y : %f, p->jump : %f\n", p->pos.x, p->pos.y, p->jump);
 		x++;
 	}
 }
+//wall dist for textures
+// if (side == 0)
+// 	wall_x = pos_y + wall_dist * ray->delta.y;
+// else
+// 	wall_x = pos_x + wall_dist * ray->delta.x;
+// wall_x -= floor(wall_x);
