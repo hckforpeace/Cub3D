@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:05:33 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/02 15:39:14 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/03 11:10:20 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,14 @@ int	map_flood_fill(char **tab, int x, int y)
 
 	if (x < 0 || y < 0 || tab[x][y] == '1' || tab[x][y] == 'R')
 		return (1);
-	else if (tab[x][y] == '0' && !is_valid_zero(x, y, tab))
+	if ((tab[x][y] == '0' || (tab[x][y] == 'N' || tab[x][y] == 'S'
+		|| tab[x][y] == 'E' || tab[x][y] == 'W')) && !is_valid_zero(x, y, tab))
 	{
 		printf("error at tab[%d][%d]: %c\n", x, y, tab[x][y]);
 		return (0);
 	}
-	tab[x][y] = 'R';
+	if (tab[x][y] == '0')
+		tab[x][y] = 'R';
 	u = map_flood_fill(tab, x + 1, y);
 	d = map_flood_fill(tab, x - 1, y);
 	l = map_flood_fill(tab, x, y + 1);

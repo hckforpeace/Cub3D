@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:16:15 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 15:39:08 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/03 10:54:55 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	parse_savetxture(char **info, t_file *fdata)
 	}
 }
 
-static void	save_color(t_file *fdata, int color, int i, char **info)
+static void	parse_savecolaux(t_file *fdata, int color, int i, char **info)
 {
 	if (!ft_strcmp(info[0], "C"))
 		fdata->crgb[i] = color;
@@ -70,7 +70,7 @@ int	parse_savecolor(char **info, t_file *fdata)
 		}
 		if (ft_atoi(rgb[i]) > 255)
 			return (clear_wordar(rgb), clear_wordar(info), 0);
-		save_color(fdata, ft_atoi(rgb[i]), i, info);
+		parse_savecolaux(fdata, ft_atoi(rgb[i]), i, info);
 	}
 	clear_wordar(rgb);
 	return (1);
