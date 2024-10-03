@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 18:47:38 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:30:17 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	ft_player_init(t_data *data);
 /*Events handlers*/
 int	ft_close(t_data *data);
 int	ft_key(int keysym, t_data *data);
+int		ft_wall_collision(double x, double y, t_data *data);
 
 /*Raycast*/
 void	ft_bresenham(t_point p0, t_point p1, t_data *data);

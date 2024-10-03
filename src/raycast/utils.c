@@ -6,11 +6,18 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:11:48 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/02 14:22:45 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:30:27 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int		ft_wall_collision(double x, double y, t_data *data)
+{
+	if (data->map[(int)y][(int)x] == '1')
+		return (1);
+	return (0);
+}
 
 void	ft_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
 {
