@@ -2,7 +2,7 @@ F 186,255,201
 C 213,186,255
 
 WE ./WeST
-EA ./east
+EA ./wall_2.xpm
 SO ./east
 NO ./chemin_vers_un_certain_fichier
 

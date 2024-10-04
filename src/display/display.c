@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:29:05 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 15:41:55 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/04 16:47:05 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	display_pixels(t_mlx *img)
+{
+	int	x, y;
+	x = 0;
+	while (x < img->width)
+	{
+		y = 0;
+		while (y < img->height)
+		{
+			printf("x: %d, y: %d, color; %d\n", x, y, mlx_get_pixel_color(img, x, y));
+			y++;
+		}
+		x++;
+	}
+}
 
 void	display(t_list *lst)
 {

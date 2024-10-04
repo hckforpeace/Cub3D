@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 14:26:55 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:51:37 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ typedef struct s_player
 
 typedef struct s_mlx
 {
+	int		width;
+	int		height;
 	void	*mlx_con;
 	void	*mlx_win;
 	void	*img;
@@ -84,13 +86,15 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-typedef struct s_file
+typedef struct s_filecub
+
 {
 	t_list	*fd_list;
 	char	**map;
 	int		crgb[3];
 	int		frgb[3];
 	char	orientation;
+	t_mlx	textures[4];
 	double	start[2];
 	char	*NO;
 	char	*SO;
@@ -108,8 +112,12 @@ typedef struct s_data
 }	t_data;
 
 // added by Pablo
-
+\
+//temp
+int	mlx_get_pixel_color(t_mlx *img, int x, int y);
+void	save_textures(t_file *file);
 t_file	*init_fdata();
+void	display_pixels(t_mlx *img);
 
 /*Mlx*/
 int		ft_mlx_init(t_data *data);
