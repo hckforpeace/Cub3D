@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/04 12:33:52 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 15:28:06 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,34 @@ static void ft_rotate(t_player *p, double angle)
 
 void ft_move_up(t_player *p, t_data *data)
 {
-	(void)data;
-	//if (!ft_wall_collision(p->pos.y, p->pos.x + p->dir.x * 0.1, data))
+	if (!ft_wall_collision(p->pos.x + p->dir.x * 0.2, p->pos.y, data))
 		p->pos.x += p->dir.x * 0.1;
-	//if (!ft_wall_collision(p->pos.y + p->dir.y * 0.1, p->pos.x, data))
+	if (!ft_wall_collision(p->pos.x, p->pos.y + p->dir.y * 0.2, data))
 		p->pos.y += p->dir.y * 0.1;
 }
 
-void ft_move_down(t_player *p)
+void ft_move_down(t_player *p, t_data *data)
 {
-	p->pos.x -= p->dir.x * 0.1;
-	p->pos.y -= p->dir.y * 0.1;
+	if (!ft_wall_collision(p->pos.x - p->dir.x * 0.2, p->pos.y, data))
+		p->pos.x -= p->dir.x * 0.1;
+	if (!ft_wall_collision(p->pos.x, p->pos.y - p->dir.y * 0.2, data))
+		p->pos.y -= p->dir.y * 0.1;
 }
 
-void ft_move_left(t_player *p)
+void ft_move_left(t_player *p, t_data *data)
 {
-	p->pos.x -= p->plane.x * 0.1;
-	p->pos.y -= p->plane.y * 0.1;
+	if (!ft_wall_collision(p->pos.x - p->plane.x * 0.2, p->pos.y, data))
+		p->pos.x -= p->plane.x * 0.1;
+	if (!ft_wall_collision(p->pos.x, p->pos.y - p->plane.y * 0.2, data))
+		p->pos.y -= p->plane.y * 0.1;
 }
 
-void ft_move_right(t_player *p)
+void ft_move_right(t_player *p, t_data *data)
 {
-	p->pos.x += p->plane.x * 0.1;
-	p->pos.y += p->plane.y * 0.1;
+	if (!ft_wall_collision(p->pos.x + p->plane.x * 0.2, p->pos.y, data))
+		p->pos.x += p->plane.x * 0.1;
+	if (!ft_wall_collision(p->pos.x, p->pos.y + p->plane.y * 0.2, data))
+		p->pos.y += p->plane.y * 0.1;
 }
 
 int ft_key(int keysym, t_data *data)
@@ -61,11 +66,11 @@ int ft_key(int keysym, t_data *data)
 	if (keysym == XK_w)
 		ft_move_up(p, data);
 	else if (keysym == XK_s)
-		ft_move_down(p);
+		ft_move_down(p, data);
 	else if (keysym == XK_d)
-		ft_move_right(p);
+		ft_move_right(p, data);
 	else if (keysym == XK_a)
-		ft_move_left(p);
+		ft_move_left(p, data);
 	else if (keysym == XK_Right)
 		ft_rotate(p, p->angle);
 	else if (keysym == XK_Left)
