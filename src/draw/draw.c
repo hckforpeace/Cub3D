@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:32:03 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/02 15:32:38 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 14:29:41 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void ft_render_map(t_data *data)
 {
-	printf("coucou\n");
 	ft_draw_background(data);
 	ft_raycast(data->ray, data->p, data);
 	mlx_put_image_to_window(data->mlx->mlx_con, data->mlx->mlx_win,
@@ -41,7 +40,7 @@ void ft_draw_background(t_data *data)
 		x = 0;
 		while (x <= WIDTH)
 		{
-			ft_mlx_pixel_put(data->mlx, x, y, LAVANDE);
+			ft_mlx_pixel_put(data->mlx, x, y, data->p->ceiling_col);
 			x++;
 		}
 		y++;
@@ -51,7 +50,7 @@ void ft_draw_background(t_data *data)
 		x = 0;
 		while (x <= WIDTH)
 		{
-			ft_mlx_pixel_put(data->mlx, x, y, MENTHE);
+			ft_mlx_pixel_put(data->mlx, x, y, data->p->floor_col);
 			x++;
 		}
 		y++;

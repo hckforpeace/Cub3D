@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/03 17:20:25 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 13:58:27 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static	void	ft_dda(t_raycast *ray, t_data *data)
 			ray->map.y += ray->step.y;
 			ray->side_col = 1;
 		}
-		if (data->map[(int)ray->map.y][(int)ray->map.x] == '1')
+		if (data->file->map[(int)ray->map.y][(int)ray->map.x] == '1')
 			break ;
 	}
 }

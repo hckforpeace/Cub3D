@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/03 17:41:06 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:33:52 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ static void ft_rotate(t_player *p, double angle)
 
 void ft_move_up(t_player *p, t_data *data)
 {
-	if (!ft_wall_collision(p->pos.y, p->pos.x + p->dir.x * 0.1, data))
+	(void)data;
+	//if (!ft_wall_collision(p->pos.y, p->pos.x + p->dir.x * 0.1, data))
 		p->pos.x += p->dir.x * 0.1;
-	if (!ft_wall_collision(p->pos.y + p->dir.y * 0.1, p->pos.x, data))
+	//if (!ft_wall_collision(p->pos.y + p->dir.y * 0.1, p->pos.x, data))
 		p->pos.y += p->dir.y * 0.1;
 }
 

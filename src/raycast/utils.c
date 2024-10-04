@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:11:48 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/03 17:30:27 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:30:52 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_wall_collision(double x, double y, t_data *data)
 {
-	if (data->map[(int)y][(int)x] == '1')
+	if (data->file->map[(int)y][(int)x] == '1')
 		return (1);
 	return (0);
 }

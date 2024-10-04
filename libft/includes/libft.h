@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:24:41 by pierre            #+#    #+#             */
-/*   Updated: 2024/09/05 16:01:46 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/04 12:32:44 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 # include <stdarg.h>
 # include <fcntl.h>
 
+// mandatory gnl
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 	int				len;
 }			t_list;
-
-// mandatory gnl
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
@@ -94,7 +93,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 int		ft_atoi_base(char *str, char *base, int base_len);
-
+int		ft_tablen(char **tab);
 // printf
 
 typedef struct s_disp
