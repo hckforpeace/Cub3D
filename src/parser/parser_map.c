@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:05:33 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/03 11:10:20 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/04 19:57:16 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,6 @@ int	is_valid_zero(int x, int y, char **map)
 
 int	map_flood_fill(char **tab, int x, int y)
 {
-	int	u;
-	int	d;
-	int	l;
-	int	r;
-
 	if (x < 0 || y < 0 || tab[x][y] == '1' || tab[x][y] == 'R')
 		return (1);
 	if ((tab[x][y] == '0' || (tab[x][y] == 'N' || tab[x][y] == 'S'
@@ -78,11 +73,8 @@ int	map_flood_fill(char **tab, int x, int y)
 	}
 	if (tab[x][y] == '0')
 		tab[x][y] = 'R';
-	u = map_flood_fill(tab, x + 1, y);
-	d = map_flood_fill(tab, x - 1, y);
-	l = map_flood_fill(tab, x, y + 1);
-	r = map_flood_fill(tab, x, y - 1);
-	return (u && d && l && r);
+	return (map_flood_fill(tab, x + 1, y) && map_flood_fill(tab, x - 1, y)
+			&& map_flood_fill(tab, x, y + 1) && map_flood_fill(tab, x, y - 1));
 }
 
 int	parse_map_aux(t_list *list, int len)

@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 15:32:08 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/04 19:54:50 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ typedef struct s_file
 } t_file;
 
 // added by Pierre
+
+// ./src/parser/parser_init.c
+t_file	*init_fdata();
 
 // ./src/parser/parser.c
 void	parser_exit(t_file *fdata, char *exmessage, int exno);
