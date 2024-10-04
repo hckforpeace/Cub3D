@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 19:54:50 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/04 21:35:36 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,17 @@
 # define INVALID_MAPSHAPE "Invalid map !\n\t The player must be surrounded by walls"
 # include "../libft/includes/libft.h"
 # include <stdio.h>
+# include "../mlx_linux/mlx.h"
 
+typedef struct	s_data {
+	int		width;
+	int		height;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
 
 typedef struct s_file
 {
@@ -29,6 +39,7 @@ typedef struct s_file
 	int		crgb[3];
 	int		frgb[3];
 	char	orientation;
+	t_data	textures[4];
 	double	start[2];
 	char	*NO;
 	char	*SO;
@@ -36,6 +47,7 @@ typedef struct s_file
 	char	*EA;
 	int		fd;
 } t_file;
+
 
 // added by Pierre
 

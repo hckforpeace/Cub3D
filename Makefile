@@ -15,7 +15,7 @@ OBJS_UTILS = $(addprefix src/utils/, $(UTILS:.c=.o))
 
 OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS)
 
-CFLAGS= -Wall -Werror -Wextra
+# CFLAGS= -Wall -Werror -Wextra
 
 CC=cc
 
@@ -23,8 +23,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) 
 	@make -C libft
-	@$(CC) $(CFLAGS) $^  -lft -L./libft -o $@
-#	-Lmlx_linux -lmlx_Linux -L/usr/lib -lft -L./libft -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	@$(CC) $(CFLAGS) $^  -lft -L./libft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $@
 
 %.o : %.c
 	@$(CC) $(CFLAGS) -I./include -c $< -o $@
