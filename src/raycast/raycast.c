@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/04 13:58:27 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:32:48 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 			ft_draw_vertical(x, ray->y_start, ray->y_end, RED1, data);
 		else
 			ft_draw_vertical(x, ray->y_start, ray->y_end, RED2, data);		
-		printf("p->pos.x : %f, p->pos.y : %f\n", p->pos.x, p->pos.y);
 		x++;
 	}
 }

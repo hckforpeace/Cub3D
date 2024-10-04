@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/04 15:28:06 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:50:43 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,46 @@ int ft_key(int keysym, t_data *data)
 		ft_rotate(p, p->angle);
 	else if (keysym == XK_Left)
 		ft_rotate(p, -p->angle);
-	ft_render_map(data);
-	return (0);
+	else if (keysym == XK_h)
+		p->hide_mouse *= -1;
+	return (ft_render_map(data));
+}
+
+void	ft_trap_mouse(int x, int y, t_data *data)
+{
+	if (x > WIDTH - 10)
+	{
+		x = 10;
+		mlx_mouse_move(data->mlx->mlx_con, data->mlx->mlx_win, x, y);
+	}
+	if (x < 10)
+	{
+		x = WIDTH - 10;
+		mlx_mouse_move(data->mlx->mlx_con, data->mlx->mlx_win, x, y);
+	}
+}
+
+int	ft_mouse_track(int x, int y, t_data *data)
+{
+	int	old_x;
+	t_player *p;
+
+	(void)y;
+	p = data->p;
+	if (p->hide_mouse == -1)
+		mlx_mouse_hide(data->mlx->mlx_con, data->mlx->mlx_win);
+	if (p->hide_mouse == 1)
+		mlx_mouse_show(data->mlx->mlx_con, data->mlx->mlx_win);
+	ft_trap_mouse(x, y, data);
+	old_x = p->mouse.x;
+	if (x == old_x)
+		return (0);
+	if (x > old_x)
+		ft_rotate(p, p->angle / 2);
+	if (x < old_x)
+		ft_rotate(p, -p->angle / 2);
+	p->mouse.x = x;
+	return (ft_render_map(data));
 }
 
 int ft_close(t_data *data)

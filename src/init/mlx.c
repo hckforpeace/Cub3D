@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 13:47:11 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/02 12:34:23 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:10:44 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	ft_mlx_init(t_data *data)
 void	ft_events_init(t_data *data)
 {
 	mlx_hook(data->mlx->mlx_win, KeyPress, KeyPressMask, ft_key, data);
-	//mlx_hook(mlx->mlx_win, ButtonPress, ButtonPressMask, ft_mouse, raycast);
-	//mlx_hook(mlx->mlx_win, MotionNotify, PointerMotionMask, track, raycast);
+	mlx_hook(data->mlx->mlx_win, MotionNotify, PointerMotionMask, ft_mouse_track, data);
 	mlx_hook(data->mlx->mlx_win, DestroyNotify, StructureNotifyMask, ft_close, data);
 }

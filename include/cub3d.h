@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 14:26:55 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:48:05 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct s_player
 	struct s_point	pos;
 	struct s_point	dir;
 	struct s_point	plane;
+	struct s_point	mouse;
+	int				hide_mouse;
 	double			angle;
 	int				ceiling_col;
 	int				floor_col;
@@ -117,11 +119,12 @@ void	ft_events_init(t_data *data);
 void	ft_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 /*Player*/
-int	ft_player_init(t_data *data);
+int		ft_player_init(t_data *data);
 
 /*Events handlers*/
-int	ft_close(t_data *data);
-int	ft_key(int keysym, t_data *data);
+int		ft_close(t_data *data);
+int		ft_key(int keysym, t_data *data);
+int		ft_mouse_track(int x, int y, t_data *data);
 int		ft_wall_collision(double x, double y, t_data *data);
 
 /*Raycast*/
@@ -131,7 +134,7 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data);
 /*Draw*/
 void	ft_draw_background(t_data *data);
 void	ft_draw_vertical(int x, int y_start, int y_end, int color, t_data *data);
-void	ft_render_map(t_data *data);
+int		ft_render_map(t_data *data);
 int		ft_rgb_to_hex(int *rgb);
 
 // added by Pierre

@@ -6,18 +6,19 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:32:03 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/04 14:29:41 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:18:18 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void ft_render_map(t_data *data)
+int ft_render_map(t_data *data)
 {
 	ft_draw_background(data);
 	ft_raycast(data->ray, data->p, data);
 	mlx_put_image_to_window(data->mlx->mlx_con, data->mlx->mlx_win,
 							data->mlx->img, 0, 0);
+	return (0);
 }
 
 void ft_draw_vertical(int x, int y_start, int y_end, int color, t_data *data)
