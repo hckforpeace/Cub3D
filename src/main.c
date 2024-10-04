@@ -6,7 +6,7 @@
 /*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 16:52:24 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:53:39 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,11 @@
 
 int main(int argc, char **argv)
 {
-	t_file *fdata;
+ 	t_file *fdata;
 	t_data *data;
 	t_raycast *ray;
 
 	fdata = init_fdata();
-	(void)argv;
-	if (argc != 2)
-		return (printf(INPUT_ERROR), 1);
 	data = (t_data *)malloc(sizeof(t_data));
 	if (!data)
 		return (-1);
@@ -47,7 +44,6 @@ int main(int argc, char **argv)
 	data->ray = ray;
 	data->file = fdata;
 	parser(argc, argv, fdata);
-	save_textures(fdata);
 	if (ft_mlx_init(data))
 		return (1);
 	if (ft_player_init(data))
@@ -55,6 +51,6 @@ int main(int argc, char **argv)
 	ft_events_init(data);
 	ft_render_map(data);		
 	mlx_loop(data->mlx->mlx_con);
-	parser_exit(fdata, "all good", 0);
+	// parser_exit(fdata, "all good", 0);
 	return (0);
 }

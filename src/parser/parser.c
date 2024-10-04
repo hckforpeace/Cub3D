@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 13:57:42 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:52:45 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	file_to_list(t_file *fdata)
 	line = get_next_line(fdata->fd);
 	if (!line)
 		return (0);
+	fprintf(stderr, "ici\n");
 	while (line)
 	{
 		ft_lstadd_back_b(&fdata->fd_list, ft_lstnew_b(ft_strdup(line),
@@ -79,5 +80,5 @@ void	parser(int argc, char **argv, t_file *fdata)
 	temp = parse_header(fdata, fdata->fd_list);
 	parse_map(fdata, temp);
 	reset_map(fdata->map);
-	display_data(fdata);
+	// display_data(fdata);
 }

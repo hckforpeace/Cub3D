@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:05:33 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/03 11:10:20 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/04 17:53:04 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ void	parse_map(t_file *fdata, t_list *list)
 		parser_exit(fdata, INVALID_MAPCONTENT, 1);
 	if (save_map(len, fdata, list) != -1 || !set_playerpos(fdata))
 		parser_exit(fdata, "UNEXPECTED ERROR", 1);
-	if (map_flood_fill(fdata->map, fdata->start[0], fdata->start[1]))
-		printf("\n\n\n***the map is valid***\n\n\n");
-	else
+	if (!map_flood_fill(fdata->map, fdata->start[0], fdata->start[1]))
 		parser_exit(fdata, INVALID_MAPSHAPE, 1);
+		// printf("\n\n\n***the map is valid***\n\n\n");
+	// else
 }

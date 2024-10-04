@@ -6,7 +6,7 @@
 /*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 16:51:37 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/04 17:40:21 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ typedef struct s_player
 
 typedef struct s_mlx
 {
-	int		width;
-	int		height;
+	// int		width;
+	// int		height;
 	void	*mlx_con;
 	void	*mlx_win;
 	void	*img;
@@ -86,7 +86,7 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-typedef struct s_filecub
+typedef struct s_file
 
 {
 	t_list	*fd_list;
@@ -94,7 +94,7 @@ typedef struct s_filecub
 	int		crgb[3];
 	int		frgb[3];
 	char	orientation;
-	t_mlx	textures[4];
+	// t_mlx	textures[4];
 	double	start[2];
 	char	*NO;
 	char	*SO;
