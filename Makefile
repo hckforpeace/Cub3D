@@ -15,7 +15,7 @@ OBJS_UTILS = $(addprefix src/utils/, $(UTILS:.c=.o))
 
 OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS)
 
-# CFLAGS= -Wall -Werror -Wextra
+CFLAGS= -Wall -Werror -Wextra
 
 CC=cc
 

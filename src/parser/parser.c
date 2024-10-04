@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 15:29:55 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/04 13:55:25 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,25 @@ static int	is_valid_file_name(char *filename)
 	return (1);
 }
 
+void static	reset_map(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'R')
+				map[i][j] = '0';
+			j++;
+		}
+		i++;
+	}
+}
+
 // general parsing function
 void	parser(int argc, char **argv, t_file *fdata)
 {
@@ -59,5 +78,6 @@ void	parser(int argc, char **argv, t_file *fdata)
 	close(fdata->fd);
 	temp = parse_header(fdata, fdata->fd_list);
 	parse_map(fdata, temp);
+	reset_map(fdata->map);
 	display_data(fdata);
 }
