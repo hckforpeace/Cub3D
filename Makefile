@@ -33,7 +33,7 @@ OBJS_DRAW = $(addprefix src/draw/, $(DRAW:.c=.o))
 
 OBJS= $(OBJS_TEXTURES) $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW)
 
-CFLAGS= -Wall -Werror -Wextra -g3
+# CFLAGS= -Wall -Werror -Wextra -g3
 
 CC=cc
 

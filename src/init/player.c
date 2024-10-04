@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:23:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/04 17:39:54 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:44:19 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ int	ft_player_init(t_data *data)
 	data->p = p;
 	p->pos.x = data->file->start[1];
 	p->pos.y = data->file->start[0];
+	// printf("\n\n\n\ny pos : %f\n", data->file->start[0]);
 	p->ceiling_col = ft_rgb_to_hex(data->file->crgb);
 	p->floor_col = ft_rgb_to_hex(data->file->frgb);
-	printf("pos_x : %f, pos_y : %f\n", p->pos.x, p->pos.y);
+	// printf("pos_x : %f, pos_y : %f\n", p->pos.x, p->pos.y);
 	p->angle = 0.05;
 	p->direction = data->file->orientation;
 	if (p->direction == 'N')

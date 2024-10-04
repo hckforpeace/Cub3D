@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:29:05 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 17:27:37 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/04 21:46:46 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	display_pixels(t_mlx *img)
+/* void	display_pixels(t_mlx *img)
 {
 	int	x, y;
 	x = 0;
@@ -26,7 +26,7 @@ void	display_pixels(t_mlx *img)
 		}
 		x++;
 	}
-}
+} */
 
 void	display(t_list *lst)
 {

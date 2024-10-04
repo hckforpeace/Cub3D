@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:11:48 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/04 12:30:52 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/04 21:46:57 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_bresenham(t_point p0, t_point p1, t_data *data)
 		s.y = -1;
 	if (d.x > d.y)
 		gradient_err_1 = d.x / 2;
-	if (d.x < d.y)
+	else
 		gradient_err_1 = -d.y / 2;
 	while (1)
 	{

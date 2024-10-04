@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 17:53:39 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/04 22:56:54 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,15 @@ int main(int argc, char **argv)
 	data->ray = ray;
 	data->file = fdata;
 	parser(argc, argv, fdata);
+	// display_data(fdata);
 	if (ft_mlx_init(data))
 		return (1);
 	if (ft_player_init(data))
 		return (1);
+	save_textures(fdata, data, data->mlx->mlx_con);
 	ft_events_init(data);
-	ft_render_map(data);		
+	ft_render_map(data);
 	mlx_loop(data->mlx->mlx_con);
-	// parser_exit(fdata, "all good", 0);
+	parser_exit(fdata, "all good", 0);
 	return (0);
 }
