@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 12:05:43 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:58:15 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 		ft_step(ray, p);
 		ft_dda(ray, data);
 		ft_calculate_wall(ray, p);
+		//ft_texture_orientation(ray);
 		if (ray->side_col == 0)
 			ft_draw_vertical(x, ray->y_vertical, RED1, data);
 		else
@@ -110,6 +111,25 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 		x++;
 	}
 }
+
+// void	ft_texture_orientation(t_raycast *ray)
+// {
+// 	if (ray->side_col == 0)
+// 	{
+// 		if (ray->dir_x > 0)
+// 			texture->orientation = EAST;
+// 		else
+// 			texture->orientation = EAST;
+// 	}
+// 	else
+// 	{
+// 		if (ray->dir_y > 0)
+// 			texture->orientation = NORTH;
+// 		else
+// 			texture->orientation = SOUTH;
+// 	}
+// }
+
 //wall dist for textures
 // if (side == 0)
 // 	wall_x = pos_y + wall_dist * ray->delta.y;

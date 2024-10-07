@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 12:26:10 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:50:39 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ by walls"
 
 /*Window dimensions*/
 # define WIDTH 1920
-# define HEIGHT 1010
+# define HEIGHT 1020
 
 /*Colors*/
 # define WHITE 0xFFFFFFF
@@ -43,8 +43,12 @@ by walls"
 # define GREEN 0xBAE1FF
 # define LAVANDE 0xD5BAFF
 # define MENTHE 0xBAFFC9
+# define RED 0xFF0000
 # define RED1 0xFFCCCC
 # define RED2 0xFF7F7F
+# define GREY 0xD3D3D3
+
+typedef struct s_data t_data;
 
 typedef struct s_point
 {
@@ -85,6 +89,15 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+typedef struct s_minimap
+{
+	char		**map;
+	double		tile_size;
+	double		size;
+	t_point	start;
+	t_data *data;
+}	t_minimap;
+
 typedef struct s_file
 {
 	t_list	*fd_list;
@@ -104,10 +117,11 @@ typedef struct s_data
 {
 	void		*mlx;
 	void		*mlx_win;
-	t_file		*file;
 	t_img		*img;
+	t_file		*file;
 	t_player	*p;
 	t_raycast	*ray;
+	t_minimap	*minimap;
 }	t_data;
 
 // added by Pablo
@@ -120,8 +134,15 @@ int		ft_mlx_init(t_data *data);
 void	ft_events(t_data *data);
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
+/*Maths Utils*/
+int		ft_min(int a, int b);
+void	ft_draw_circle(t_point center, int radius, int color, t_data *data); 
+
 /*Player*/
 int		ft_player_init(t_data *data);
+
+/*Minimap*/
+void	ft_minimap(t_data *data);
 
 /*Events handlers*/
 int		ft_close(t_data *data);
@@ -135,7 +156,7 @@ void	ft_move_left(t_player *p, t_data *data);
 void	ft_move_right(t_player *p, t_data *data);
 
 /*Raycast*/
-//void	ft_bresenham(t_point p0, t_point p1, t_data *data);
+void	ft_bresenham(t_point p0, t_point p1, t_data *data);
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data);
 
 /*Draw*/

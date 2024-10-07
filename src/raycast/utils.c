@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:11:48 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 12:17:48 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/07 17:10:41 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
 	offset = (y * img->line_len + x * (img->bpp / 8));
 	dst = img->addr + offset;
 	*(unsigned int *)dst = color;
+}
+
+int	ft_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
 }
 
 // void	ft_bresenham(t_point p0, t_point p1, t_data *data)

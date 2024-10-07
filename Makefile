@@ -14,7 +14,7 @@ EVENT= handler.c moves.c
 
 RAYCAST= utils.c raycast.c
 
-DRAW= draw.c color.c
+DRAW= draw.c color.c minimap.c
 
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))
