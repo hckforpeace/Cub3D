@@ -6,6 +6,8 @@ PARSER= parser.c parser_header.c parser_map.c parser_save.c parser_exit.c parser
 
 UTILS= utils_parse.c utils_lst.c utils_save_map.c 
 
+TEXTURES=textures.c
+
 DISPLAY= display.c
 
 INIT= mlx.c player.c
@@ -16,6 +18,7 @@ RAYCAST= utils.c raycast.c
 
 DRAW= draw.c color.c
 
+OBJS_TEXTURES= $(addprefix src/textures/, $(TEXTURES:.c=.o)) 	
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))
 OBJS_UTILS = $(addprefix src/utils/, $(UTILS:.c=.o))
@@ -28,7 +31,7 @@ OBJS_RAYCAST = $(addprefix src/raycast/, $(RAYCAST:.c=.o))
 
 OBJS_DRAW = $(addprefix src/draw/, $(DRAW:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW)
+OBJS= $(OBJS_TEXTURES) $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW)
 
 CFLAGS= -Wall -Werror -Wextra -g3
 

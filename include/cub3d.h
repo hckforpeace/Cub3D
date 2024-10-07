@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 12:26:10 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:36:14 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef struct s_player
 
 typedef struct s_img
 {
+	int		width;
+	int		height;
 	void	*img;
 	char	*addr;
 	int		bpp;
@@ -104,6 +106,7 @@ typedef struct s_data
 {
 	void		*mlx;
 	void		*mlx_win;
+	t_img		textures[4];
 	t_file		*file;
 	t_img		*img;
 	t_player	*p;
@@ -114,6 +117,7 @@ typedef struct s_data
 
 t_file	*init_fdata(void);
 t_data	*ft_init_data(void);
+void	textures(t_data *data, void	*mlx);
 
 /*Mlx*/
 int		ft_mlx_init(t_data *data);
