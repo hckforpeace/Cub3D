@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 14:36:14 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:10:56 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ typedef struct s_data
 
 t_file	*init_fdata(void);
 t_data	*ft_init_data(void);
-void	textures(t_data *data, void	*mlx);
+void	textures(t_data *data);
 
 /*Mlx*/
 int		ft_mlx_init(t_data *data);
@@ -166,6 +166,8 @@ void	parse_map(t_file *fdata, t_list *list);
 int		save_map(int len, t_file *fdata, t_list *list);
 
 // ./src/parser/display
+int		mlx_get_pixel_color(t_img *img, int x, int y);
+void 	display_all_pixels(t_img *img);
 void	display(t_list *lst);
 void	display_data(t_file *fdata);
 

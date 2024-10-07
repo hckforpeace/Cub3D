@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 14:42:34 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/07 15:11:38 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	main(int argc, char **argv)
 	parser(argc, argv, data->file);
 	if (ft_mlx_init(data))
 		return (1);
+	textures(data);
 	if (ft_player_init(data))
 		return (1);
-	// textures(data, mlx_init());
 	ft_render_map(data);
 	ft_events(data);
 	mlx_loop_hook(data->mlx, ft_render_map, data);
