@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 15:10:56 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/07 16:01:44 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,19 @@ typedef struct s_point
 	double	y;
 }	t_point;
 
+
+typedef enum e_dir
+{
+	NORTH=0,
+	EAST=1,
+	SOUTH=2,
+	WEST=3,
+}	t_dir;
+
 typedef struct s_raycast
 {
 	struct s_point	dir;
+	int				height;
 	struct s_point	map;
 	struct s_point	side;
 	struct s_point	delta;

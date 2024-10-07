@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 12:05:43 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:54:14 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,23 +92,43 @@ static void	ft_calculate_wall(t_raycast *ray, t_player *p)
 		ray->y_vertical.y = HEIGHT - 1;
 }
 
-void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
+static int    ft_texture_orientation(t_raycast *ray)
 {
-	int	x;
+    if (ray->side_col == 0)
+    {
+        if (ray->dir.x > 0)
+            return (EAST);
+        else
+            return (WEST);
+    }
+    else
+    {
+        if (ray->dir.y > 0)
+            return (NORTH);
+        else
+            return (SOUTH);
+    }
+}
 
-	x = 0;
-	while (x < WIDTH)
-	{
-		ft_init_rays(ray, p, x);
-		ft_step(ray, p);
-		ft_dda(ray, data);
-		ft_calculate_wall(ray, p);
-		if (ray->side_col == 0)
-			ft_draw_vertical(x, ray->y_vertical, RED1, data);
-		else
-			ft_draw_vertical(x, ray->y_vertical, RED2, data);
-		x++;
-	}
+
+void    ft_raycast(t_raycast *ray, t_player *p, t_data *data)
+{
+    int    x;
+
+    x = 0;
+    while (x < WIDTH)
+    {
+        ft_init_rays(ray, p, x);
+        ft_step(ray, p);
+        ft_dda(ray, data);
+        ft_calculate_wall(ray, p);
+        ft_texture_orientation(ray);
+        if (ray->side_col == 0)
+            ft_draw_vertical(x, ray->y_vertical, RED1, data);
+        else
+            ft_draw_vertical(x, ray->y_vertical, RED2, data);
+        x++;
+    }
 }
 //wall dist for textures
 // if (side == 0)
@@ -116,3 +136,4 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 // else
 // 	wall_x = pos_x + wall_dist * ray->delta.x;
 // wall_x -= floor(wall_x);
+
