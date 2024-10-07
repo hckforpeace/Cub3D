@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 12:12:40 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:29:11 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_key(int keysym, t_data *data)
 		ft_rotate(p, -p->angle);
 	else if (keysym == XK_h)
 		p->hide_mouse *= -1;
-	return (ft_render_map(data));
+	return (0);
 }
 
 static void	ft_trap_mouse(int x, int y, t_data *data)
@@ -70,7 +70,7 @@ int	ft_mouse_tk(int x, int y, t_data *data)
 	if (x < old_x)
 		ft_rotate(p, -p->angle / 2);
 	p->mouse.x = x;
-	return (ft_render_map(data));
+	return (0);
 }
 
 int	ft_close(t_data *data)

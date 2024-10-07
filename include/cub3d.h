@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 12:13:59 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:26:10 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_data	*ft_init_data(void);
 
 /*Mlx*/
 int		ft_mlx_init(t_data *data);
-void	ft_events_init(t_data *data);
+void	ft_events(t_data *data);
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 /*Player*/
