@@ -10,7 +10,7 @@ DISPLAY= display.c
 
 INIT= mlx.c player.c
 
-EVENT= handler.c
+EVENT= handler.c moves.c
 
 RAYCAST= utils.c raycast.c
 

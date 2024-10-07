@@ -6,11 +6,11 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/04 17:32:48 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:05:43 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3d.h"
+#include "cub3d.h"
 
 static void	ft_init_rays(t_raycast *ray, t_player *p, int x)
 {
@@ -76,24 +76,26 @@ static void	ft_calculate_wall(t_raycast *ray, t_player *p)
 {
 	double	wall_dist;
 	int		line_height;
-	
+
 	if (ray->side_col == 0)
-		wall_dist = (ray->map.x - p->pos.x + (1 - ray->step.x) / 2) / ray->dir.x;
+		wall_dist = (ray->map.x - p->pos.x + (1 - ray->step.x) / 2) \
+			/ ray->dir.x;
 	else
-		wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) / ray->dir.y;
+		wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) \
+			/ ray->dir.y;
 	line_height = (int)(HEIGHT / wall_dist);
-	ray->y_start = -line_height / 2 + HEIGHT / 2;
-	if (ray->y_start < 0)
-		ray->y_start = 0;
-	ray->y_end = line_height / 2 + HEIGHT / 2;
-	if (ray->y_end >= HEIGHT)
-		ray->y_end = HEIGHT - 1;
+	ray->y_vertical.x = -line_height / 2 + HEIGHT / 2;
+	if (ray->y_vertical.x < 0)
+		ray->y_vertical.x = 0;
+	ray->y_vertical.y = line_height / 2 + HEIGHT / 2;
+	if (ray->y_vertical.y >= HEIGHT)
+		ray->y_vertical.y = HEIGHT - 1;
 }
 
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 {
 	int	x;
-		
+
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -102,9 +104,9 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 		ft_dda(ray, data);
 		ft_calculate_wall(ray, p);
 		if (ray->side_col == 0)
-			ft_draw_vertical(x, ray->y_start, ray->y_end, RED1, data);
+			ft_draw_vertical(x, ray->y_vertical, RED1, data);
 		else
-			ft_draw_vertical(x, ray->y_start, ray->y_end, RED2, data);		
+			ft_draw_vertical(x, ray->y_vertical, RED2, data);
 		x++;
 	}
 }
