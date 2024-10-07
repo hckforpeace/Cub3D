@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 21:43:30 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/07 13:17:29 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ void 	my_display(t_data *img)
 	}
 }
 
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
 // need the mlx init 
 int	main(int argc, char **argv)
 {
@@ -48,6 +56,12 @@ int	main(int argc, char **argv)
 	
 	mlx = mlx_init();
 	data = init_fdata();
+	data->mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+
+
+	data->main_img.img =  mlx_new_image(mlx, 1920, 1080);
+	data->main_img.addr =  mlx_get_data_addr(data->main_img.img, &data->main_img.bits_per_pixel, &data->main_img.line_length,
+								&data->main_img.endian);
 
 
 	data->textures[0].img = mlx_xpm_file_to_image(mlx, text1, &(data->textures[0].width), &(data->textures[0].height));
@@ -57,10 +71,15 @@ int	main(int argc, char **argv)
 	data->textures[1].addr = mlx_get_data_addr(data->textures[1].img, &data->textures[1].bits_per_pixel, &data->textures[1].line_length, &data->textures[1].endian);
 	
 	
+	my_mlx_pixel_put(&data->main_img, 5, 5, 0x00FF0000);
+	mlx_put_image_to_window(mlx, data->mlx_win, data->main_img.img, 0, 0);
 	my_display(&data->textures[1]);	
 	my_display(&data->textures[0]);
+	mlx_loop(mlx);
 	
 	// parser(argc, argv, data);
 	// parser_exit(data, "all good", 0);
 	return (0);
 }
+
+
