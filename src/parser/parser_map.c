@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:05:33 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/04 19:57:16 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/08 21:26:53 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	map_flood_fill(char **tab, int x, int y)
 	if (tab[x][y] == '0')
 		tab[x][y] = 'R';
 	return (map_flood_fill(tab, x + 1, y) && map_flood_fill(tab, x - 1, y)
-			&& map_flood_fill(tab, x, y + 1) && map_flood_fill(tab, x, y - 1));
+		&& map_flood_fill(tab, x, y + 1) && map_flood_fill(tab, x, y - 1));
 }
 
 int	parse_map_aux(t_list *list, int len)

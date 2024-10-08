@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parser_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:33:41 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/03 13:51:23 by pbeyloun         ###   ########.fr       */
+/*   Updated: 2024/10/08 21:26:28 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_file	*init_fdata()
+t_file	*init_fdata(void)
 {
-	t_file *fdata;
+	t_file	*fdata;
 
-	fdata = (struct s_file*)malloc(sizeof(struct s_file));
+	fdata = (struct s_file *)malloc(sizeof(struct s_file));
 	if (!fdata)
 		parser_exit(NULL, "failed malloc", 0);
 	fdata->fd_list = NULL;

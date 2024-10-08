@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:48:47 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 15:39:32 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/08 21:21:48 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	parser_exit(t_file *fdata, char *exmessage, int exno)
 		free(fdata->WE);
 	if (fdata->EA)
 		free(fdata->EA);
+	free(fdata);
 	printf("%s\n", exmessage);
 	exit(exno);
 }

@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 19:54:50 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/08 21:25:50 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define INPUT_ERROR "wrong input:\n\n expected ./cub3d file_name.cub\n"
 # define INVALIDFD_ERROR "invalid file:\n\n expected ./cub3d file_name.cub\n"
 # define INVALID_MAPCONTENT "Invalid characters in MAP !\n\t the map can containt only white spaces, 0, 1, and only one  (N, S, E, W)"
-# define INVALID_MAPSHAPE "Invalid map !\n\t The player must be surrounded by walls"
+# define INVALID_MAPSHAPE "Invalid map !\n\t The map must be surrounded by walls !"
 # include "../libft/includes/libft.h"
 # include <stdio.h>
 
@@ -40,7 +40,7 @@ typedef struct s_file
 // added by Pierre
 
 // ./src/parser/parser_init.c
-t_file	*init_fdata();
+t_file	*init_fdata(void);
 
 // ./src/parser/parser.c
 void	parser_exit(t_file *fdata, char *exmessage, int exno);
