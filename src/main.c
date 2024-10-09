@@ -6,85 +6,100 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 13:30:23 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/09 20:09:58 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	mlx_get_pixel_color(t_data *img, int x, int y)
-{
-	if (x > img->width || y > img->height || x < 0 || y < 0)
+int update_animaton(void * ptr) {
+	t_animation *a;
+	t_img		*img;
+	t_game 		*game;
+
+
+	game = (t_game *)ptr;
+	a = (t_animation *)game->sprites->animations->content;
+	if (!a)
 		return (0);
-	return (*(int *)(img->addr + (y * img->line_length + x
-			* (img->bits_per_pixel >> 3))));
-}
-
-void 	my_display(t_data *img)
-{
-	int	x;
-	int	y;
-	x = 0;
-	while (x < img->width)
+	if (a->_tmp_delay++ == a->delay)
 	{
-		y = 0;
-		while (y < img->height)
-		{
-			printf("x: %d, y: %d, color: %d\n", x, y, mlx_get_pixel_color(img, x, y));
-			y++;
-		}
-		x++;
+		printf("in\n");
+		a->_tmp_delay = 0;
+		a->current_frame_num++;
+		a->current_frame_num %= ft_lstsize(a->frames);
+		img = (t_img *)ft_lstget(a->frames, a->current_frame_num)->content;
+		mlx_put_image_to_window(game->mlx, game->mlx_win, img->img, 150, 150);
 	}
-}
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-void	load_sprites(void *mlx, t_file *file)
-{
-	char	*tab[13] = {"./sprite/jump1.xpm", "./sprite/jump2.xpm", "./sprite/jump3.xpm", "./sprite/jump4.xpm", "./sprite/jump5.xpm", "./sprite/jump6.xpm", "./sprite/jump7.xpm", "./sprite/jump8.xpm", "./sprite/jump9.xpm", "./sprite/jump10.xpm", "./sprite/jump11.xpm", "./sprite/jump12.xpm", 0};
-	int		i;
-
-	i = 0;
-	while (tab[i])
-	{
-		fprintf(stderr, "loaded\n\n");
-		file->sprites[i].img = mlx_xpm_file_to_image(mlx, "./sprite/jump1.xpm", &file->sprites[i].width, &file->sprites[i].height);
-		if (!file->sprites[i].img)
-			fprintf(stderr, "wrong file\n");
-		file->sprites[i].addr = mlx_get_data_addr(file->sprites[i].img, &file->sprites[i].bits_per_pixel, &file->sprites[i].line_length, &file->sprites[i].endian);
-		i++;
-	}
+	// else
+	// 	// printf("out\n");
+	return (0);
 }
 
 // need the mlx init 
 int	main(int argc, char **argv)
 {
-	void	*mlx;
-	void	*mlx_win;
-	void	*img;
-	t_file	*data;
+	t_file	*fdata;
+	t_game	*game;
+	t_slice	slice;
 
-	data = init_fdata();
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	// load_sprites(mlx, data);
-	
-	data->sprites[0].img = mlx_xpm_file_to_image(mlx, "./sprite/jump1.xpm", &data->sprites[0].width, &data->sprites[0].height);
-	if (!data->sprites[0].img)
-		fprintf(stderr, "wrong file\n");
-	data->sprites[0].addr = mlx_get_data_addr(data->sprites[0].img, &data->sprites[0].bits_per_pixel, &data->sprites[0].line_length, &data->sprites[0].endian);
-	mlx_put_image_to_window(mlx, mlx_win, &data->sprites[0].img,0,0);
-	fprintf(stderr, "hello world\n");
-	mlx_loop(mlx);
+	slice.x = 0;
+	slice.y = 0;
+	slice.width = 32;
+	slice.height = 32;
+	game = (struct s_game *)malloc(sizeof(struct s_game));
+	game->sprites = (struct s_sprite *)malloc(sizeof(struct s_sprite));
+	game->sprites->animations = NULL;
 
+	game->mlx = mlx_init();
+	game->mlx_win = mlx_new_window(game->mlx, 1920, 1080, "Hello world!");
+
+	load_sprite(game, "sprite/fox.xpm", game->mlx);
+	ft_lstadd_back_b(&game->sprites->animations, ft_lstnew_b(slice_sprite(game, &slice, 5, 10000), 0));
+
+	mlx_loop_hook(game->mlx, update_animaton, game);
+	// void* img = (t_img *)ft_lstget(a->frames, a->current_frame_num)->content;
+	// mlx_put_image_to_window(game->mlx, game->mlx_win, (((t_animation *)game->sprites->animations->content)->frames->content->), 0, 0);
+	mlx_loop(game->mlx);
 
 	return (1);
 }
 
 
+
+
+/* #include "utils.h"
+#include "sprite.h"
+#include "libft.h"
+
+int	update(t_list * list) {
+	if (!list)
+		return 1;
+	ft_lstiter(list, update_animaiton);
+	return 0;
+}
+
+int main(void)
+{
+ 	t_win	tutorial;
+	
+	tutorial = new_window(600, 500, "animations");
+	if (!tutorial.win_ptr)
+		return (2);
+	{
+		/* Sprites 
+		t_sprite s1 = new_sprite("link", "assets/link.xpm", &tutorial);
+		if (!s1.sprite_img.img_ptr) {
+			destroy_sprite(s1);
+			destroy_window(tutorial);
+			return (1);
+		}
+		sprite_slice slice1 = (sprite_slice){0, 0, 64, 64};
+		ft_lstadd_back(&s1.animations, ft_lstnew(slice_sprite(s1, slice1, 7, 600, PLAYER)));
+		printf("Sprite %s [%d %d], loaded %d animations\n", s1.name, s1.width, s1.height, ft_lstsize(s1.animations));
+		mlx_loop_hook(tutorial.mlx_ptr, update, s1.animations);
+	}
+	mlx_loop(tutorial.mlx_ptr);
+	destroy_window(tutorial);
+	return (0);
+} */

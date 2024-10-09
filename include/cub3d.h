@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/08 21:19:12 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/09 19:05:59 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdio.h>
 # include "../mlx_linux/mlx.h"
 
-typedef struct	s_data {
+typedef struct	s_img {
 	int		width;
 	int		height;
 	void	*img;
@@ -30,7 +30,34 @@ typedef struct	s_data {
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}				t_img;
+
+typedef struct s_animation {
+	t_list		*frames;
+	int			width;
+	int			height;
+	int			delay;			// How many fps it takes to change animation
+	int			_tmp_delay;		// Delay Iterator
+	int			current_frame_num;	// Which frame is selected
+	long int	last_updated;		// When was the last update
+	long int	frame_count;		// The frame count
+}		t_animation;
+
+typedef struct s_sprite {
+	t_list	*animations;
+	char	*name;
+	char	*file_path;
+	t_img	sprite_img;
+	int	z_index;
+}		t_sprite;
+
+typedef	struct s_slice {
+	int x;
+	int y;
+	int width;
+	int height;
+}	t_slice;
+
 
 typedef struct s_file
 {
@@ -45,48 +72,65 @@ typedef struct s_file
 	char	*WE;
 	char	*EA;
 	int		fd;
-	t_data	textures[4];
-	t_data	main_img;
+	t_img	textures[4];
 	void	*mlx;
 	void	*mlx_win;
-	t_data	sprites[12];
 } t_file;
 
+typedef struct s_game
+{
+	void		*mlx;
+	void		*mlx_win;
+	t_sprite	*sprites;
+} t_game;
 
 // added by Pierre
 
+// ./src/sprite/
+void		load_sprite(t_game *game, char *path_to_srpite, void *mlx);
+void		add_frame(t_animation *a, t_slice *slice, t_game *game);
+
+
 // ./src/parser/parser_init.c
-t_file	*init_fdata();
+t_file		*init_fdata();
 
 // ./src/parser/parser.c
-void	parser_exit(t_file *fdata, char *exmessage, int exno);
+void		parser_exit(t_file *fdata, char *exmessage, int exno);
 
 // ./src/parser/parser.c
-void	parser(int argc, char **argv, t_file *fdata);
-t_list	*parse_header(t_file *data, t_list *list);
+void		parser(int argc, char **argv, t_file *fdata);
+t_list		*parse_header(t_file *data, t_list *list);
 
 // ./src/parser/parse_save.c
-void	parse_savetxture(char **info, t_file *fdata);
-int		parse_savecolor(char **info, t_file *fdata);
+void		parse_savetxture(char **info, t_file *fdata);
+int			parse_savecolor(char **info, t_file *fdata);
 
 // ./src/parser/parser_map.c
-void	parse_map(t_file *fdata, t_list *list);
-int		save_map(int len, t_file *fdata, t_list *list);
+void		parse_map(t_file *fdata, t_list *list);
+int			save_map(int len, t_file *fdata, t_list *list);
 
 // ./src/parser/display
-void	display(t_list *lst);
-void	display_data(t_file *fdata);
+void		display(t_list *lst);
+void		display_data(t_file *fdata);
+void 		my_display(t_img *img);
 
 // ./src/utils/utils_parse.c
-int		ft_istexture(char *str);
-int		ft_iscolor(char *str);
-int		ft_isemptyline(char *str);
-t_list	*save_texture(t_list *list, t_file *fdata);
-t_list	*save_color(t_list *list, t_file *fdata);
+int			ft_istexture(char *str);
+int			ft_iscolor(char *str);
+int			ft_isemptyline(char *str);
+t_list		*save_texture(t_list *list, t_file *fdata);
+t_list		*save_color(t_list *list, t_file *fdata);
 
 // ./src/utils/utils_lst.c
-int		get_lstlen(t_list *list);
-int		end_of_map(t_list *list, int len);
+int			get_lstlen(t_list *list);
+int			end_of_map(t_list *list, int len);
 
+// ./src/utils/utils_sprite.c
+void		my_mlx_pixel_put(t_img *data, int x, int y, int color);
+int			mlx_get_pixel_color(t_img *img, int x, int y);
+
+// ./src/animation/init_animation.c
+t_animation		*init_animation(int width, int height, int delay);
+t_animation		*slice_sprite(t_game *game, t_slice *slice, int frames, int delay);
 
 #endif

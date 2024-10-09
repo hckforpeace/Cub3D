@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstget.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 00:22:01 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 19:51:03 by pierre           ###   ########.fr       */
+/*   Created: 2024/10/09 17:48:38 by pierre            #+#    #+#             */
+/*   Updated: 2024/10/09 19:50:34 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
-#include <stdio.h>
-int	ft_lstsize(t_list *lst)
-{
-	int		n;
-	t_list	*temp;
 
-	temp = lst;
-	n = 0;
-	while (temp != NULL)
+t_list	*ft_lstget(t_list *lst, int n)
+{
+	if (!lst)
+		return (NULL);
+	while (lst)
 	{
-		temp = temp->next;
-		n++;
+		if (n == 0)
+			return (lst);
+		lst = lst->next;
+		n--;
 	}
-	return (n);
+	return (NULL);
 }

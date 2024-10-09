@@ -6,11 +6,32 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:29:05 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 15:41:55 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/09 19:05:46 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void 	my_display(t_img *img)
+{
+	int	x;
+	int	y;
+	int color;
+
+	x = 0;
+	while (x < img->width)
+	{
+		y = 0;
+		while (y < img->height)
+		{
+			color = mlx_get_pixel_color(img, x, y);
+			if (color > 0)
+				printf("x: %d, y: %d, color: %d\n", x, y, color);
+			y++;
+		}
+		x++;
+	}
+}
 
 void	display(t_list *lst)
 {
