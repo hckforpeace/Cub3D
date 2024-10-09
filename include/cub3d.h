@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 13:16:47 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/08 21:19:12 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_file
 	t_data	main_img;
 	void	*mlx;
 	void	*mlx_win;
+	t_data	sprites[12];
 } t_file;
 
 

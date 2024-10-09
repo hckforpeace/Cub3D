@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 13:17:29 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/09 13:30:23 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,41 +45,46 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+void	load_sprites(void *mlx, t_file *file)
+{
+	char	*tab[13] = {"./sprite/jump1.xpm", "./sprite/jump2.xpm", "./sprite/jump3.xpm", "./sprite/jump4.xpm", "./sprite/jump5.xpm", "./sprite/jump6.xpm", "./sprite/jump7.xpm", "./sprite/jump8.xpm", "./sprite/jump9.xpm", "./sprite/jump10.xpm", "./sprite/jump11.xpm", "./sprite/jump12.xpm", 0};
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		fprintf(stderr, "loaded\n\n");
+		file->sprites[i].img = mlx_xpm_file_to_image(mlx, "./sprite/jump1.xpm", &file->sprites[i].width, &file->sprites[i].height);
+		if (!file->sprites[i].img)
+			fprintf(stderr, "wrong file\n");
+		file->sprites[i].addr = mlx_get_data_addr(file->sprites[i].img, &file->sprites[i].bits_per_pixel, &file->sprites[i].line_length, &file->sprites[i].endian);
+		i++;
+	}
+}
+
 // need the mlx init 
 int	main(int argc, char **argv)
 {
 	void	*mlx;
+	void	*mlx_win;
 	void	*img;
 	t_file	*data;
-	char 	*text1 = "./wall.xpm";
-	char 	*text2 = "./wall2.xpm";
-	
-	mlx = mlx_init();
+
 	data = init_fdata();
-	data->mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-
-
-	data->main_img.img =  mlx_new_image(mlx, 1920, 1080);
-	data->main_img.addr =  mlx_get_data_addr(data->main_img.img, &data->main_img.bits_per_pixel, &data->main_img.line_length,
-								&data->main_img.endian);
-
-
-	data->textures[0].img = mlx_xpm_file_to_image(mlx, text1, &(data->textures[0].width), &(data->textures[0].height));
-	data->textures[0].addr = mlx_get_data_addr(data->textures[0].img, &data->textures[0].bits_per_pixel, &data->textures[0].line_length, &data->textures[0].endian);
+	mlx = mlx_init();
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
+	// load_sprites(mlx, data);
 	
-	data->textures[1].img = mlx_xpm_file_to_image(mlx, text2, &(data->textures[1].width), &(data->textures[1].height));
-	data->textures[1].addr = mlx_get_data_addr(data->textures[1].img, &data->textures[1].bits_per_pixel, &data->textures[1].line_length, &data->textures[1].endian);
-	
-	
-	my_mlx_pixel_put(&data->main_img, 5, 5, 0x00FF0000);
-	mlx_put_image_to_window(mlx, data->mlx_win, data->main_img.img, 0, 0);
-	my_display(&data->textures[1]);	
-	my_display(&data->textures[0]);
+	data->sprites[0].img = mlx_xpm_file_to_image(mlx, "./sprite/jump1.xpm", &data->sprites[0].width, &data->sprites[0].height);
+	if (!data->sprites[0].img)
+		fprintf(stderr, "wrong file\n");
+	data->sprites[0].addr = mlx_get_data_addr(data->sprites[0].img, &data->sprites[0].bits_per_pixel, &data->sprites[0].line_length, &data->sprites[0].endian);
+	mlx_put_image_to_window(mlx, mlx_win, &data->sprites[0].img,0,0);
+	fprintf(stderr, "hello world\n");
 	mlx_loop(mlx);
-	
-	// parser(argc, argv, data);
-	// parser_exit(data, "all good", 0);
-	return (0);
+
+
+	return (1);
 }
 
 
