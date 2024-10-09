@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 19:05:59 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/09 22:34:26 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_game
 {
 	void		*mlx;
 	void		*mlx_win;
+	t_img		fimg;
 	t_sprite	*sprites;
 } t_game;
 
@@ -89,6 +90,8 @@ typedef struct s_game
 // ./src/sprite/
 void		load_sprite(t_game *game, char *path_to_srpite, void *mlx);
 void		add_frame(t_animation *a, t_slice *slice, t_game *game);
+void		draw_sprite(float scale, t_img *sub, t_img *win);
+
 
 
 // ./src/parser/parser_init.c

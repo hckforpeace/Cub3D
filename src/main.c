@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 20:09:58 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/09 22:35:50 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ int update_animaton(void * ptr) {
 	t_animation *a;
 	t_img		*img;
 	t_game 		*game;
+	// float 		scale;
 
-
+	// scale = 1.0;
 	game = (t_game *)ptr;
 	a = (t_animation *)game->sprites->animations->content;
 	if (!a)
@@ -29,10 +30,9 @@ int update_animaton(void * ptr) {
 		a->current_frame_num++;
 		a->current_frame_num %= ft_lstsize(a->frames);
 		img = (t_img *)ft_lstget(a->frames, a->current_frame_num)->content;
-		mlx_put_image_to_window(game->mlx, game->mlx_win, img->img, 150, 150);
+		draw_sprite(30, img, &game->fimg);
+		mlx_put_image_to_window(game->mlx, game->mlx_win, game->fimg.img, 0, 0);
 	}
-	// else
-	// 	// printf("out\n");
 	return (0);
 }
 
@@ -48,11 +48,17 @@ int	main(int argc, char **argv)
 	slice.width = 32;
 	slice.height = 32;
 	game = (struct s_game *)malloc(sizeof(struct s_game));
+	// game->fimg = (struct s_img*)malloc(sizeof(struct s_img));
 	game->sprites = (struct s_sprite *)malloc(sizeof(struct s_sprite));
 	game->sprites->animations = NULL;
 
 	game->mlx = mlx_init();
 	game->mlx_win = mlx_new_window(game->mlx, 1920, 1080, "Hello world!");
+
+	game->fimg.img = mlx_new_image(game->mlx, 1920, 1080);
+	game->fimg.width = 1920;
+	game->fimg.height = 1080;
+	game->fimg.addr = mlx_get_data_addr(game->fimg.img, &game->fimg.bits_per_pixel, &game->fimg.line_length, &game->fimg.endian);
 
 	load_sprite(game, "sprite/fox.xpm", game->mlx);
 	ft_lstadd_back_b(&game->sprites->animations, ft_lstnew_b(slice_sprite(game, &slice, 5, 10000), 0));

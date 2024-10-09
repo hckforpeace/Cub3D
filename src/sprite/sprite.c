@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:20:48 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 20:09:07 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/09 22:27:40 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	add_frame(t_animation *a, t_slice *slice, t_game *game)
 	t_img	*frame;
 
 	frame = (struct s_img *)malloc(sizeof(struct s_img));
+	frame->width = slice->width;
+	frame->height = slice->height;
 	frame->img = mlx_new_image(game->mlx, slice->width, slice->height);
 	frame->addr = mlx_get_data_addr(frame->img, &frame->bits_per_pixel, &frame->line_length, &frame->endian);
 	i = 0;
