@@ -3,37 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:20:48 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 22:27:40 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/10 16:26:03 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-void	load_sprite(t_game *game, char *path_to_srpite, void *mlx)
+t_sprite	*init_sprite(char *name, char *path, void *mlx, t_slice *slice)
 {
-	game->sprites->sprite_img.img = mlx_xpm_file_to_image(mlx, path_to_srpite, &(game->sprites->sprite_img.width), &(game->sprites->sprite_img.height));
-	if (!game->sprites->sprite_img.img)
-	{
-		fprintf(stderr, "error when opening xpm file\n");
-		exit(1);
-	}
-	game->sprites->sprite_img.addr = mlx_get_data_addr(game->sprites->sprite_img.img, &game->sprites->sprite_img.bits_per_pixel, &game->sprites->sprite_img.line_length, &game->sprites->sprite_img.endian);
-	// printf("x: %d, y: %d, color: %d \n", 0, 0, mlx_get_pixel_color(&game->sprites->sprite_img,0,0));
-	// my_display(game->sprites());
-	
+	t_sprite	*sprite;
+
+	sprite = (struct s_sprite *)malloc(sizeof(struct s_sprite));
+	if (!ft_strcmp(name, "fox"))
+	sprite->slice = slice; 
+	sprite->animations = NULL;
+	sprite->file_path = path;
+	sprite->name = name;
+	sprite->z_index = 0;
+	if (load_sprite(sprite, mlx))
+		return (free(sprite), NULL); 
+	return (sprite);
 }
 
-void	add_frame(t_animation *a, t_slice *slice, t_game *game)
+int	load_sprite(t_sprite *sprite, void *mlx)
+{
+	sprite->sprite_img.img = mlx_xpm_file_to_image(mlx, sprite->file_path, &(sprite->sprite_img.width), &(sprite->sprite_img.height));
+	if (!sprite->sprite_img.img)
+	{
+		ft_putstr_fd("error when opening sprite path\n", 2);
+		return (1);
+	}
+	sprite->sprite_img.addr = mlx_get_data_addr(sprite->sprite_img.img, &sprite->sprite_img.bits_per_pixel, &sprite->sprite_img.line_length, &sprite->sprite_img.endian);
+	return (0);
+}
+
+int	add_frame(t_animation *a, t_slice *slice, t_game *game)
 {
 	int		i;
 	int		j;
 	t_img	*frame;
 
 	frame = (struct s_img *)malloc(sizeof(struct s_img));
+	if (!frame)
+		return (1);
 	frame->width = slice->width;
 	frame->height = slice->height;
 	frame->img = mlx_new_image(game->mlx, slice->width, slice->height);
@@ -50,4 +65,5 @@ void	add_frame(t_animation *a, t_slice *slice, t_game *game)
 		i++;
 	}
 	ft_lstadd_back_b(&a->frames, ft_lstnew_b(frame, 0));
+	return (1);
 }

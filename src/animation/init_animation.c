@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_animation.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:55:44 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 19:39:24 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/10 16:07:49 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ t_animation	*init_animation(int width, int height, int delay)
 	return (a);
 }
 
-t_animation		*slice_sprite(t_game *game, t_slice *slice, int frames, int delay) 
+t_animation		*slice_sprite(t_game *game, int frames, int delay) 
 {
 	int			i;
 	t_animation	*a;
+	t_slice		*slice;
 
+	slice = game->sprites->slice;
 	a = init_animation(slice->width, slice->height, delay);
 	if (!a)
 		return NULL;

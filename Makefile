@@ -4,7 +4,7 @@ MAIN= src/main.c
 
 PARSER= parser.c parser_header.c parser_map.c parser_save.c parser_exit.c parser_init.c
 
-SPRITE= sprite.c draw_sprite.c
+SPRITE= sprite.c sprite_draw.c sprite_hook.c
 
 ANIMATION= init_animation.c
 

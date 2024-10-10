@@ -3,38 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 22:35:50 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/10 16:08:45 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int update_animaton(void * ptr) {
-	t_animation *a;
-	t_img		*img;
-	t_game 		*game;
-	// float 		scale;
-
-	// scale = 1.0;
-	game = (t_game *)ptr;
-	a = (t_animation *)game->sprites->animations->content;
-	if (!a)
-		return (0);
-	if (a->_tmp_delay++ == a->delay)
-	{
-		printf("in\n");
-		a->_tmp_delay = 0;
-		a->current_frame_num++;
-		a->current_frame_num %= ft_lstsize(a->frames);
-		img = (t_img *)ft_lstget(a->frames, a->current_frame_num)->content;
-		draw_sprite(30, img, &game->fimg);
-		mlx_put_image_to_window(game->mlx, game->mlx_win, game->fimg.img, 0, 0);
-	}
-	return (0);
-}
 
 // need the mlx init 
 int	main(int argc, char **argv)
@@ -47,25 +24,24 @@ int	main(int argc, char **argv)
 	slice.y = 0;
 	slice.width = 32;
 	slice.height = 32;
-	game = (struct s_game *)malloc(sizeof(struct s_game));
-	// game->fimg = (struct s_img*)malloc(sizeof(struct s_img));
-	game->sprites = (struct s_sprite *)malloc(sizeof(struct s_sprite));
-	game->sprites->animations = NULL;
 
+	game = (struct s_game *)malloc(sizeof(struct s_game));
 	game->mlx = mlx_init();
 	game->mlx_win = mlx_new_window(game->mlx, 1920, 1080, "Hello world!");
+	game->sprites = (struct s_sprite *)malloc(sizeof(struct s_sprite));
+	game->sprites->animations = NULL;
+	game->sprites = init_sprite("fox", "sprite/fox.xpm", game->mlx, &slice);
+
 
 	game->fimg.img = mlx_new_image(game->mlx, 1920, 1080);
 	game->fimg.width = 1920;
 	game->fimg.height = 1080;
 	game->fimg.addr = mlx_get_data_addr(game->fimg.img, &game->fimg.bits_per_pixel, &game->fimg.line_length, &game->fimg.endian);
 
-	load_sprite(game, "sprite/fox.xpm", game->mlx);
-	ft_lstadd_back_b(&game->sprites->animations, ft_lstnew_b(slice_sprite(game, &slice, 5, 10000), 0));
+	// load_sprite(game, "sprite/fox.xpm", game->mlx);
+	ft_lstadd_back_b(&game->sprites->animations, ft_lstnew_b(slice_sprite(game, 5, 10000), 0));
 
 	mlx_loop_hook(game->mlx, update_animaton, game);
-	// void* img = (t_img *)ft_lstget(a->frames, a->current_frame_num)->content;
-	// mlx_put_image_to_window(game->mlx, game->mlx_win, (((t_animation *)game->sprites->animations->content)->frames->content->), 0, 0);
 	mlx_loop(game->mlx);
 
 	return (1);
@@ -93,7 +69,7 @@ int main(void)
 	if (!tutorial.win_ptr)
 		return (2);
 	{
-		/* Sprites 
+		 Sprites 
 		t_sprite s1 = new_sprite("link", "assets/link.xpm", &tutorial);
 		if (!s1.sprite_img.img_ptr) {
 			destroy_sprite(s1);

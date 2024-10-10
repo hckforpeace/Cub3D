@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pbeyloun <pbeyloun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/09 22:34:26 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/10 16:09:20 by pbeyloun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # include "../libft/includes/libft.h"
 # include <stdio.h>
 # include "../mlx_linux/mlx.h"
+
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
 
 typedef struct	s_img {
 	int		width;
@@ -43,20 +49,22 @@ typedef struct s_animation {
 	long int	frame_count;		// The frame count
 }		t_animation;
 
-typedef struct s_sprite {
-	t_list	*animations;
-	char	*name;
-	char	*file_path;
-	t_img	sprite_img;
-	int	z_index;
-}		t_sprite;
-
 typedef	struct s_slice {
 	int x;
 	int y;
 	int width;
 	int height;
 }	t_slice;
+
+typedef struct s_sprite {
+	t_list	*animations;
+	char	*name;
+	char	*file_path;
+	t_slice	*slice;
+	t_img	sprite_img;
+	int		z_index;
+}		t_sprite;
+
 
 
 typedef struct s_file
@@ -88,10 +96,13 @@ typedef struct s_game
 // added by Pierre
 
 // ./src/sprite/
-void		load_sprite(t_game *game, char *path_to_srpite, void *mlx);
-void		add_frame(t_animation *a, t_slice *slice, t_game *game);
-void		draw_sprite(float scale, t_img *sub, t_img *win);
+t_sprite	*init_sprite(char *name, char *path, void *mlx, t_slice *slice);
+int		load_sprite(t_sprite *game, void *mlx);
+int		add_frame(t_animation *a, t_slice *slice, t_game *game);
+void		draw_sprite(float scale, t_img *sub, t_img *win, t_point *center);
 
+// ./src/sprite/sprite_hook.c
+int			update_animaton(void *ptr);
 
 
 // ./src/parser/parser_init.c
@@ -134,6 +145,6 @@ int			mlx_get_pixel_color(t_img *img, int x, int y);
 
 // ./src/animation/init_animation.c
 t_animation		*init_animation(int width, int height, int delay);
-t_animation		*slice_sprite(t_game *game, t_slice *slice, int frames, int delay);
+t_animation		*slice_sprite(t_game *game, int frames, int delay);
 
 #endif
