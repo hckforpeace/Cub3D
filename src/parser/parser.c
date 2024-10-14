@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 22:58:26 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/10 15:30:51 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ void	parser(int argc, char **argv, t_file *fdata)
 	temp = parse_header(fdata, fdata->fd_list);
 	parse_map(fdata, temp);
 	reset_map(fdata->map);
-	display_data(fdata);
+	//display_data(fdata);
 }

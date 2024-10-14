@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 12:41:03 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:28:18 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_mouse_tk(int x, int y, t_data *data)
 
 int	ft_close(t_data *data)
 {
-	mlx_destroy_image(data->mlx, data->img->img);
+	//mlx_destroy_image(data->mlx, data->img->img);
 	mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);

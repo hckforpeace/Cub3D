@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 13:47:11 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 12:26:06 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:55:16 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ int	ft_mlx_init(t_data *data)
 		free(data->mlx);
 		return (printf(MLX_WIN), 1);
 	}
-	img->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	if (!img->img)
-	{
-		mlx_destroy_window(data->mlx, data->mlx_win);
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		return (printf(MLX_IMG), 1);
-	}
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, \
-		&img->endian);
+	// img->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	// if (!img->img)
+	// {
+	// 	mlx_destroy_window(data->mlx, data->mlx_win);
+	// 	mlx_destroy_display(data->mlx);
+	// 	free(data->mlx);
+	// 	return (printf(MLX_IMG), 1);
+	// }
+	// img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, \
+	// 	&img->endian);
 	return (0);
 }
 

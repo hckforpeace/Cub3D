@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:33:41 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/07 11:59:59 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/14 19:41:13 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ t_data	*ft_init_data(void)
 	p = (t_player *)malloc(sizeof(t_player));
 	if (!p)
 		parser_exit(NULL, "failed malloc", 0);
-	ft_bzero(img, 5);
-	ft_bzero(ray, 7);
-	ft_bzero(p, 9);
+	ft_bzero(img, sizeof(img));
+	ft_bzero(ray, sizeof(ray));
+	ft_bzero(p, sizeof(p));
+	data->pixels = NULL;
+	data->textures = NULL;
 	data->img = img;
 	data->ray = ray;
 	data->p = p;

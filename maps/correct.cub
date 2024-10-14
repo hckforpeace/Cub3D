@@ -1,10 +1,10 @@
 F 186,255,201
 C 213,186,255
 
-WE ./WeST
-EA ./east
-SO ./east
-NO ./chemin_vers_un_certain_fichier
+WE ./textures/test/west.xpm
+EA ./textures/test/east.xpm
+SO ./textures/test/south.xpm
+NO ./textures/test/north.xpm
 
         1111111111111111111111111
         1000000000110000000000001

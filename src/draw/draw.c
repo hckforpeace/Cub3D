@@ -6,18 +6,58 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:32:03 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 19:02:38 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/14 20:09:46 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	ft_init_img(t_data *data, t_img *img)
+{
+	img->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	if (!img->img)
+	{
+		mlx_destroy_window(data->mlx, data->mlx_win);
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
+		return ((void)printf(MLX_IMG));
+	}
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, &img->endian);
+}
+
+void	ft_render_raycast(t_data *data)
+{
+	t_img	img;
+	int	x;
+	int	y;
+
+	img.img = NULL;
+	ft_init_img(data, &img);
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			if (data->pixels[y][x] > 0)
+				ft_mlx_pixel_put(&img, x, y, data->pixels[y][x]);
+			else if (y < HEIGHT / 2)
+				ft_mlx_pixel_put(&img, x, y, data->p->ceiling_col);
+			else if (y < HEIGHT - 1)
+				ft_mlx_pixel_put(&img, x, y, data->p->floor_col);
+			x++;
+		}
+		y++;
+	}
+	mlx_put_image_to_window(data->mlx, data->mlx_win, img.img, 0, 0);
+	mlx_destroy_image(data->mlx, img.img);
+}
+
 int	ft_render_map(t_data *data)
 {
-	ft_draw_background(data);
 	ft_raycast(data->ray, data->p, data);
-	ft_minimap(data);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
+	ft_render_raycast(data);
+	//ft_minimap(data);
 	return (0);
 }
 

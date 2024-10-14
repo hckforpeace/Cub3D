@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:10:23 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 19:42:38 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/09 14:05:04 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,6 @@ void	ft_draw_border(t_minimap *minimap, t_data *data)
 		{
 			if (y < minimap->start.y || y > minimap->start.y + minimap->size + 15 || x < minimap->start.x || x > minimap->start.x + minimap->size + 15)
 				ft_mlx_pixel_put(data->img, x, y, WHITE);
-			// if (x < minimap->start.y || x > minimap->start.y + minimap->size + 10)
-			// 	ft_mlx_pixel_put(data->img, x, y, WHITE);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/07 17:50:39 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/14 19:40:04 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ by walls"
 # define MLX_WIN "\n\nError while creating\n"
 # define MLX_IMG "\n\nError while creating the image\n"
 
-/*Window dimensions*/
-# define WIDTH 1920
-# define HEIGHT 1020
+/*Dimensions*/
+# define WIDTH		1920
+# define HEIGHT 	1020
+# define TEX_SIZE	64
 
 /*Colors*/
 # define WHITE 0xFFFFFFF
@@ -56,6 +57,14 @@ typedef struct s_point
 	double	y;
 }	t_point;
 
+typedef	enum	e_dir
+{
+	NORTH=0,
+	EAST=1,
+	SOUTH=2,
+	WEST=3,
+}	t_dir;
+
 typedef struct s_raycast
 {
 	struct s_point	dir;
@@ -64,6 +73,8 @@ typedef struct s_raycast
 	struct s_point	delta;
 	struct s_point	step;
 	struct s_point	y_vertical;
+	int				wall_x;
+	int				height;
 	int				side_col;
 }	t_raycast;
 
@@ -82,6 +93,8 @@ typedef struct s_player
 
 typedef struct s_img
 {
+	int		width;
+	int		height;
 	void	*img;
 	char	*addr;
 	int		bpp;
@@ -113,10 +126,26 @@ typedef struct s_file
 	int		fd;
 }	t_file;
 
+typedef struct s_texture
+{
+	int			x;
+	int			y;
+	int			step;
+	int			pos;
+	int			orientation;
+	int			size;
+	// int			**textures;
+	// int			**pixels;
+}	t_texture;
+
+
 typedef struct s_data
 {
 	void		*mlx;
 	void		*mlx_win;
+	int			**textures;
+	int			**pixels;
+	t_texture	*tex;
 	t_img		*img;
 	t_file		*file;
 	t_player	*p;
@@ -164,6 +193,7 @@ void	ft_draw_background(t_data *data);
 void	ft_draw_vertical(int x, t_point y_vertical, int col, t_data *data);
 int		ft_render_map(t_data *data);
 int		ft_rgb_to_hex(int *rgb);
+void	ft_textures_init(t_data *data);
 
 // added by Pierre
 
@@ -196,5 +226,6 @@ t_list	*save_color(t_list *list, t_file *fdata);
 // ./src/utils/utils_lst.c
 int		get_lstlen(t_list *list);
 int		end_of_map(t_list *list, int len);
+void	ft_free_tab(int	**tab);
 
 #endif

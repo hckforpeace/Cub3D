@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 15:58:15 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/14 19:56:53 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static	void	ft_dda(t_raycast *ray, t_data *data)
 static void	ft_calculate_wall(t_raycast *ray, t_player *p)
 {
 	double	wall_dist;
-	int		line_height;
 
 	if (ray->side_col == 0)
 		wall_dist = (ray->map.x - p->pos.x + (1 - ray->step.x) / 2) \
@@ -83,19 +82,87 @@ static void	ft_calculate_wall(t_raycast *ray, t_player *p)
 	else
 		wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) \
 			/ ray->dir.y;
-	line_height = (int)(HEIGHT / wall_dist);
-	ray->y_vertical.x = -line_height / 2 + HEIGHT / 2;
+	ray->height = (int)(HEIGHT / wall_dist);
+	ray->y_vertical.x = -ray->height / 2 + HEIGHT / 2;
 	if (ray->y_vertical.x < 0)
 		ray->y_vertical.x = 0;
-	ray->y_vertical.y = line_height / 2 + HEIGHT / 2;
+	ray->y_vertical.y = ray->height / 2 + HEIGHT / 2;
 	if (ray->y_vertical.y >= HEIGHT)
 		ray->y_vertical.y = HEIGHT - 1;
+	if (ray->side_col == 0)
+		ray->wall_x = p->pos.y + wall_dist * ray->dir.y;
+	else
+		ray->wall_x = p->pos.x + wall_dist * ray->dir.x;
+	ray->wall_x -= floor(ray->wall_x);
+}
+
+void	ft_get_texture_orientation(t_texture *tex, t_raycast *ray)
+{
+	if (ray->side_col == 0)
+	{
+		if (ray->dir.x < 0)
+			tex->orientation = WEST;
+		else
+			tex->orientation = EAST;
+	}
+	else
+	{
+		if (ray->dir.y > 0)
+			tex->orientation = SOUTH;
+		else
+			tex->orientation = NORTH;
+	}
+}
+
+void	ft_init_texture_pixels(t_data *data)
+{
+	int	i;
+
+	if (data->pixels)
+		ft_free_tab(data->pixels);
+	data->pixels = ft_calloc(sizeof(int *), HEIGHT + 1);
+	if (!data->pixels)
+		return ;
+	i = 0;
+	while (i < HEIGHT)
+	{
+		data->pixels[i] = ft_calloc(sizeof(int), WIDTH + 1);
+		if (!data->pixels[i])
+			return ;
+		i++;
+	}
+}
+
+void	ft_calculate_texture(t_data *data, t_texture *tex, t_raycast *ray, int x)
+{
+	int			y;
+	int			color;
+
+	ft_get_texture_orientation(tex, ray);
+	tex->x = (int)(ray->wall_x * tex->size);
+	if ((ray->side_col == 0 && ray->dir.x < 0) || (ray->side_col == 1 && ray->dir.y > 0))
+		tex->x = tex->size - tex->x - 1;
+	tex->step = 1.0 * tex->size / ray->height;
+	tex->pos = (ray->y_vertical.x - HEIGHT / 2 + ray->height / 2) * tex->step;
+	y = ray->y_vertical.x;
+	while (y < ray->y_vertical.y)
+	{
+		tex->y = (int)tex->pos & (tex->size - 1);
+		tex->pos += tex->step;
+		color = data->textures[tex->orientation][tex->size * tex->y + tex->x];
+		if (tex->orientation == NORTH || tex->orientation == EAST)
+			color = (color >> 1) & 8355711;
+		if (color > 0)
+			data->pixels[y][x] = color;
+		y++;
+	}
 }
 
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 {
 	int	x;
 
+	ft_init_texture_pixels(data);
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -103,36 +170,7 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 		ft_step(ray, p);
 		ft_dda(ray, data);
 		ft_calculate_wall(ray, p);
-		//ft_texture_orientation(ray);
-		if (ray->side_col == 0)
-			ft_draw_vertical(x, ray->y_vertical, RED1, data);
-		else
-			ft_draw_vertical(x, ray->y_vertical, RED2, data);
+		ft_calculate_texture(data, data->tex, data->ray, x);
 		x++;
 	}
 }
-
-// void	ft_texture_orientation(t_raycast *ray)
-// {
-// 	if (ray->side_col == 0)
-// 	{
-// 		if (ray->dir_x > 0)
-// 			texture->orientation = EAST;
-// 		else
-// 			texture->orientation = EAST;
-// 	}
-// 	else
-// 	{
-// 		if (ray->dir_y > 0)
-// 			texture->orientation = NORTH;
-// 		else
-// 			texture->orientation = SOUTH;
-// 	}
-// }
-
-//wall dist for textures
-// if (side == 0)
-// 	wall_x = pos_y + wall_dist * ray->delta.y;
-// else
-// 	wall_x = pos_x + wall_dist * ray->delta.x;
-// wall_x -= floor(wall_x);

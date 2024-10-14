@@ -16,6 +16,8 @@ RAYCAST= utils.c raycast.c
 
 DRAW= draw.c color.c minimap.c
 
+TEXTURES= textures.c
+
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))
 OBJS_UTILS = $(addprefix src/utils/, $(UTILS:.c=.o))
@@ -28,7 +30,9 @@ OBJS_RAYCAST = $(addprefix src/raycast/, $(RAYCAST:.c=.o))
 
 OBJS_DRAW = $(addprefix src/draw/, $(DRAW:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW)
+OBJS_TEXTURES = $(addprefix src/textures/, $(TEXTURES:.c=.o))
+
+OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW) $(OBJS_TEXTURES)
 
 CFLAGS= -Wall -Werror -Wextra -g3
 
