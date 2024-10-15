@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:33:41 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/14 19:41:13 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:33:11 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_data	*ft_init_data(void)
 	ft_bzero(img, sizeof(img));
 	ft_bzero(ray, sizeof(ray));
 	ft_bzero(p, sizeof(p));
-	data->pixels = NULL;
 	data->textures = NULL;
 	data->img = img;
 	data->ray = ray;

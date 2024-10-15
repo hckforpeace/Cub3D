@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:12:17 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/14 20:03:14 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:51:43 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,36 @@
 
 int	*ft_xpm_to_img(t_data *data, char *path)
 {
-	t_img	temp;
+	t_img	*img;
+	int		text_size;
 	int		*buffer;
 	int		x;
 	int		y;
 
-	temp.img = mlx_xpm_file_to_image(data->mlx, path, &data->tex->size, &data->tex->size);
-	if (!temp.img)
+	img = malloc(sizeof(t_img));
+	text_size = TEX_SIZE;
+	img->img = mlx_xpm_file_to_image(data->mlx, path, &text_size, &text_size);
+	if (!img->img)
 		return (NULL);
-	temp.addr = mlx_get_data_addr(temp.img, &temp.bpp, &temp.line_len, &temp.endian);
-	buffer = ft_calloc(1, sizeof(int) * data->tex->size * data->tex->size);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, &img->endian);
+	if (!img->addr)
+		return (NULL);
+	buffer = ft_calloc(1, sizeof(int) * TEX_SIZE * TEX_SIZE);
 	if (!buffer)
 		return (NULL);
 	y = 0;
-	while (y < data->tex->size)
+	while (y < TEX_SIZE)
 	{
 		x = 0;
-		while (x < data->tex->size)
+		while (x < TEX_SIZE)
 		{
-			buffer[y * data->tex->size + x] = (int)temp.addr[y * data->tex->size + x];
+			buffer[y * TEX_SIZE + x] = *(int *)(img->addr + (y * img->line_len + x * (img->bpp / 8)));
 			x++;
 		}
 		y++;
 	}
-	mlx_destroy_image(data->mlx, temp.img);
+	mlx_destroy_image(data->mlx, img->img);
+	free(img);
 	return (buffer);
 }
 
@@ -50,7 +56,6 @@ void	ft_textures_init(t_data *data)
 		return ;
 	ft_bzero(tex, sizeof(tex));
 	data->tex = tex;
-	data->tex->size = TEX_SIZE;
 	data->textures = ft_calloc(sizeof(int *), 5);
 	if (!data->textures)
 		return ;

@@ -1,10 +1,10 @@
-F 186,255,201
-C 213,186,255
+F 170,170,170
+C 50,50,50
 
-WE textures/test/west.xpm
-EA textures/test/east.xpm
-SO textures/test/south.xpm
-NO textures/test/north.xpm
+WE textures/basalt_top.xpm
+EA textures/basalt_top.xpm
+SO textures/basalt_top.xpm
+NO textures/basalt_top.xpm
 
 1111111111111111111111111
 1000000011000000111101001

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/14 19:40:04 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/15 18:12:02 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ by walls"
 # define RED1 0xFFCCCC
 # define RED2 0xFF7F7F
 # define GREY 0xD3D3D3
+# define GREY_DARK 0xA9A9A9
 
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
 
 typedef struct s_point
 {
@@ -57,7 +58,7 @@ typedef struct s_point
 	double	y;
 }	t_point;
 
-typedef	enum	e_dir
+typedef enum e_dir
 {
 	NORTH=0,
 	EAST=1,
@@ -73,7 +74,7 @@ typedef struct s_raycast
 	struct s_point	delta;
 	struct s_point	step;
 	struct s_point	y_vertical;
-	int				wall_x;
+	double			wall_x;
 	int				height;
 	int				side_col;
 }	t_raycast;
@@ -104,11 +105,11 @@ typedef struct s_img
 
 typedef struct s_minimap
 {
-	char		**map;
-	double		tile_size;
-	double		size;
+	char	**map;
+	double	tile_size;
+	double	size;
 	t_point	start;
-	t_data *data;
+	t_data	*data;
 }	t_minimap;
 
 typedef struct s_file
@@ -130,21 +131,16 @@ typedef struct s_texture
 {
 	int			x;
 	int			y;
-	int			step;
-	int			pos;
+	double		step;
+	double		pos;
 	int			orientation;
-	int			size;
-	// int			**textures;
-	// int			**pixels;
 }	t_texture;
-
 
 typedef struct s_data
 {
 	void		*mlx;
 	void		*mlx_win;
 	int			**textures;
-	int			**pixels;
 	t_texture	*tex;
 	t_img		*img;
 	t_file		*file;
@@ -165,7 +161,7 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 /*Maths Utils*/
 int		ft_min(int a, int b);
-void	ft_draw_circle(t_point center, int radius, int color, t_data *data); 
+void	ft_draw_circle(t_point center, int radius, int color, t_data *data);
 
 /*Player*/
 int		ft_player_init(t_data *data);
@@ -185,7 +181,6 @@ void	ft_move_left(t_player *p, t_data *data);
 void	ft_move_right(t_player *p, t_data *data);
 
 /*Raycast*/
-void	ft_bresenham(t_point p0, t_point p1, t_data *data);
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data);
 
 /*Draw*/
@@ -194,6 +189,7 @@ void	ft_draw_vertical(int x, t_point y_vertical, int col, t_data *data);
 int		ft_render_map(t_data *data);
 int		ft_rgb_to_hex(int *rgb);
 void	ft_textures_init(t_data *data);
+void	ft_bresenham(t_point start, t_point end, t_data *data);
 
 // added by Pierre
 
