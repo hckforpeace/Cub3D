@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:10:23 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/16 17:32:41 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:22:22 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,91 +21,26 @@ void	ft_init_minimap(t_data *data)
 		return ;
 	data->minimap = minimap;
 	minimap->size = ft_min(WIDTH, HEIGHT) / 6;
-	minimap->tile_size = minimap->size / 9;
-	minimap->start.x = minimap->size / 4;
-	minimap->start.y = HEIGHT - 5 * minimap->size / 4 - minimap->tile_size;
-	minimap->data = data;
+	minimap->start.x = WIDTH / 50;
+	minimap->start.y = 9 * HEIGHT / 12;
 }
 
-void	ft_draw_minimap_tile(t_minimap *minimap, int x, int y, int color)
+void	ft_draw_tile(t_data *data, int x, int y, int color)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < minimap->tile_size)
+	while (i < TILE_SIZE)
 	{
 		j = 0;
-		while (j < minimap->tile_size)
+		while (j < TILE_SIZE)
 		{
-			ft_mlx_pixel_put(minimap->data->img, x + j, y + i, color);
+			if (x + j > data->minimap->start.x && x + j < data->minimap->start.x + data->minimap->size && y + i > data->minimap->start.y && y + i < data->minimap->start.y + data->minimap->size)
+				ft_mlx_pixel_put(data->img, x + j, y + i, color);
 			j++;
 		}
 		i++;
-	}
-}
-
-char	*ft_minimap_column(int y, t_minimap *minimap, t_data *data)
-{
-	t_point	p_pos;
-	char	*column;
-	int		x;
-
-	(void)minimap;
-	p_pos = data->p->pos;
-	column = ft_calloc(sizeof(char *), 10);
-	x = 0;
-	while (x < 9)
-	{
-		if ((int)p_pos.y - 4 + y > 0 && (int)p_pos.y - 4 + y < 37)
-		{
-			if (data->file->map[(int)p_pos.y - 4 + y][(int)p_pos.x - 4 + x] == '1')
-				column[x] = '1';
-			if ((data->file->map[(int)p_pos.y - 4 + y][(int)p_pos.x - 4 + x] == '0') || (data->file->map[(int)p_pos.y - 4 + y][(int)p_pos.x - 4 + x] == data->p->direction))
-				column[x] = '0';
-		}
-		else
-			column[x] = '2';
-		x++;
-	}
-	return (column);
-}
-
-void	ft_parse_minimap(t_minimap *minimap, t_data *data)
-{
-	int	y;
-
-	minimap->map = ft_calloc(sizeof(char *), 10);
-	if (!minimap->map)
-		return ;
-	y = 0;
-	while (y < 9)
-	{
-		minimap->map[y] = ft_minimap_column(y, minimap, data);
-		// if (!minimap->map[y])
-		// 	ft_free_tab(minimap->map);
-		y++;
-	}
-}
-
-void	ft_render_minimap(t_minimap *minimap)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < minimap->size)
-	{
-		x = 0;
-		while (x < minimap->size)
-		{
-			if (minimap->map[(int)(y / minimap->tile_size)][(int)(x / minimap->tile_size)] == '0')
-				ft_draw_minimap_tile(minimap, x + minimap->start.x, y + minimap->start.y, GREY);
-			else
-				ft_draw_minimap_tile(minimap, x + minimap->start.x, y + minimap->start.y, BLACK);
-			x++;
-		}
-		y++;
 	}
 }
 
@@ -117,10 +52,10 @@ void	ft_draw_player(t_minimap *minimap, t_data *data)
 
 	center.x = minimap->start.x + minimap->size / 2;
 	center.y = minimap->start.y + minimap->size / 2;
-	radius = minimap->size / 25;
+	radius = TILE_SIZE / 2;
 	ft_draw_circle(center, radius, RED, data);
-	player_dir.x = center.x + 20 * data->p->dir.x;
-	player_dir.y = center.y + 20 * data->p->dir.y;
+	player_dir.x = center.x + 3 * TILE_SIZE * data->p->dir.x / 2;
+	player_dir.y = center.y + 3 * TILE_SIZE * data->p->dir.y / 2;
 	ft_bresenham(center, player_dir, data);
 }
 
@@ -130,12 +65,12 @@ void	ft_draw_border(t_minimap *minimap, t_data *data)
 	int	y;
 
 	y = minimap->start.y - 5;
-	while (y < minimap->start.y + minimap->size + 20)
+	while (y < minimap->start.y + minimap->size + 5)
 	{
 		x = minimap->start.x - 5;
-		while (x < minimap->start.x + minimap->size + 20)
+		while (x < minimap->start.x + minimap->size + 5)
 		{
-			if (y < minimap->start.y || y > minimap->start.y + minimap->size + 15 || x < minimap->start.x || x > minimap->start.x + minimap->size + 15)
+			if (y < minimap->start.y || y > minimap->start.y + minimap->size || x < minimap->start.x || x > minimap->start.x + minimap->size)
 				ft_mlx_pixel_put(data->img, x, y, WHITE);
 			x++;
 		}
@@ -143,12 +78,81 @@ void	ft_draw_border(t_minimap *minimap, t_data *data)
 	}
 }
 
+int	ft_count_column(char *map)
+{
+	return (ft_strlen(map));
+}
+
+int	ft_count_row(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+		i++;
+	return (i);
+}
+
+int	ft_start_y(t_minimap *minimap, t_data *data)
+{
+	(void)minimap;
+	return (minimap->start.y + minimap->size / 2 - data->p->pos.y * TILE_SIZE + 2);
+}
+
+int	ft_start_x(t_minimap *minimap, t_data *data)
+{
+	(void)minimap;
+	return (minimap->start.x + minimap->size / 2 - data->p->pos.x * TILE_SIZE + 2);
+}
+
+void	ft_draw_blur_minimap(t_minimap *minimap, t_data* data)
+{
+	t_point	p;
+
+	p.y = minimap->start.y;
+	while (p.y < minimap->start.y + minimap->size)
+	{
+		p.x = minimap->start.x;
+		while (p.x < minimap->start.x + minimap->size)
+		{
+			if (p.y > minimap->start.y && p.y < minimap->start.y + minimap->size && p.x > minimap->start.x && p.x < minimap->start.x + minimap->size)
+				ft_put_pixel_blurred(data->img, &p, 5, WHITE, 0.1);
+			p.x++;
+		}
+		p.y++;
+	}
+}
+
+void	ft_draw_minimap(t_minimap *minimap, t_data *data)
+{
+	int	x;
+	int	y;
+	int	y_row;
+	int	x_column;
+
+	y = ft_start_y(minimap, data);
+	y_row = 0;
+	while (y_row < ft_count_row(data->file->map))
+	{
+		x_column = 0;
+		x = ft_start_x(minimap, data);
+		while (x_column < ft_count_column(data->file->map[y_row]))
+		{
+			if (data->file->map[y_row][x_column] == '1')
+				ft_draw_tile(data, x, y, BLACK);
+			x += TILE_SIZE;
+			x_column++;
+		}
+		y += TILE_SIZE;
+		y_row++;
+	}
+}
+
 void	ft_minimap(t_data *data)
 {
 	ft_init_minimap(data);
-	ft_parse_minimap(data->minimap, data);
-	ft_render_minimap(data->minimap);
+	ft_draw_blur_minimap(data->minimap, data);
+	ft_draw_minimap(data->minimap, data);
 	ft_draw_border(data->minimap, data);
 	ft_draw_player(data->minimap, data);
-	free(data->minimap->map);
 }

@@ -6,29 +6,11 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/16 15:56:17 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/16 19:43:14 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// void	ft_printf_minimap(t_minimap *minimap)
-// {
-// 	int	y;
-// 	int	x;
-
-// 	y = 0;
-// 	while (y < 9)
-// 	{
-// 		x = 0;
-// 		while (x < 9)
-// 		{
-// 			printf("%s\n", minimap->map[y]);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// }
 
 int	main(int argc, char **argv)
 {

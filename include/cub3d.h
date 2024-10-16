@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/16 17:10:47 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/16 23:22:59 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ by walls"
 # define WIDTH		1920
 # define HEIGHT 	1020
 # define TEX_SIZE	64
+# define TILE_SIZE	10
 
 /*Colors*/
 # define WHITE 0xFFFFFFF
@@ -65,6 +66,14 @@ typedef enum e_dir
 	SOUTH=2,
 	WEST=3,
 }	t_dir;
+
+typedef struct	s_rgb
+{
+	int	r;
+	int	g;
+	int	b;
+	int	rgb[3];
+}	t_rgb;
 
 typedef struct s_bresenham
 {
@@ -112,11 +121,9 @@ typedef struct s_img
 
 typedef struct s_minimap
 {
-	char	**map;
-	double	tile_size;
+	//double	tile_size;
 	double	size;
 	t_point	start;
-	t_data	*data;
 }	t_minimap;
 
 typedef struct s_file
@@ -197,6 +204,10 @@ int		ft_render_map(t_data *data);
 int		ft_rgb_to_hex(int *rgb);
 void	ft_textures_init(t_data *data);
 void	ft_bresenham(t_point start, t_point end, t_data *data);
+
+/*Color*/
+unsigned int ft_get_pixel_color(t_img *img, int x, int y);
+void ft_put_pixel_blurred(t_img *img, t_point *p, int blur_radius, unsigned int color, float alpha);
 
 // added by Pierre
 
