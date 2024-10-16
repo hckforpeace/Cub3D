@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 19:57:35 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/16 12:55:06 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ static void	reset_map(char **map)
 		{
 			if (map[i][j] == 'R')
 				map[i][j] = '0';
+			if (map[i][j] == 'G')
+				map[i][j] = 's';
+			if (map[i][j] == 'B')
+				map[i][j] = 'D';
 			j++;
 		}
 		i++;
@@ -78,6 +82,7 @@ void	parser(int argc, char **argv, t_file *fdata)
 	close(fdata->fd);
 	temp = parse_header(fdata, fdata->fd_list);
 	parse_map(fdata, temp);
+	display_data(fdata);
 	reset_map(fdata->map);
 	display_data(fdata);
 }

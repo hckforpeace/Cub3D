@@ -4,7 +4,7 @@ MAIN= src/main.c
 
 PARSER= parser.c parser_header.c parser_map.c parser_save.c parser_exit.c parser_init.c
 
-UTILS= utils_parse.c utils_lst.c utils_save_map.c
+UTILS= utils_parse.c utils_lst.c utils_save_map.c utils_parse2.c
 
 DISPLAY= display.c
 

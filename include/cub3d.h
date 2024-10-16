@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/08 21:25:50 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/16 12:50:10 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_file
 	int		frgb[3];
 	char	orientation;
 	double	start[2];
+	int		height;
+	int		mwidth;
 	char	*NO;
 	char	*SO;
 	char	*WE;
@@ -54,6 +56,8 @@ void	parse_savetxture(char **info, t_file *fdata);
 int		parse_savecolor(char **info, t_file *fdata);
 
 // ./src/parser/parser_map.c
+int		map_flood_fill(char **tab, int x, int y);
+int		is_valid_zero(int x, int y, char **map);
 void	parse_map(t_file *fdata, t_list *list);
 int		save_map(int len, t_file *fdata, t_list *list);
 
@@ -67,6 +71,9 @@ int		ft_iscolor(char *str);
 int		ft_isemptyline(char *str);
 t_list	*save_texture(t_list *list, t_file *fdata);
 t_list	*save_color(t_list *list, t_file *fdata);
+
+// ./src/utils_parse2.c
+int		is_valid_door(int x, int y, char **map);
 
 // ./src/utils/utils_lst.c
 int		get_lstlen(t_list *list);
