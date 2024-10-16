@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/16 12:50:10 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/16 13:33:51 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	parse_savetxture(char **info, t_file *fdata);
 int		parse_savecolor(char **info, t_file *fdata);
 
 // ./src/parser/parser_map.c
-int		map_flood_fill(char **tab, int x, int y);
+int		map_flood_fill(char **tab, int x, int y, t_file *fdata);
 int		is_valid_zero(int x, int y, char **map);
 void	parse_map(t_file *fdata, t_list *list);
 int		save_map(int len, t_file *fdata, t_list *list);

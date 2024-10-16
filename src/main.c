@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 19:55:13 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/16 13:40:46 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int	main(int argc, char **argv)
 	data = init_fdata();
 	parser(argc, argv, data);
 	parser_exit(data, "all good", 0);
-	return (0);
+	return (1);
 }

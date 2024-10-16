@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 15:31:15 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/16 12:51:34 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/16 13:32:58 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,11 @@ int	save_map(int len, t_file *fdata, t_list *list)
 {
 	int	i;
 
-	fdata->mwidth = -1;
 	fdata->map = (char **)malloc(sizeof(char *) * (len + 1));
 	fdata->map[len] = NULL;
 	i = 0;
 	while (i < len)
 	{
-		if (ft_strlen((char *)list->content) > (size_t)fdata->mwidth)
-			fdata->mwidth = ft_strlen((char *)list->content);
 		fdata->map[i] = (char *)malloc(sizeof(char)
 				* (ft_strlen((char *)list->content) + 1));
 		if (!fdata->map[i])

@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:05:33 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/16 12:50:36 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/16 13:40:57 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,28 @@ int	is_valid_zero(int x, int y, char **map)
 		return (1);
 }
 
-int	map_flood_fill(char **tab, int x, int y)
+int	map_flood_fill(char **tab, int x, int y, t_file *fdata)
 {
+	if (y > fdata->mwidth)
+		fdata->mwidth = y;
 	if (x < 0 || y < 0 || tab[x][y] == '1' || tab[x][y] == 'R')
 		return (1);
 	else if ((tab[x][y] == '0' || tab[x][y] == 'N' || tab[x][y] == 's'
 		|| tab[x][y] == 'E' || tab[x][y] == 'W' || tab[x][y] == 'S')
 		&& !is_valid_zero(x, y, tab))
-	{
-		printf("error at tab[%d][%d]: %c\n", x, y, tab[x][y]);
-		return (0);
-	}
+		return (printf("error at tab[%d][%d]: %c\n", x, y, tab[x][y]), 0);
 	if (tab[x][y] == 'D' && !is_valid_door(x, y, tab))
-	{
-		printf("error at tab[%d][%d]: %c\n", x, y, tab[x][y]);
-		return (0);
-	}
+		return (printf("error at tab[%d][%d]: %c\n", x, y, tab[x][y]), 0);
 	if (tab[x][y] == '0')
 		tab[x][y] = 'R';
 	if (tab[x][y] == 's')
 		tab[x][y] = 'G';
 	if (tab[x][y] == 'D')
 		tab[x][y] = 'B';
-	return (map_flood_fill(tab, x + 1, y) && map_flood_fill(tab, x - 1, y)
-		&& map_flood_fill(tab, x, y + 1) && map_flood_fill(tab, x, y - 1));
+	return (map_flood_fill(tab, x + 1, y, fdata)
+		&& map_flood_fill(tab, x - 1, y, fdata)
+		&& map_flood_fill(tab, x, y + 1, fdata)
+		&& map_flood_fill(tab, x, y - 1, fdata));
 }
 
 // Modified
@@ -122,6 +120,7 @@ void	parse_map(t_file *fdata, t_list *list)
 	int	len;
 
 	len = get_lstlen(list);
+	fdata->mwidth = 0;
 	fdata->height = len;
 	if (!end_of_map(list, len))
 		parser_exit(fdata, "Invalid content\ncharachters after map", 1);
@@ -131,7 +130,7 @@ void	parse_map(t_file *fdata, t_list *list)
 		parser_exit(fdata, INVALID_MAPCONTENT, 1);
 	if (save_map(len, fdata, list) != -1 || !set_playerpos(fdata))
 		parser_exit(fdata, "UNEXPECTED ERROR", 1);
-	if (map_flood_fill(fdata->map, fdata->start[0], fdata->start[1]))
+	if (map_flood_fill(fdata->map, fdata->start[0], fdata->start[1], fdata))
 		printf("\n\n\n***the map is valid***\n\n\n");
 	else
 		parser_exit(fdata, INVALID_MAPSHAPE, 1);

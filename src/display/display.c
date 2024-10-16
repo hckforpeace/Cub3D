@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 19:29:05 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/02 15:41:55 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/16 13:34:29 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	display_data(t_file *data)
 		printf("WE: %s\n", data->WE);
 	printf("Frgp: %d,%d,%d\n", data->frgb[0], data->frgb[1], data->frgb[2]);
 	printf("Crgp: %d,%d,%d\n", data->crgb[0], data->crgb[1], data->crgb[2]);
+	printf("height: %d\n", data->height);
+	printf("mwidth: %d\n", data->mwidth);
 	printf("Display map stored\n");
 	i = 0;
 	while (data->map[i])
