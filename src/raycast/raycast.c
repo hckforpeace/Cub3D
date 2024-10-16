@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/15 17:24:28 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:59:25 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,15 @@ void	ft_get_texture_orientation(t_texture *tex, t_raycast *ray)
 // 	}
 // }
 
-void	ft_calculate_texture(t_data *data, t_texture *tex, t_raycast *ray, int x)
+void	ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x)
 {
 	int			y;
 	int			color;
 
 	ft_get_texture_orientation(tex, ray);
 	tex->x = (int)(ray->wall_x * TEX_SIZE);
-	if ((ray->side_col == 0 && ray->dir.x < 0) || (ray->side_col == 1 && ray->dir.y > 0))
+	if ((ray->side_col == 0 && ray->dir.x < 0) \
+		|| (ray->side_col == 1 && ray->dir.y > 0))
 		tex->x = TEX_SIZE - tex->x - 1;
 	tex->step = 1.0 * TEX_SIZE / ray->height;
 	tex->pos = (ray->y_vertical.x - HEIGHT / 2 + ray->height / 2) * tex->step;
@@ -162,7 +163,6 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 {
 	int	x;
 
-	//ft_init_texture_pixels(data);
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -170,7 +170,7 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 		ft_step(ray, p);
 		ft_dda(ray, data);
 		ft_calculate_wall(ray, p);
-		ft_calculate_texture(data, data->tex, data->ray, x);
+		ft_calculate_text(data, data->tex, data->ray, x);
 		x++;
 	}
 }

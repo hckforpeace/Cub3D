@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:10:23 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/15 18:15:36 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:32:41 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ void	ft_draw_minimap_tile(t_minimap *minimap, int x, int y, int color)
 
 char	*ft_minimap_column(int y, t_minimap *minimap, t_data *data)
 {
-	char	*column;
 	t_point	p_pos;
+	char	*column;
 	int		x;
 
 	(void)minimap;
 	p_pos = data->p->pos;
-	column = malloc(sizeof(char *) * 9);
+	column = ft_calloc(sizeof(char *), 10);
 	x = 0;
 	while (x < 9)
 	{
@@ -61,9 +61,11 @@ char	*ft_minimap_column(int y, t_minimap *minimap, t_data *data)
 		{
 			if (data->file->map[(int)p_pos.y - 4 + y][(int)p_pos.x - 4 + x] == '1')
 				column[x] = '1';
-			if (data->file->map[(int)p_pos.y - 4 + y][(int)p_pos.x - 4 + x] == '0')
+			if ((data->file->map[(int)p_pos.y - 4 + y][(int)p_pos.x - 4 + x] == '0') || (data->file->map[(int)p_pos.y - 4 + y][(int)p_pos.x - 4 + x] == data->p->direction))
 				column[x] = '0';
 		}
+		else
+			column[x] = '2';
 		x++;
 	}
 	return (column);
@@ -97,10 +99,10 @@ void	ft_render_minimap(t_minimap *minimap)
 		x = 0;
 		while (x < minimap->size)
 		{
-			if (minimap->map[(int)(y / minimap->tile_size)][(int)(x / minimap->tile_size)] == '1')
-				ft_draw_minimap_tile(minimap, x + minimap->start.x, y + minimap->start.y, BLACK);
-			else
+			if (minimap->map[(int)(y / minimap->tile_size)][(int)(x / minimap->tile_size)] == '0')
 				ft_draw_minimap_tile(minimap, x + minimap->start.x, y + minimap->start.y, GREY);
+			else
+				ft_draw_minimap_tile(minimap, x + minimap->start.x, y + minimap->start.y, BLACK);
 			x++;
 		}
 		y++;
@@ -121,6 +123,7 @@ void	ft_draw_player(t_minimap *minimap, t_data *data)
 	player_dir.y = center.y + 20 * data->p->dir.y;
 	ft_bresenham(center, player_dir, data);
 }
+
 void	ft_draw_border(t_minimap *minimap, t_data *data)
 {
 	int	x;
@@ -142,13 +145,10 @@ void	ft_draw_border(t_minimap *minimap, t_data *data)
 
 void	ft_minimap(t_data *data)
 {
-	t_minimap *minimap;
-
 	ft_init_minimap(data);
-	minimap = data->minimap;
-	ft_parse_minimap(minimap, data);
-	ft_render_minimap(minimap);
-	ft_draw_border(minimap, data);
-	ft_draw_player(minimap, data);
-	free(minimap->map);
+	ft_parse_minimap(data->minimap, data);
+	ft_render_minimap(data->minimap);
+	ft_draw_border(data->minimap, data);
+	ft_draw_player(data->minimap, data);
+	free(data->minimap->map);
 }

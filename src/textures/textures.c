@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:12:17 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/15 15:51:43 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:58:36 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	*ft_xpm_to_img(t_data *data, char *path)
 	img->img = mlx_xpm_file_to_image(data->mlx, path, &text_size, &text_size);
 	if (!img->img)
 		return (NULL);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, &img->endian);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, \
+		&img->endian);
 	if (!img->addr)
 		return (NULL);
 	buffer = ft_calloc(1, sizeof(int) * TEX_SIZE * TEX_SIZE);
@@ -37,7 +38,8 @@ int	*ft_xpm_to_img(t_data *data, char *path)
 		x = 0;
 		while (x < TEX_SIZE)
 		{
-			buffer[y * TEX_SIZE + x] = *(int *)(img->addr + (y * img->line_len + x * (img->bpp / 8)));
+			buffer[y * TEX_SIZE + x] = *(int *)(img->addr + \
+				(y * img->line_len + x * (img->bpp / 8)));
 			x++;
 		}
 		y++;

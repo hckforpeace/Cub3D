@@ -14,7 +14,7 @@ EVENT= handler.c moves.c
 
 RAYCAST= utils.c raycast.c
 
-DRAW= draw.c color.c minimap.c
+DRAW= draw.c color.c minimap.c bresenham.c
 
 TEXTURES= textures.c
 

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/15 18:12:02 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:10:47 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ typedef enum e_dir
 	SOUTH=2,
 	WEST=3,
 }	t_dir;
+
+typedef struct s_bresenham
+{
+	struct s_point	delta;
+	struct s_point	p;
+	struct s_point	p_inc;
+}	t_bresenham;
 
 typedef struct s_raycast
 {
