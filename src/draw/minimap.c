@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:10:23 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/23 12:58:22 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:10:29 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	ft_start_x(t_minimap *minimap, t_data *data)
 	return (minimap->start.x + minimap->size / 2 - data->p->pos.x * TILE_SIZE + 2);
 }
 
-void	ft_draw_blur_minimap(t_minimap *minimap, t_data* data)
+void	ft_draw_blur_minimap(t_minimap *minimap, t_data *data)
 {
 	t_point	p;
 

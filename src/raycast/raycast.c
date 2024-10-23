@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/23 17:11:51 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:08:18 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	ft_get_texture_orientation(t_texture *tex, t_raycast *ray)
 	else
 	{
 		if (ray->dir.y > 0)
-			tex->orientation= SOUTH;
+			tex->orientation = SOUTH;
 		else
 			tex->orientation = NORTH;
 	}

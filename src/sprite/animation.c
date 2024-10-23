@@ -6,15 +6,15 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:04:46 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/23 15:34:39 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:09:26 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void ft_animate_sprite(t_data *data)
+void	ft_animate_sprite(t_data *data)
 {
-	static int fps = 0;
+	static int	fps = 0;
 
 	if (fps < 60)
 		data->tex->tex_id = SPRITE_0;

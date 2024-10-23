@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:32:03 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/23 14:29:26 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:07:28 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_init_img(t_data *data, t_img *img)
 
 int	ft_render_map(t_data *data)
 {
-	ft_animate_sprite(data);	
+	ft_animate_sprite(data);
 	mlx_destroy_image(data->mlx, data->img->img);
 	data->img->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img->addr = mlx_get_data_addr(data->img->img, &data->img->bpp, \

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:12:17 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/23 17:09:42 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:09:38 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_xpm_to_img(t_data *data, t_texture *tex, char *path, int id)
 	int		tex_size;
 
 	tex_size = TEX_SIZE;
-	img =  mlx_xpm_file_to_image(data->mlx, path, &tex_size, &tex_size);
+	img = mlx_xpm_file_to_image(data->mlx, path, &tex_size, &tex_size);
 	if (!img)
 		return ((void)printf("texture not found"));
 	tex->img[id].img = img;

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:24:10 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/22 16:32:36 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:05:06 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void	ft_calc_sprite_dist(t_file *fdata, t_player *p)
 	i = 0;
 	while (i < fdata->sprite_count)
 	{
-		fdata->sprite[i].dist = (p->pos.x - fdata->sprite[i].pos.x) * (p->pos.x - fdata->sprite[i].pos.x) + \
-			(p->pos.y - fdata->sprite[i].pos.y) * (p->pos.y - fdata->sprite[i].pos.y);
+		fdata->sprite[i].dist = pow(p->pos.x - fdata->sprite[i].pos.x, 2) + \
+			pow(p->pos.y - fdata->sprite[i].pos.y, 2);
 		i++;
 	}
 }

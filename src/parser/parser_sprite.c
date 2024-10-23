@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:46:27 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/22 13:59:32 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 18:08:59 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static void	ft_count_sprites(t_file *fdata)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
-	while(fdata->map[i])
+	while (fdata->map[i])
 	{
 		j = 0;
 		while (fdata->map[i][j])
@@ -39,11 +39,11 @@ void	ft_parse_sprites(t_file *fdata)
 	int	i;
 	int	j;
 	int	x;
-	
+
 	ft_count_sprites(fdata);
 	i = 0;
 	x = 0;
-	while(fdata->map[i])
+	while (fdata->map[i])
 	{
 		j = 0;
 		while (fdata->map[i][j])
