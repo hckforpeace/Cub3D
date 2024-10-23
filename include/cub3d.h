@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/16 23:22:59 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:11:54 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ by walls"
 # define MLX_IMG "\n\nError while creating the image\n"
 
 /*Dimensions*/
-# define WIDTH		1920
-# define HEIGHT 	1020
-# define TEX_SIZE	64
-# define TILE_SIZE	10
+# define WIDTH		 1920
+# define HEIGHT 	 1020
+# define TEX_SIZE	 64
+# define SPRITE_SIZE 32
+# define TILE_SIZE	 10
 
 /*Colors*/
 # define WHITE 0xFFFFFFF
@@ -65,6 +66,16 @@ typedef enum e_dir
 	EAST=1,
 	SOUTH=2,
 	WEST=3,
+	SPRITE_0=4,
+	SPRITE_1=5,
+	SPRITE_2=6,
+	SPRITE_3=7,
+	SPRITE_4=8,
+	SPRITE_5=9,
+	SPRITE_6=10,
+	SPRITE_7=11,
+	SPRITE_8=12,
+	SPRITE_9=13,
 }	t_dir;
 
 typedef struct	s_rgb
@@ -90,9 +101,11 @@ typedef struct s_raycast
 	struct s_point	delta;
 	struct s_point	step;
 	struct s_point	y_vertical;
+	double			wall_dist;
 	double			wall_x;
 	int				height;
 	int				side_col;
+	int				*z_buffer;
 }	t_raycast;
 
 typedef struct s_player
@@ -119,9 +132,27 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+typedef struct s_sprite
+{
+	t_point	pos;
+	double	dist;
+}	t_sprite;
+
+typedef struct s_spriteray
+{
+	t_point	ray;
+	t_point	trans;
+	t_point	draw_start;
+	t_point	draw_end;
+	t_point	tex;
+	double	inv_det;
+	int		screen_x;
+	int		sprite_height;
+	int		sprite_width;
+}	t_spriteray;
+
 typedef struct s_minimap
 {
-	//double	tile_size;
 	double	size;
 	t_point	start;
 }	t_minimap;
@@ -139,14 +170,18 @@ typedef struct s_file
 	char	*WE;
 	char	*EA;
 	int		fd;
+	int		sprite_count;
+	t_sprite	*sprite;
 }	t_file;
 
 typedef struct s_texture
 {
+	t_img		*img;
 	int			x;
 	int			y;
 	double		step;
 	double		pos;
+	int			tex_id;
 	int			orientation;
 }	t_texture;
 
@@ -154,23 +189,23 @@ typedef struct s_data
 {
 	void		*mlx;
 	void		*mlx_win;
-	int			**textures;
+	t_file		*fdata;
 	t_texture	*tex;
 	t_img		*img;
 	t_file		*file;
 	t_player	*p;
 	t_raycast	*ray;
 	t_minimap	*minimap;
+	t_spriteray	*spriteray;
 }	t_data;
 
 // added by Pablo
 
 t_file	*init_fdata(void);
-t_data	*ft_init_data(void);
-
+t_data	*ft_init_data(t_file *fdata);
 /*Mlx*/
 int		ft_mlx_init(t_data *data);
-void	ft_events(t_data *data);
+//void	ft_events(t_data *data);
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 /*Maths Utils*/
@@ -199,17 +234,24 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data);
 
 /*Draw*/
 void	ft_draw_background(t_data *data);
-void	ft_draw_vertical(int x, t_point y_vertical, int col, t_data *data);
+//void	ft_draw_vertical(int x, t_point y_vertical, int col, t_data *data);
 int		ft_render_map(t_data *data);
 int		ft_rgb_to_hex(int *rgb);
 void	ft_textures_init(t_data *data);
 void	ft_bresenham(t_point start, t_point end, t_data *data);
 
 /*Color*/
-unsigned int ft_get_pixel_color(t_img *img, int x, int y);
-void ft_put_pixel_blurred(t_img *img, t_point *p, int blur_radius, unsigned int color, float alpha);
+unsigned int	ft_get_pixel_color(t_img *img, int x, int y);
+void			ft_put_pixel_blurred(t_img *img, t_point *p, unsigned int color);
 
 // added by Pierre
+
+// ./src/sprite/
+void	ft_transform_sprite(t_data *data, int index);
+void	ft_calc_width_height(t_data *data);
+void	ft_draw_sprites(t_data *data);
+void	ft_sort_sprites_by_dist(t_data *data);
+void		ft_animate_sprite(t_data *data);
 
 // ./src/parser/parser.c
 void	parser_exit(t_file *fdata, char *exmessage, int exno);
@@ -217,6 +259,7 @@ void	parser_exit(t_file *fdata, char *exmessage, int exno);
 // ./src/parser/parser.c
 void	parser(int argc, char **argv, t_file *fdata);
 t_list	*parse_header(t_file *data, t_list *list);
+void	ft_parse_sprites(t_file *fdata);
 
 // ./src/parser/parse_save.c
 void	parse_savetxture(char **info, t_file *fdata);
@@ -224,6 +267,7 @@ int		parse_savecolor(char **info, t_file *fdata);
 
 // ./src/parser/parser_map.c
 void	parse_map(t_file *fdata, t_list *list);
+int		is_valid_zero(int x, int y, char **map);
 int		save_map(int len, t_file *fdata, t_list *list);
 
 // ./src/parser/display
@@ -237,9 +281,16 @@ int		ft_isemptyline(char *str);
 t_list	*save_texture(t_list *list, t_file *fdata);
 t_list	*save_color(t_list *list, t_file *fdata);
 
+// ./src/utils_parse2.c
+int		is_valid_door(int x, int y, char **map);
+
 // ./src/utils/utils_lst.c
 int		get_lstlen(t_list *list);
 int		end_of_map(t_list *list, int len);
 void	ft_free_tab(int	**tab);
+
+// ./src/animation/init_animation.c
+//t_animation		*init_animation(int width, int height, int delay);
+//t_animation		*slice_sprite(t_data *data, int frames, int delay);
 
 #endif

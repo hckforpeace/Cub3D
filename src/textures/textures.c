@@ -6,47 +6,42 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:12:17 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/16 19:18:57 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:09:42 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	*ft_xpm_to_img(t_data *data, char *path)
+static void	ft_xpm_to_sprite(t_data *data, t_texture *tex, char *path, int id)
 {
 	t_img	*img;
-	int		text_size;
-	int		*buffer;
-	int		x;
-	int		y;
+	int		sprite_size;
 
-	img = malloc(sizeof(t_img));
-	text_size = TEX_SIZE;
-	img->img = mlx_xpm_file_to_image(data->mlx, path, &text_size, &text_size);
-	if (!img->img)
-		return (NULL);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, \
-		&img->endian);
-	if (!img->addr)
-		return (NULL);
-	buffer = ft_calloc(1, sizeof(int) * TEX_SIZE * TEX_SIZE);
-	if (!buffer)
-		return (NULL);
-	y = 0;
-	while (y < TEX_SIZE)
-	{
-		x = 0;
-		while (x < TEX_SIZE)
-		{
-			buffer[y * TEX_SIZE + x] = *(int *)(img->addr + \
-				(y * img->line_len + x * (img->bpp / 8)));
-			x++;
-		}
-		y++;
-	}
-	mlx_destroy_image(data->mlx, img->img);
-	free(img);
-	return (buffer);
+	sprite_size = SPRITE_SIZE;
+	img = mlx_xpm_file_to_image(data->mlx, path, &sprite_size, &sprite_size);
+	if (!img)
+		return ((void)printf("sprite texture not found"));
+	tex->img[id].img = img;
+	tex->img[id].addr = mlx_get_data_addr(img, &tex->img[id].bpp, \
+		&tex->img[id].line_len, &tex->img[id].endian);
+	if (!tex->img[id].addr)
+		return ((void)printf("door mlx_get_data_addr failed"));
+}
+
+void	ft_xpm_to_img(t_data *data, t_texture *tex, char *path, int id)
+{
+	void	*img;
+	int		tex_size;
+
+	tex_size = TEX_SIZE;
+	img =  mlx_xpm_file_to_image(data->mlx, path, &tex_size, &tex_size);
+	if (!img)
+		return ((void)printf("texture not found"));
+	tex->img[id].img = img;
+	tex->img[id].addr = mlx_get_data_addr(img, &tex->img[id].bpp, \
+		&tex->img[id].line_len, &tex->img[id].endian);
+	if (!tex->img[id].addr)
+		return ((void)printf("texture mlx_get_data_addr failed"));
 }
 
 void	ft_textures_init(t_data *data)
@@ -58,11 +53,21 @@ void	ft_textures_init(t_data *data)
 		return ;
 	ft_bzero(tex, sizeof(tex));
 	data->tex = tex;
-	data->textures = ft_calloc(sizeof(int *), 5);
-	if (!data->textures)
+	tex->img = ft_calloc(sizeof(int *), 14);
+	if (!tex->img)
 		return ;
-	data->textures[NORTH] = ft_xpm_to_img(data, data->file->NO);
-	data->textures[EAST] = ft_xpm_to_img(data, data->file->EA);
-	data->textures[SOUTH] = ft_xpm_to_img(data, data->file->SO);
-	data->textures[WEST] = ft_xpm_to_img(data, data->file->WE);
+	ft_xpm_to_img(data, data->tex, data->file->NO, NORTH);
+	ft_xpm_to_img(data, data->tex, data->file->EA, EAST);
+	ft_xpm_to_img(data, data->tex, data->file->SO, SOUTH);
+	ft_xpm_to_img(data, data->tex, data->file->WE, WEST);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/0.xpm", SPRITE_0);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/1.xpm", SPRITE_1);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/2.xpm", SPRITE_2);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/3.xpm", SPRITE_3);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/4.xpm", SPRITE_4);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/5.xpm", SPRITE_5);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/6.xpm", SPRITE_6);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/7.xpm", SPRITE_7);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/8.xpm", SPRITE_8);
+	ft_xpm_to_sprite(data, data->tex, "./sprites/9.xpm", SPRITE_9);
 }

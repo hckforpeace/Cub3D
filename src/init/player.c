@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:23:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/07 12:09:25 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 15:28:52 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int	ft_player_init(t_data *data)
 	t_player	*p;
 
 	p = data->p;
-	p->pos.x = data->file->start[1];
-	p->pos.y = data->file->start[0];
+	p->pos.x = data->file->start[1] + 0.5;
+	p->pos.y = data->file->start[0] + 0.5;
 	p->ceiling_col = ft_rgb_to_hex(data->file->crgb);
 	p->floor_col = ft_rgb_to_hex(data->file->frgb);
 	p->angle = 0.05;
 	p->direction = data->file->orientation;
 	p->mouse.x = WIDTH / 2;
-	p->mouse.y = 0;
+	p->mouse.y = HEIGHT / 2;
 	p->hide_mouse = 1;
 	ft_set_direction(p);
 	return (0);

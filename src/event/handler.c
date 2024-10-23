@@ -6,15 +6,15 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/16 15:57:53 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:53:36 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_key(int keysym, t_data *data)
+int ft_key(int keysym, t_data *data)
 {
-	t_player	*p;
+	t_player *p;
 
 	p = data->p;
 	if (keysym == XK_Escape)
@@ -36,7 +36,7 @@ int	ft_key(int keysym, t_data *data)
 	return (0);
 }
 
-static void	ft_trap_mouse(int x, int y, t_data *data)
+static void ft_trap_mouse(int x, int y, t_data *data)
 {
 	if (x > WIDTH - 10)
 	{
@@ -48,12 +48,23 @@ static void	ft_trap_mouse(int x, int y, t_data *data)
 		x = WIDTH - 10;
 		mlx_mouse_move(data->mlx, data->mlx_win, x, y);
 	}
+	if (y > HEIGHT - 10)
+	{
+		y = 10;
+		mlx_mouse_move(data->mlx, data->mlx_win, x, y);
+	}
+	if (y < 10)
+	{
+		y = HEIGHT - 10;
+		mlx_mouse_move(data->mlx, data->mlx_win, x, y);
+	}
 }
 
-int	ft_mouse_tk(int x, int y, t_data *data)
+int ft_mouse_tk(int x, int y, t_data *data)
 {
-	int			old_x;
-	t_player	*p;
+	int old_x;
+	//int	old_y;
+	t_player *p;
 
 	(void)y;
 	p = data->p;
@@ -70,10 +81,18 @@ int	ft_mouse_tk(int x, int y, t_data *data)
 	if (x < old_x)
 		ft_rotate(p, -p->angle / 2);
 	p->mouse.x = x;
+	// old_y = p->mouse.y;
+	// if (y == old_y)
+	// 	return (0);
+	// if (y > old_y)
+	// 	ft_rotate(p, p->angle / 2);
+	// if (y < old_y)
+	// 	ft_rotate(p, -p->angle / 2);
+	// p->mouse.y = y;
 	return (0);
 }
 
-int	ft_close(t_data *data)
+int ft_close(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img->img);
 	mlx_destroy_window(data->mlx, data->mlx_win);

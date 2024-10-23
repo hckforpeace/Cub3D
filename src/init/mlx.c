@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 13:47:11 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/16 15:57:37 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:41:37 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,4 @@ int	ft_mlx_init(t_data *data)
 	data->img->addr = mlx_get_data_addr(data->img->img, &data->img->bpp, \
 		&data->img->line_len, &data->img->endian);
 	return (0);
-}
-
-void	ft_events(t_data *data)
-{
-	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, ft_key, data);
-	mlx_hook(data->mlx_win, MotionNotify, PointerMotionMask, ft_mouse_tk, data);
-	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask, ft_close, data);
 }

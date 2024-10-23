@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/16 15:56:39 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:13:00 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ static void	reset_map(char **map)
 		{
 			if (map[i][j] == 'R')
 				map[i][j] = '0';
+			if (map[i][j] == 'G')
+				map[i][j] = 'X';
+			if (map[i][j] == 'B')
+				map[i][j] = 'D';
 			j++;
 		}
 		i++;
@@ -79,4 +83,5 @@ void	parser(int argc, char **argv, t_file *fdata)
 	temp = parse_header(fdata, fdata->fd_list);
 	parse_map(fdata, temp);
 	reset_map(fdata->map);
+	ft_parse_sprites(fdata);
 }

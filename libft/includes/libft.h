@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:24:41 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/04 12:32:44 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:51:53 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@
 # include <stdarg.h>
 # include <fcntl.h>
 
-// mandatory gnl
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 	int				len;
 }			t_list;
+
+// mandatory gnl
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
@@ -84,6 +85,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(long n, int fd);
 t_list	*ft_lstnew_b(void *content, int len);
+t_list	*ft_lstget(t_list *lst, int n);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast_b(t_list *lst);

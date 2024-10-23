@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_lstget.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/30 14:34:17 by pajimene          #+#    #+#             */
-/*   Updated: 2024/08/30 14:36:00 by pajimene         ###   ########.fr       */
+/*   Created: 2024/10/09 17:48:38 by pierre            #+#    #+#             */
+/*   Updated: 2024/10/09 19:50:34 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-char *ft_strndup(char *str, int n)
+t_list	*ft_lstget(t_list *lst, int n)
 {
-	char	*dup;
-	int		i;
-
-	dup = malloc(sizeof(char) * ft_strlen(str) + 1);
-	if (!dup)
+	if (!lst)
 		return (NULL);
-	i = 0;
-	while (str[i] && i < n)
+	while (lst)
 	{
-		dup[i] = str[i];
-		i++;
+		if (n == 0)
+			return (lst);
+		lst = lst->next;
+		n--;
 	}
-	dup[i] = '\0';
-	return (dup);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:11:48 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/16 22:37:26 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:05:21 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color)
 	char	*dst;
 	int		offset;
 
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
 	offset = (y * img->line_len + x * (img->bpp / 8));
 	dst = img->addr + offset;
 	*(unsigned int *)dst = color;
 }
 
-unsigned int ft_get_pixel_color(t_img *img, int x, int y)
+unsigned int	ft_get_pixel_color(t_img *img, int x, int y)
 {
-    char *color;
+	char	*color;
 
-    color = img->addr + (y * img->line_len + x * (img->bpp / 8));
-    return (*(unsigned int *)color);
+	color = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	return (*(unsigned int *)color);
 }
 
 int	ft_min(int a, int b)

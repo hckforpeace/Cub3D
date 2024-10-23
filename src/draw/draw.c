@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:32:03 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/16 19:43:19 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 14:29:26 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,16 @@ void	ft_init_img(t_data *data, t_img *img)
 
 int	ft_render_map(t_data *data)
 {
+	ft_animate_sprite(data);	
+	mlx_destroy_image(data->mlx, data->img->img);
+	data->img->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	data->img->addr = mlx_get_data_addr(data->img->img, &data->img->bpp, \
+		&data->img->line_len, &data->img->endian);
 	ft_draw_background(data);
 	ft_raycast(data->ray, data->p, data);
 	ft_minimap(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
 	return (0);
-}
-
-void	ft_draw_vertical(int x, t_point y_vertical, int color, t_data *data)
-{
-	while (y_vertical.x <= y_vertical.y)
-	{
-		ft_mlx_pixel_put(data->img, x, y_vertical.x, color);
-		y_vertical.x++;
-	}
 }
 
 void	ft_draw_circle(t_point center, int radius, int color, t_data *data)

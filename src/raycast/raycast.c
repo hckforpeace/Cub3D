@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/16 15:59:25 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 17:11:51 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,13 @@ static	void	ft_dda(t_raycast *ray, t_data *data)
 
 static void	ft_calculate_wall(t_raycast *ray, t_player *p)
 {
-	double	wall_dist;
-
 	if (ray->side_col == 0)
-		wall_dist = (ray->map.x - p->pos.x + (1 - ray->step.x) / 2) \
+		ray->wall_dist = (ray->map.x - p->pos.x + (1 - ray->step.x) / 2) \
 			/ ray->dir.x;
 	else
-		wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) \
+		ray->wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) \
 			/ ray->dir.y;
-	ray->height = (int)(HEIGHT / wall_dist);
+	ray->height = (int)(HEIGHT / ray->wall_dist);
 	ray->y_vertical.x = -ray->height / 2 + HEIGHT / 2;
 	if (ray->y_vertical.x < 0)
 		ray->y_vertical.x = 0;
@@ -90,9 +88,9 @@ static void	ft_calculate_wall(t_raycast *ray, t_player *p)
 	if (ray->y_vertical.y >= HEIGHT)
 		ray->y_vertical.y = HEIGHT - 1;
 	if (ray->side_col == 0)
-		ray->wall_x = p->pos.y + wall_dist * ray->dir.y;
+		ray->wall_x = p->pos.y + ray->wall_dist * ray->dir.y;
 	else
-		ray->wall_x = p->pos.x + wall_dist * ray->dir.x;
+		ray->wall_x = p->pos.x + ray->wall_dist * ray->dir.x;
 	ray->wall_x -= floor(ray->wall_x);
 }
 
@@ -108,35 +106,26 @@ void	ft_get_texture_orientation(t_texture *tex, t_raycast *ray)
 	else
 	{
 		if (ray->dir.y > 0)
-			tex->orientation = SOUTH;
+			tex->orientation= SOUTH;
 		else
 			tex->orientation = NORTH;
 	}
 }
 
-// void	ft_init_texture_pixels(t_data *data)
-// {
-// 	int	i;
+void	ft_apply_texture_color(t_data *data, int id, int x, int y)
+{
+	int	color;
 
-// 	if (data->pixels)
-// 		ft_free_tab(data->pixels);
-// 	data->pixels = ft_calloc(sizeof(int *), HEIGHT + 1);
-// 	if (!data->pixels)
-// 		return ;
-// 	i = 0;
-// 	while (i < HEIGHT)
-// 	{
-// 		data->pixels[i] = ft_calloc(sizeof(int), WIDTH + 1);
-// 		if (!data->pixels[i])
-// 			return ;
-// 		i++;
-// 	}
-// }
+	color = ft_get_pixel_color(&data->tex->img[id], data->tex->x, data->tex->y);
+	if (data->tex->orientation == NORTH || data->tex->orientation == SOUTH)
+			color = (color >> 1) & 8355711;
+	if (color > 0)
+		ft_mlx_pixel_put(data->img, x, y, color);
+}
 
 void	ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x)
 {
-	int			y;
-	int			color;
+	int		y;
 
 	ft_get_texture_orientation(tex, ray);
 	tex->x = (int)(ray->wall_x * TEX_SIZE);
@@ -150,11 +139,7 @@ void	ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x)
 	{
 		tex->y = (int)tex->pos & (TEX_SIZE - 1);
 		tex->pos += tex->step;
-		color = data->textures[tex->orientation][TEX_SIZE * tex->y + tex->x];
-		if (tex->orientation == NORTH || tex->orientation == SOUTH)
-			color = (color >> 1) & 8355711;
-		if (color > 0)
-			ft_mlx_pixel_put(data->img, x, y, color);
+		ft_apply_texture_color(data, tex->orientation, x, y);
 		y++;
 	}
 }
@@ -162,6 +147,7 @@ void	ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x)
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 {
 	int	x;
+	int	i;
 
 	x = 0;
 	while (x < WIDTH)
@@ -171,6 +157,16 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 		ft_dda(ray, data);
 		ft_calculate_wall(ray, p);
 		ft_calculate_text(data, data->tex, data->ray, x);
+		ray->z_buffer[x] = ray->wall_dist;
 		x++;
+	}
+	i = 0;
+	ft_sort_sprites_by_dist(data);
+	while (i < data->fdata->sprite_count)
+	{
+		ft_transform_sprite(data, i);
+		ft_calc_width_height(data);
+		ft_draw_sprites(data);
+		i++;
 	}
 }

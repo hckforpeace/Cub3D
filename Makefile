@@ -2,9 +2,11 @@ NAME= cub3D
 
 MAIN= src/main.c
 
-PARSER= parser.c parser_header.c parser_map.c parser_save.c parser_exit.c parser_init.c
+PARSER= parser.c parser_header.c parser_map.c parser_save.c parser_exit.c parser_init.c parser_sprite.c
 
-UTILS= utils_parse.c utils_lst.c utils_save_map.c 
+UTILS= utils_parse.c utils_lst.c utils_save_map.c utils_parse2.c
+
+SPRITE= sprite_utils.c animation.c
 
 DISPLAY= display.c
 
@@ -12,7 +14,7 @@ INIT= mlx.c player.c
 
 EVENT= handler.c moves.c
 
-RAYCAST= utils.c raycast.c
+RAYCAST= utils.c raycast.c sprite_raycast.c
 
 DRAW= draw.c color.c minimap.c bresenham.c
 
@@ -32,7 +34,9 @@ OBJS_DRAW = $(addprefix src/draw/, $(DRAW:.c=.o))
 
 OBJS_TEXTURES = $(addprefix src/textures/, $(TEXTURES:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW) $(OBJS_TEXTURES)
+OBJS_SPRITE = $(addprefix src/sprite/, $(SPRITE:.c=.o))
+
+OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW) $(OBJS_TEXTURES) $(OBJS_SPRITE)
 
 CFLAGS= -Wall -Werror -Wextra -g3
 

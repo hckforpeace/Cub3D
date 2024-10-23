@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:10:23 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/16 23:22:22 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:58:22 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	ft_draw_blur_minimap(t_minimap *minimap, t_data* data)
 		while (p.x < minimap->start.x + minimap->size)
 		{
 			if (p.y > minimap->start.y && p.y < minimap->start.y + minimap->size && p.x > minimap->start.x && p.x < minimap->start.x + minimap->size)
-				ft_put_pixel_blurred(data->img, &p, 5, WHITE, 0.1);
+				ft_put_pixel_blurred(data->img, &p, WHITE);
 			p.x++;
 		}
 		p.y++;
@@ -140,6 +140,8 @@ void	ft_draw_minimap(t_minimap *minimap, t_data *data)
 		{
 			if (data->file->map[y_row][x_column] == '1')
 				ft_draw_tile(data, x, y, BLACK);
+			if (data->file->map[y_row][x_column] == 'X')
+				ft_draw_tile(data, x, y, LAVANDE);
 			x += TILE_SIZE;
 			x_column++;
 		}
