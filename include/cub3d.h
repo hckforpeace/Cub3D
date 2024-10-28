@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/23 17:11:54 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/28 23:23:46 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,14 @@ by walls"
 
 /*Dimensions*/
 # define WIDTH		 1920
-# define HEIGHT 	 1020
+# define HEIGHT 	 1015
 # define TEX_SIZE	 64
+# define DOOR_SIZE   64
 # define SPRITE_SIZE 32
 # define TILE_SIZE	 10
+# define OPEN		 0;
+# define CLOSE		 1;
+
 
 /*Colors*/
 # define WHITE 0xFFFFFFF
@@ -51,6 +55,7 @@ by walls"
 # define RED2 0xFF7F7F
 # define GREY 0xD3D3D3
 # define GREY_DARK 0xA9A9A9
+# define BLUE 0x779ECB
 
 typedef struct s_data	t_data;
 
@@ -76,6 +81,14 @@ typedef enum e_dir
 	SPRITE_7=11,
 	SPRITE_8=12,
 	SPRITE_9=13,
+	DOOR_0=14,
+	DOOR_1=15,
+	DOOR_2=16,
+	DOOR_3=17,
+	DOOR_4=18,
+	DOOR_5=19,
+	DOOR_6=20,
+	DOOR_7=21,
 }	t_dir;
 
 typedef struct	s_rgb
@@ -105,7 +118,8 @@ typedef struct s_raycast
 	double			wall_x;
 	int				height;
 	int				side_col;
-	int				*z_buffer;
+	double			dist_buffer_wall[WIDTH];
+	double			dist_buffer_door[WIDTH];
 }	t_raycast;
 
 typedef struct s_player
@@ -117,8 +131,18 @@ typedef struct s_player
 	struct s_point	mouse;
 	int				hide_mouse;
 	double			angle;
+	double			speed;
 	int				ceiling_col;
 	int				floor_col;
+	int				move_up;
+	int				move_down;
+	int				move_left;
+	int				move_right;
+	int				rotate_right;
+	int				rotate_left;
+	int				open_door;
+	int				close_door;
+	int				speed_up;
 }	t_player;
 
 typedef struct s_img
@@ -136,7 +160,17 @@ typedef struct s_sprite
 {
 	t_point	pos;
 	double	dist;
+	int		sprite_id;
 }	t_sprite;
+
+typedef struct s_door
+{
+	t_point		pos;
+	t_raycast	ray;
+	double		dist;
+	int			status;
+	int			door_id;
+}	t_door;
 
 typedef struct s_spriteray
 {
@@ -171,7 +205,7 @@ typedef struct s_file
 	char	*EA;
 	int		fd;
 	int		sprite_count;
-	t_sprite	*sprite;
+	int		door_count;
 }	t_file;
 
 typedef struct s_texture
@@ -181,7 +215,6 @@ typedef struct s_texture
 	int			y;
 	double		step;
 	double		pos;
-	int			tex_id;
 	int			orientation;
 }	t_texture;
 
@@ -189,20 +222,21 @@ typedef struct s_data
 {
 	void		*mlx;
 	void		*mlx_win;
-	t_file		*fdata;
 	t_texture	*tex;
 	t_img		*img;
 	t_file		*file;
 	t_player	*p;
 	t_raycast	*ray;
-	t_minimap	*minimap;
 	t_spriteray	*spriteray;
+	t_sprite	*sprite;
+	t_door		*door;
+	t_minimap	*minimap;
 }	t_data;
 
 // added by Pablo
 
-t_file	*init_fdata(void);
-t_data	*ft_init_data(t_file *fdata);
+t_file	*init_file(void);
+t_data	*ft_init_data(t_file *file);
 /*Mlx*/
 int		ft_mlx_init(t_data *data);
 //void	ft_events(t_data *data);
@@ -211,26 +245,38 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 /*Maths Utils*/
 int		ft_min(int a, int b);
 void	ft_draw_circle(t_point center, int radius, int color, t_data *data);
+int		ft_count_row(char **map);
+int		ft_count_column(char *map);
 
 /*Player*/
 int		ft_player_init(t_data *data);
 
 /*Minimap*/
 void	ft_minimap(t_data *data);
+int		ft_door_status(t_data *data, int y, int x);
 
 /*Events handlers*/
 int		ft_close(t_data *data);
-int		ft_key(int keysym, t_data *data);
-int		ft_mouse_tk(int x, int y, t_data *data);
+int		ft_key_press(int keycode, t_data *data);
+int		ft_key_release(int keycode, t_data *data);
+int		ft_mouse(int x, int y, t_data *data);
 int		ft_wall_collision(double x, double y, t_data *data);
 void	ft_rotate(t_player *p, double angle);
 void	ft_move_up(t_player *p, t_data *data);
 void	ft_move_down(t_player *p, t_data *data);
 void	ft_move_left(t_player *p, t_data *data);
 void	ft_move_right(t_player *p, t_data *data);
+void	ft_open_door(t_data *data);
+void	ft_close_door(t_data *data);
+void	ft_update_motion(t_data *data, t_player *p);
+void	ft_speed_up(t_player *p);
 
 /*Raycast*/
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data);
+void	ft_dda_door(t_raycast *ray, t_data *data, int i);
+void	ft_calculate_wall_door(t_raycast *ray, t_player *p);
+void	ft_calculate_text_door(t_data *data, t_raycast *ray, int id, int x);
+void	ft_apply_texture_color(t_data *data, int id, int x, int y);
 
 /*Draw*/
 void	ft_draw_background(t_data *data);
@@ -251,35 +297,36 @@ void	ft_transform_sprite(t_data *data, int index);
 void	ft_calc_width_height(t_data *data);
 void	ft_draw_sprites(t_data *data);
 void	ft_sort_sprites_by_dist(t_data *data);
+void	ft_sort_doors_by_dist(t_data *data);
 void		ft_animate_sprite(t_data *data);
 
 // ./src/parser/parser.c
-void	parser_exit(t_file *fdata, char *exmessage, int exno);
+void	parser_exit(t_file *file, char *exmessage, int exno);
 
 // ./src/parser/parser.c
-void	parser(int argc, char **argv, t_file *fdata);
+void	parser(int argc, char **argv, t_file *file, t_data *data);
 t_list	*parse_header(t_file *data, t_list *list);
-void	ft_parse_sprites(t_file *fdata);
+void	ft_parse_sprites_doors(t_file *file, t_data *data);
 
 // ./src/parser/parse_save.c
-void	parse_savetxture(char **info, t_file *fdata);
-int		parse_savecolor(char **info, t_file *fdata);
+void	parse_savetxture(char **info, t_file *file);
+int		parse_savecolor(char **info, t_file *file);
 
 // ./src/parser/parser_map.c
-void	parse_map(t_file *fdata, t_list *list);
+void	parse_map(t_file *file, t_list *list);
 int		is_valid_zero(int x, int y, char **map);
-int		save_map(int len, t_file *fdata, t_list *list);
+int		save_map(int len, t_file *file, t_list *list);
 
 // ./src/parser/display
 void	display(t_list *lst);
-void	display_data(t_file *fdata);
+void	display_data(t_file *file);
 
 // ./src/utils/utils_parse.c
 int		ft_istexture(char *str);
 int		ft_iscolor(char *str);
 int		ft_isemptyline(char *str);
-t_list	*save_texture(t_list *list, t_file *fdata);
-t_list	*save_color(t_list *list, t_file *fdata);
+t_list	*save_texture(t_list *list, t_file *file);
+t_list	*save_color(t_list *list, t_file *file);
 
 // ./src/utils_parse2.c
 int		is_valid_door(int x, int y, char **map);

@@ -6,13 +6,13 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:33:41 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/22 17:22:00 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/28 22:34:57 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_data	*ft_init_data(t_file *fdata)
+t_data	*ft_init_data(t_file *file)
 {
 	t_data		*data;
 	t_raycast	*ray;
@@ -26,7 +26,6 @@ t_data	*ft_init_data(t_file *fdata)
 	ray = (t_raycast *)malloc(sizeof(t_raycast));
 	if (!ray)
 		parser_exit(NULL, "failed malloc", 0);
-	ray->z_buffer = ft_calloc(WIDTH + 1, sizeof(int));
 	img = (t_img *)malloc(sizeof(t_img));
 	if (!img)
 		parser_exit(NULL, "failed malloc", 0);
@@ -40,36 +39,36 @@ t_data	*ft_init_data(t_file *fdata)
 	ft_bzero(ray, sizeof(ray));
 	ft_bzero(p, sizeof(p));
 	ft_bzero(spriteray, sizeof(spriteray));
-	data->tex = NULL;
 	data->img = img;
 	data->ray = ray;
 	data->p = p;
 	data->spriteray = spriteray;
-	data->fdata = fdata;
+	data->file = file;
 	return (data);
 }
 
-t_file	*init_fdata(void)
+t_file	*init_file(void)
 {
-	t_file	*fdata;
+	t_file	*file;
 
-	fdata = (struct s_file *)malloc(sizeof(struct s_file));
-	if (!fdata)
+	file = (struct s_file *)malloc(sizeof(struct s_file));
+	if (!file)
 		parser_exit(NULL, "failed malloc", 0);
-	fdata->fd_list = NULL;
-	fdata->EA = NULL;
-	fdata->NO = NULL;
-	fdata->SO = NULL;
-	fdata->WE = NULL;
-	fdata->map = NULL;
-	fdata->start[0] = -1;
-	fdata->start[1] = -1;
-	fdata->crgb[0] = -1;
-	fdata->crgb[1] = -1;
-	fdata->crgb[2] = -1;
-	fdata->frgb[0] = -1;
-	fdata->frgb[1] = -1;
-	fdata->frgb[2] = -1;
-	fdata->sprite_count = 0;
-	return (fdata);
+	file->fd_list = NULL;
+	file->EA = NULL;
+	file->NO = NULL;
+	file->SO = NULL;
+	file->WE = NULL;
+	file->map = NULL;
+	file->start[0] = -1;
+	file->start[1] = -1;
+	file->crgb[0] = -1;
+	file->crgb[1] = -1;
+	file->crgb[2] = -1;
+	file->frgb[0] = -1;
+	file->frgb[1] = -1;
+	file->frgb[2] = -1;
+	file->sprite_count = 0;
+	file->door_count = 0;
+	return (file);
 }

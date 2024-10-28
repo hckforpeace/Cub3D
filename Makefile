@@ -20,6 +20,8 @@ DRAW= draw.c color.c minimap.c bresenham.c
 
 TEXTURES= textures.c
 
+DOOR= door_raycast.c
+
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))
 OBJS_UTILS = $(addprefix src/utils/, $(UTILS:.c=.o))
@@ -36,7 +38,9 @@ OBJS_TEXTURES = $(addprefix src/textures/, $(TEXTURES:.c=.o))
 
 OBJS_SPRITE = $(addprefix src/sprite/, $(SPRITE:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW) $(OBJS_TEXTURES) $(OBJS_SPRITE)
+OBJS_DOOR = $(addprefix src/door/, $(DOOR:.c=.o))
+
+OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW) $(OBJS_TEXTURES) $(OBJS_SPRITE) $(OBJS_DOOR)
 
 CFLAGS= -Wall -Werror -Wextra -g3
 

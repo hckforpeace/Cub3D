@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/23 18:08:18 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/28 23:18:44 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,7 @@ void	ft_apply_texture_color(t_data *data, int id, int x, int y)
 	int	color;
 
 	color = ft_get_pixel_color(&data->tex->img[id], data->tex->x, data->tex->y);
-	if (data->tex->orientation == NORTH || data->tex->orientation == SOUTH)
-			color = (color >> 1) & 8355711;
-	if (color > 0)
+	if (color > 0 && (color & 0x00FFFFFF) != 0)
 		ft_mlx_pixel_put(data->img, x, y, color);
 }
 
@@ -157,12 +155,29 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 		ft_dda(ray, data);
 		ft_calculate_wall(ray, p);
 		ft_calculate_text(data, data->tex, data->ray, x);
-		ray->z_buffer[x] = ray->wall_dist;
+		ray->dist_buffer_wall[x] = ray->wall_dist;
 		x++;
 	}
 	i = 0;
+	ft_sort_doors_by_dist(data);
+	while (i < data->file->door_count)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			ft_init_rays(&data->door[i].ray, p, x);
+			ft_step(&data->door[i].ray, p);
+			ft_dda_door(&data->door[i].ray, data, i);
+			ft_calculate_wall_door(&data->door[i].ray, p);
+			ft_calculate_text_door(data, &data->door[i].ray, data->door[i].door_id, x);
+			//data->door[i].ray->dist_buffer_door[x] = ray->wall_dist;
+			x++;
+		}
+		i++;
+	}
+	i = 0;
 	ft_sort_sprites_by_dist(data);
-	while (i < data->fdata->sprite_count)
+	while (i < data->file->sprite_count)
 	{
 		ft_transform_sprite(data, i);
 		ft_calc_width_height(data);

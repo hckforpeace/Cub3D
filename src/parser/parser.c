@@ -6,26 +6,26 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/23 17:13:00 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:21:09 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 // reads all the content of the file and stores it in a chained list 
-static int	file_to_list(t_file *fdata)
+static int	file_to_list(t_file *file)
 {
 	char	*line;
 
-	line = get_next_line(fdata->fd);
+	line = get_next_line(file->fd);
 	if (!line)
 		return (0);
 	while (line)
 	{
-		ft_lstadd_back_b(&fdata->fd_list, ft_lstnew_b(ft_strdup(line),
+		ft_lstadd_back_b(&file->fd_list, ft_lstnew_b(ft_strdup(line),
 				ft_strlen(line)));
 		free(line);
-		line = get_next_line(fdata->fd);
+		line = get_next_line(file->fd);
 	}
 	return (1);
 }
@@ -69,19 +69,19 @@ static void	reset_map(char **map)
 }
 
 // general parsing function
-void	parser(int argc, char **argv, t_file *fdata)
+void	parser(int argc, char **argv, t_file *file, t_data *data)
 {
 	t_list	*temp;
 
 	if (argc != 2 || !is_valid_file_name(argv[1]))
-		parser_exit(fdata, "invalid filename", 1);
-	fdata->fd = open(argv[1], O_RDONLY);
-	if (fdata->fd < 0)
-		parser_exit(fdata, "failed to open the file !", 1);
-	file_to_list(fdata);
-	close(fdata->fd);
-	temp = parse_header(fdata, fdata->fd_list);
-	parse_map(fdata, temp);
-	reset_map(fdata->map);
-	ft_parse_sprites(fdata);
+		parser_exit(file, "invalid filename", 1);
+	file->fd = open(argv[1], O_RDONLY);
+	if (file->fd < 0)
+		parser_exit(file, "failed to open the file !", 1);
+	file_to_list(file);
+	close(file->fd);
+	temp = parse_header(file, file->fd_list);
+	parse_map(file, temp);
+	reset_map(file->map);
+	ft_parse_sprites_doors(file, data);
 }

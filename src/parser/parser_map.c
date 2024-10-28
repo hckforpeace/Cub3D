@@ -6,13 +6,13 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:05:33 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/22 13:56:59 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:21:09 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	set_playerpos(t_file *fdata)
+int	set_playerpos(t_file *file)
 {
 	char	**tab;
 	int		i;
@@ -20,7 +20,7 @@ int	set_playerpos(t_file *fdata)
 
 	i = 0;
 	j = 0;
-	tab = fdata->map;
+	tab = file->map;
 	while (tab && tab[i])
 	{
 		j = 0;
@@ -29,9 +29,9 @@ int	set_playerpos(t_file *fdata)
 			if (tab[i][j] == 'N' || tab[i][j] == 'S' || tab[i][j] == 'E'
 				|| tab[i][j] == 'W')
 			{
-				fdata->orientation = tab[i][j];
-				fdata->start[0] = i;
-				fdata->start[1] = j;
+				file->orientation = tab[i][j];
+				file->start[0] = i;
+				file->start[1] = j;
 				return (1);
 			}
 			j++;
@@ -61,7 +61,7 @@ int	is_valid_zero(int x, int y, char **map)
 		return (1);
 }
 
-int	map_flood_fill(char **tab, int x, int y, t_file *fdata)
+int	map_flood_fill(char **tab, int x, int y, t_file *file)
 {
 	if (x < 0 || y < 0 || tab[x][y] == '1' || tab[x][y] == 'R')
 		return (1);
@@ -77,10 +77,10 @@ int	map_flood_fill(char **tab, int x, int y, t_file *fdata)
 		tab[x][y] = 'G';
 	if (tab[x][y] == 'D')
 		tab[x][y] = 'B';
-	return (map_flood_fill(tab, x + 1, y, fdata)
-		&& map_flood_fill(tab, x - 1, y, fdata)
-		&& map_flood_fill(tab, x, y + 1, fdata)
-		&& map_flood_fill(tab, x, y - 1, fdata));
+	return (map_flood_fill(tab, x + 1, y, file)
+		&& map_flood_fill(tab, x - 1, y, file)
+		&& map_flood_fill(tab, x, y + 1, file)
+		&& map_flood_fill(tab, x, y - 1, file));
 }
 
 // Modified
@@ -113,21 +113,21 @@ int	parse_map_aux(t_list *list, int len)
 	return (0);
 }
 
-void	parse_map(t_file *fdata, t_list *list)
+void	parse_map(t_file *file, t_list *list)
 {
 	int	len;
 
 	len = get_lstlen(list);
 	if (!end_of_map(list, len))
-		parser_exit(fdata, "Invalid content\ncharachters after map", 1);
+		parser_exit(file, "Invalid content\ncharachters after map", 1);
 	if (len == 0)
-		parser_exit(fdata, "Missing map !", 1);
+		parser_exit(file, "Missing map !", 1);
 	if (!parse_map_aux(list, len))
-		parser_exit(fdata, INVALID_MAPCONTENT, 1);
-	if (save_map(len, fdata, list) != -1 || !set_playerpos(fdata))
-		parser_exit(fdata, "UNEXPECTED ERROR", 1);
-	if (map_flood_fill(fdata->map, fdata->start[0], fdata->start[1], fdata))
+		parser_exit(file, INVALID_MAPCONTENT, 1);
+	if (save_map(len, file, list) != -1 || !set_playerpos(file))
+		parser_exit(file, "UNEXPECTED ERROR", 1);
+	if (map_flood_fill(file->map, file->start[0], file->start[1], file))
 		printf("ok\n");
 	else
-		parser_exit(fdata, INVALID_MAPSHAPE, 1);
+		parser_exit(file, INVALID_MAPSHAPE, 1);
 }

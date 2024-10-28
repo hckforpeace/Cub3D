@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 12:48:47 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/08 21:21:48 by pierre           ###   ########.fr       */
+/*   Updated: 2024/10/28 20:21:09 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ static void	free_lst(t_list *lst)
 	}
 }
 
-void	parser_exit(t_file *fdata, char *exmessage, int exno)
+void	parser_exit(t_file *file, char *exmessage, int exno)
 {
-	if (fdata->fd_list)
-		free_lst(fdata->fd_list);
-	if (fdata->map)
-		clear_wordar(fdata->map);
-	if (fdata->NO)
-		free(fdata->NO);
-	if (fdata->SO)
-		free(fdata->SO);
-	if (fdata->WE)
-		free(fdata->WE);
-	if (fdata->EA)
-		free(fdata->EA);
-	free(fdata);
+	if (file->fd_list)
+		free_lst(file->fd_list);
+	if (file->map)
+		clear_wordar(file->map);
+	if (file->NO)
+		free(file->NO);
+	if (file->SO)
+		free(file->SO);
+	if (file->WE)
+		free(file->WE);
+	if (file->EA)
+		free(file->EA);
+	free(file);
 	printf("%s\n", exmessage);
 	exit(exno);
 }
