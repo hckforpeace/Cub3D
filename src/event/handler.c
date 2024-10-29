@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 21:56:31 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:41:23 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_key_release(int keycode, t_data *data)
 		p->close_door = 0;
 	else if (keycode == XK_Shift_L)
 	{
-		p->speed = 0.06;
+		p->speed = 0.1;
 		p->speed_up = 0;
 	}
 	return (0);

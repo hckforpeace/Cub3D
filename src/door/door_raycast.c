@@ -6,25 +6,11 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 22:46:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 23:21:46 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:30:15 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	ft_door_status(t_data *data, int y, int x)
-{
-	int	i;
-
-	i = data->file->door_count - 1;
-	while (i > 0)
-	{
-		if (((int)data->door[i].pos.x == x) && ((int)data->door[i].pos.y == y))
-			return (data->door[i].status);
-		i--;
-	}
-	return (0);
-}
 
 int	ft_select_door(t_data *data, int y, int x, int i)
 {
@@ -89,7 +75,17 @@ void	ft_calculate_wall_door(t_raycast *ray, t_player *p)
 	ray->wall_x -= floor(ray->wall_x);
 }
 
-void ft_calculate_text_door(t_data *data, t_raycast *ray, int id, int x)
+void	ft_apply_door_texture(t_data *data, t_door *door, int x, int y)
+{
+	int	color;
+
+	door->ray.dist_factor = 1.0 / (1.0 + pow(door->ray.wall_dist, 2) * 0.008);
+	color = ft_get_pixel_color(&data->tex->img[door->door_id], data->tex->x, data->tex->y);
+	if (color > 0 && (color & 0x00FFFFFF) != 0)
+		ft_mlx_pixel_put(data->img, x, y, ft_color_dark(color, door->ray.dist_factor));
+}
+
+void ft_calculate_door_text(t_data *data, t_raycast *ray, t_door *door, int x)
 {
 	int y;
 
@@ -104,7 +100,7 @@ void ft_calculate_text_door(t_data *data, t_raycast *ray, int id, int x)
 		data->tex->y = (int)data->tex->pos & (DOOR_SIZE - 1);
 		data->tex->pos += data->tex->step;
 		if (ray->wall_dist < data->ray->dist_buffer_wall[x])
-			ft_apply_texture_color(data, id, x, y);
+			ft_apply_door_texture(data, door, x, y);
 		y++;
 	}
 }

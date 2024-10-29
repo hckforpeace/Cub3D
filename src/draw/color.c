@@ -6,11 +6,16 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 14:16:35 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/21 12:25:51 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:10:41 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int    ft_color_dark(int color, double factor)
+{
+    return ((int)((color >> 16 & 0xFF) * factor) << 16) + ((int)((color >> 8 & 0xFF) * factor) << 8) + (int)((color & 0xFF) * factor);
+}
 
 int	ft_rgb_to_hex(int *rgb)
 {

@@ -20,7 +20,7 @@ DRAW= draw.c color.c minimap.c bresenham.c
 
 TEXTURES= textures.c
 
-DOOR= door_raycast.c
+DOOR= door_raycast.c door_utils.c
 
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))

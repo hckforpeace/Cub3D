@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/28 23:23:46 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:30:54 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ by walls"
 # define DOOR_SIZE   64
 # define SPRITE_SIZE 32
 # define TILE_SIZE	 10
-# define OPEN		 0;
-# define CLOSE		 1;
+# define OPEN		 0
+# define CLOSE		 1
+# define IS_OPENING  2
+# define IS_CLOSING  3
 
 
 /*Colors*/
@@ -56,6 +58,7 @@ by walls"
 # define GREY 0xD3D3D3
 # define GREY_DARK 0xA9A9A9
 # define BLUE 0x779ECB
+# define ORANGE 0xF5B895
 
 typedef struct s_data	t_data;
 
@@ -116,6 +119,7 @@ typedef struct s_raycast
 	struct s_point	y_vertical;
 	double			wall_dist;
 	double			wall_x;
+	double			dist_factor;
 	int				height;
 	int				side_col;
 	double			dist_buffer_wall[WIDTH];
@@ -129,9 +133,9 @@ typedef struct s_player
 	struct s_point	dir;
 	struct s_point	plane;
 	struct s_point	mouse;
-	int				hide_mouse;
 	double			angle;
 	double			speed;
+	int				hide_mouse;
 	int				ceiling_col;
 	int				floor_col;
 	int				move_up;
@@ -254,6 +258,8 @@ int		ft_player_init(t_data *data);
 /*Minimap*/
 void	ft_minimap(t_data *data);
 int		ft_door_status(t_data *data, int y, int x);
+int		ft_is_near_door(t_data *data);
+int		ft_select_door(t_data *data, int y, int x, int i);
 
 /*Events handlers*/
 int		ft_close(t_data *data);
@@ -275,7 +281,7 @@ void	ft_speed_up(t_player *p);
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data);
 void	ft_dda_door(t_raycast *ray, t_data *data, int i);
 void	ft_calculate_wall_door(t_raycast *ray, t_player *p);
-void	ft_calculate_text_door(t_data *data, t_raycast *ray, int id, int x);
+void	ft_calculate_door_text(t_data *data, t_raycast *ray, t_door *door, int x);
 void	ft_apply_texture_color(t_data *data, int id, int x, int y);
 
 /*Draw*/
@@ -285,6 +291,7 @@ int		ft_render_map(t_data *data);
 int		ft_rgb_to_hex(int *rgb);
 void	ft_textures_init(t_data *data);
 void	ft_bresenham(t_point start, t_point end, t_data *data);
+int		ft_color_dark(int color, double factor);
 
 /*Color*/
 unsigned int	ft_get_pixel_color(t_img *img, int x, int y);
@@ -295,10 +302,12 @@ void			ft_put_pixel_blurred(t_img *img, t_point *p, unsigned int color);
 // ./src/sprite/
 void	ft_transform_sprite(t_data *data, int index);
 void	ft_calc_width_height(t_data *data);
-void	ft_draw_sprites(t_data *data);
+void	ft_draw_sprites(t_data *data, int i);
 void	ft_sort_sprites_by_dist(t_data *data);
 void	ft_sort_doors_by_dist(t_data *data);
 void		ft_animate_sprite(t_data *data);
+void	ft_animate_open_door(t_data *data);
+void	ft_animate_close_door(t_data *data);
 
 // ./src/parser/parser.c
 void	parser_exit(t_file *file, char *exmessage, int exno);
@@ -312,7 +321,7 @@ void	ft_parse_sprites_doors(t_file *file, t_data *data);
 void	parse_savetxture(char **info, t_file *file);
 int		parse_savecolor(char **info, t_file *file);
 
-// ./src/parser/parser_map.c
+// ./src/parser/parser_maopen x, int y, char **map);
 void	parse_map(t_file *file, t_list *list);
 int		is_valid_zero(int x, int y, char **map);
 int		save_map(int len, t_file *file, t_list *list);

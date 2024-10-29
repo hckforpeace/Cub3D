@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:10:23 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 23:33:37 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:08:15 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ void ft_draw_minimap_sprite(t_data *data, t_minimap *minimap, int x, int y)
 	t_point center;
 	int radius;
 
-	center.x = x;
-	center.y = y;
+	center.x = x + TILE_SIZE / 2;
+	center.y = y + TILE_SIZE / 2;
 	radius = TILE_SIZE / 3;
 	if (y > minimap->start.y && y < minimap->start.y + minimap->size && x > minimap->start.x && x < minimap->start.x + minimap->size)
 		ft_draw_circle(center, radius, BLUE, data);
@@ -154,10 +154,12 @@ void ft_draw_minimap(t_minimap *minimap, t_data *data)
 				ft_draw_tile(data, x, y, BLACK);
 			if (data->file->map[y_row][x_column] == 'X')
 				ft_draw_minimap_sprite(data, minimap, x, y);
-			if (data->file->map[y_row][x_column] == 'D' && ft_door_status(data, y_row, x_column))
+			if (data->file->map[y_row][x_column] == 'D' && ft_door_status(data, y_row, x_column) == CLOSE)
 				ft_draw_tile(data, x, y, RED2);
-			if (data->file->map[y_row][x_column] == 'D' && !ft_door_status(data, y_row, x_column))
+			if (data->file->map[y_row][x_column] == 'D' && ft_door_status(data, y_row, x_column) == OPEN)
 				ft_draw_tile(data, x, y, MENTHE);
+			if (data->file->map[y_row][x_column] == 'D' && (ft_door_status(data, y_row, x_column) == IS_CLOSING || ft_door_status(data, y_row, x_column) == IS_OPENING))
+				ft_draw_tile(data, x, y, ORANGE);
 			x += TILE_SIZE;
 			x_column++;
 		}

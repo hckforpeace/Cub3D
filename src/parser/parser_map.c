@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:05:33 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/28 20:21:09 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:06:48 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	is_valid_zero(int x, int y, char **map)
 
 int	map_flood_fill(char **tab, int x, int y, t_file *file)
 {
-	if (x < 0 || y < 0 || tab[x][y] == '1' || tab[x][y] == 'R')
+	if (x < 0 || y < 0 || tab[x][y] == '1' || tab[x][y] == 'R' || tab[x][y] == 'X')
 		return (1);
 	else if ((tab[x][y] == '0' || tab[x][y] == 'N' || tab[x][y] == 'X'
 		|| tab[x][y] == 'E' || tab[x][y] == 'W' || tab[x][y] == 'S')

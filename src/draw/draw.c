@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renard <renard@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:32:03 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 23:21:29 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 01:33:11 by renard           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ int	ft_render_map(t_data *data)
 {
 	if (data->file->sprite_count > 0)
 		ft_animate_sprite(data);
+	if (data->door[data->file->door_count - 1].status == IS_OPENING)
+		ft_animate_open_door(data);
+	if (data->door[data->file->door_count - 1].status == IS_CLOSING)
+		ft_animate_close_door(data);
 	mlx_destroy_image(data->mlx, data->img->img);
 	data->img->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	data->img->addr = mlx_get_data_addr(data->img->img, &data->img->bpp, \

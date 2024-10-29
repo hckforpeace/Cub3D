@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:13:06 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 23:27:51 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:39:51 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void ft_speed_up(t_player *p)
 {
-	p->speed = 0.12;
+	p->speed = 0.18;
 }
 
 void ft_rotate(t_player *p, double angle)
@@ -63,54 +63,12 @@ void ft_move_right(t_player *p, t_data *data)
 
 void ft_open_door(t_data *data)
 {
-	static int fps;
-
-	fps = 0;
-	while (fps < 70)
-	{
-		if (fps < 10)
-			data->door[data->file->door_count - 1].door_id = DOOR_0;
-		else if (fps < 20)
-			data->door[data->file->door_count - 1].door_id = DOOR_1;
-		else if (fps < 30)
-			data->door[data->file->door_count - 1].door_id = DOOR_2;
-		else if (fps < 40)
-			data->door[data->file->door_count - 1].door_id = DOOR_3;
-		else if (fps < 50)
-			data->door[data->file->door_count - 1].door_id = DOOR_4;
-		else if (fps < 60)
-			data->door[data->file->door_count - 1].door_id = DOOR_5;
-		else if (fps < 70)
-			data->door[data->file->door_count - 1].door_id = DOOR_6;
-		fps++;
-	}
-	data->door[data->file->door_count - 1].door_id = DOOR_7;
-	data->door[data->file->door_count - 1].status = OPEN;
+	if (data->door[data->file->door_count - 1].status == CLOSE && ft_is_near_door(data))
+		data->door[data->file->door_count - 1].status = IS_OPENING;
 }
 
 void ft_close_door(t_data *data)
 {
-	int fps;
-
-	fps = 0;
-	while (fps < 70)
-	{
-		if (fps < 10)
-			data->door[data->file->door_count - 1].door_id = DOOR_7;
-		else if (fps < 20)
-			data->door[data->file->door_count - 1].door_id = DOOR_6;
-		else if (fps < 30)
-			data->door[data->file->door_count - 1].door_id = DOOR_5;
-		else if (fps < 40)
-			data->door[data->file->door_count - 1].door_id = DOOR_4;
-		else if (fps < 50)
-			data->door[data->file->door_count - 1].door_id = DOOR_3;
-		else if (fps < 60)
-			data->door[data->file->door_count - 1].door_id = DOOR_2;
-		else if (fps < 70)
-			data->door[data->file->door_count - 1].door_id = DOOR_1;
-		fps++;
-	}
-	data->door[data->file->door_count - 1].door_id = DOOR_0;
-	data->door[data->file->door_count - 1].status = CLOSE;
+	if (data->door[data->file->door_count - 1].status == OPEN && ft_is_near_door(data) && !ft_select_door(data, data->p->pos.y, data->p->pos.x, data->file->door_count - 1))
+		data->door[data->file->door_count - 1].status = IS_CLOSING;
 }

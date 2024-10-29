@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:24:10 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 20:21:09 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:32:02 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_sort_sprites_by_dist(t_data *data)
 	int			j;
 	t_sprite	tmp;
 
-	ft_calc_sprite_dist(data,  data->p);
+	ft_calc_sprite_dist(data, data->p);
 	i = 0;
 	while (i < data->file->sprite_count)
 	{

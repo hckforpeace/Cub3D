@@ -6,20 +6,22 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:26:10 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 21:52:13 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:37:09 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_apply_sprite_texture(t_data *data, int id, int x, int y)
+void	ft_apply_sprite_texture(t_data *data, t_sprite *sprite, int x, int y, int index)
 {
 	int	color;
-
-	color = ft_get_pixel_color(&data->tex->img[id], data->spriteray->tex.x, \
+	double	dist_factor;
+	
+	dist_factor = 1.0 / (1.0 + pow(sprite[index].dist, 2) * 0.0002);
+	color = ft_get_pixel_color(&data->tex->img[sprite->sprite_id], data->spriteray->tex.x, \
 		data->spriteray->tex.y);
 	if ((color & 0x00FFFFFF) != 0)
-		ft_mlx_pixel_put(data->img, x, y, color);
+		ft_mlx_pixel_put(data->img, x, y, ft_color_dark(color, dist_factor));
 }
 
 void	ft_transform_sprite(t_data *data, int index)
@@ -60,7 +62,7 @@ void	ft_calc_width_height(t_data *data)
 		spr->draw_end.x = WIDTH - 1;
 }
 
-void	ft_draw_sprites(t_data *data)
+void	ft_draw_sprites(t_data *data, int index)
 {
 	t_spriteray	*spr;
 	int			x;
@@ -80,7 +82,7 @@ void	ft_draw_sprites(t_data *data)
 			{
 				d = y * 256 - HEIGHT * 128 + spr->sprite_height * 128;
 				spr->tex.y = ((d * SPRITE_SIZE) / spr->sprite_height) / 256;
-				ft_apply_sprite_texture(data, data->sprite->sprite_id, x, y);
+				ft_apply_sprite_texture(data, data->sprite, x, y, index);
 			}
 		}
 	}
