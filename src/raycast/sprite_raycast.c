@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:26:10 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 12:37:09 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:50:47 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	ft_calc_width_height(t_data *data)
 
 	spr = data->spriteray;
 	spr->sprite_height = fabs((HEIGHT / (spr->trans.y)));
-	spr->draw_start.y = -spr->sprite_height / 2 + HEIGHT / 2;
+	spr->draw_start.y = -spr->sprite_height / 2 + HEIGHT / 2 - data->p->pitch;
 	if (spr->draw_start.y < 0)
 		spr->draw_start.y = 0;
-	spr->draw_end.y = spr->sprite_height / 2 + HEIGHT / 2;
+	spr->draw_end.y = spr->sprite_height / 2 + HEIGHT / 2 - data->p->pitch;
 	if (spr->draw_end.y >= HEIGHT)
 		spr->draw_end.y = HEIGHT - 1;
 	spr->sprite_width = fabs((HEIGHT / (spr->trans.y)));
@@ -65,25 +65,27 @@ void	ft_calc_width_height(t_data *data)
 void	ft_draw_sprites(t_data *data, int index)
 {
 	t_spriteray	*spr;
-	int			x;
-	int			d;
+	int			stripe;
+	double		d;
 	int			y;
 
 	spr = data->spriteray;
-	x = spr->draw_start.x - 1;
-	while (++x < spr->draw_end.x)
+	stripe = spr->draw_start.x - 1;
+	while (stripe < spr->draw_end.x)
 	{
-		y = spr->draw_start.y - 1;
-		spr->tex.x = (int)(256 * (x - (-spr->sprite_width / 2 + \
+		y = spr->draw_start.y;
+		spr->tex.x = (int)(256 * (stripe - (-spr->sprite_width / 2 + \
 			spr->screen_x)) * SPRITE_SIZE / spr->sprite_width) / 256;
-		if (spr->trans.y > 0 && x > 0 && x < WIDTH && spr->trans.y < data->ray->dist_buffer_wall[x]/* && spr->trans.y < data->ray->dist_buffer_door[x]*/)
+		if (spr->trans.y > 0 && stripe > 0 && stripe < WIDTH && spr->trans.y < data->ray->dist_buffer_wall[stripe]/* && spr->trans.y < data->ray->dist_buffer_door[x]*/)
 		{
-			while (++y < spr->draw_end.y)
+			while (y < spr->draw_end.y)
 			{
-				d = y * 256 - HEIGHT * 128 + spr->sprite_height * 128;
+				d = (y + data->p->pitch) * 256 - HEIGHT * 128 + spr->sprite_height * 128;
 				spr->tex.y = ((d * SPRITE_SIZE) / spr->sprite_height) / 256;
-				ft_apply_sprite_texture(data, data->sprite, x, y, index);
+				ft_apply_sprite_texture(data, data->sprite, stripe, y, index);
+				y++;
 			}
 		}
+		stripe++;
 	}
 }

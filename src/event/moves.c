@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:13:06 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 12:39:51 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:35:50 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void ft_speed_up(t_player *p)
 {
-	p->speed = 0.18;
+	p->speed = 0.3;
 }
 
 void ft_rotate(t_player *p, double angle)

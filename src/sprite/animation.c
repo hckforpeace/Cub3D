@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:04:46 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 11:42:25 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:01:27 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,26 @@ void	ft_animate_close_door(t_data *data)
 	{
 		data->door[data->file->door_count - 1].door_id = DOOR_0;
 		data->door[data->file->door_count - 1].status = CLOSE;
+		fps = 0;
+	}
+	fps++;
+}
+
+void	ft_animate_jump(t_data *data)
+{
+	static int	fps = 0;
+
+	if (fps < 10)
+		data->p->pitch -= 10;
+	else if (fps < 15)
+		data->p->pitch -= 2;
+	else if (fps < 20)
+		data->p->pitch += 2;
+	else if (fps < 30)
+		data->p->pitch += 10;
+	else
+	{
+		data->p->jump = 0;
 		fps = 0;
 	}
 	fps++;

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:29:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 11:52:50 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:12:18 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int	ft_is_near_door(t_data *data)
 {
 	if (data->door[data->file->door_count - 1].dist <= 9)
+	{
+		
 		return (1);
+	}
 	return (0);
 }
 

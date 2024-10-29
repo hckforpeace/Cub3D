@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:23:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 12:39:29 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:35:42 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	ft_set_direction(t_player *p)
 	ft_set_direction_aux(p);
 }
 
-int	ft_player_init(t_data *data)
+void	ft_player_init(t_data *data)
 {
 	t_player	*p;
 
@@ -59,11 +59,23 @@ int	ft_player_init(t_data *data)
 	p->ceiling_col = ft_rgb_to_hex(data->file->crgb);
 	p->floor_col = ft_rgb_to_hex(data->file->frgb);
 	p->angle = 0.035;
-	p->speed = 0.1;
+	p->speed = 0.15;
+	p->pitch = 0;
+	p->move_down = 0;
+	p->move_up = 0;
+	p->move_left = 0;
+	p->move_right = 0;
+	p->rotate_left = 0;
+	p->rotate_right = 0;
+	p->rotate_down = 0;
+	p->rotate_up = 0;
+	p->open_door = 0;
+	p->close_door = 0;
+	p->speed_up = 0;
+	p->jump = 0;
 	p->direction = data->file->orientation;
 	p->mouse.x = WIDTH / 2;
 	p->mouse.y = HEIGHT / 2;
-	p->hide_mouse = 1;
+	//p->hide_mouse = 1;
 	ft_set_direction(p);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/28 23:12:01 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:19:29 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@ int	main(int argc, char **argv)
 	data = ft_init_data(file);
 	data->file = file;
 	parser(argc, argv, file, data);
-	if (ft_mlx_init(data))
-		return (1);
+	ft_mlx_init(data);
 	ft_textures_init(data);
-	if (ft_player_init(data))
-		return (1);
+	ft_player_init(data);
 	mlx_loop_hook(data->mlx, ft_render_map, data);
 	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, ft_key_press, data);
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, ft_key_release, data);
 	mlx_hook(data->mlx_win, MotionNotify, PointerMotionMask, ft_mouse, data);
 	mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask, ft_close, data);
 	mlx_loop(data->mlx);
+	//mlx_string_put(data->mlx, data->mlx_win, 500, 500, WHITE, "Bonjour, MiniLibX!");
 	parser_exit(file, "all good", 0);
 	return (0);
 }

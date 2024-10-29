@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 12:30:40 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:40:21 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,8 @@ static void	ft_calculate_wall(t_raycast *ray, t_player *p)
 		ray->wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) \
 			/ ray->dir.y;
 	ray->height = (int)(HEIGHT / ray->wall_dist);
-	ray->y_vertical.x = -ray->height / 2 + HEIGHT / 2;
-	if (ray->y_vertical.x < 0)
-		ray->y_vertical.x = 0;
-	ray->y_vertical.y = ray->height / 2 + HEIGHT / 2;
+	ray->y_vertical.x = -ray->height / 2 + HEIGHT / 2 - p->pitch;
+	ray->y_vertical.y = ray->height + ray->y_vertical.x;
 	if (ray->y_vertical.y >= HEIGHT)
 		ray->y_vertical.y = HEIGHT - 1;
 	if (ray->side_col == 0)
@@ -132,7 +130,7 @@ void	ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x)
 		|| (ray->side_col == 1 && ray->dir.y > 0))
 		tex->x = TEX_SIZE - tex->x - 1;
 	tex->step = 1.0 * TEX_SIZE / ray->height;
-	tex->pos = (ray->y_vertical.x - HEIGHT / 2 + ray->height / 2) * tex->step;
+	tex->pos = (ray->y_vertical.x - HEIGHT / 2 + data->p->pitch + ray->height / 2) * tex->step;
 	y = ray->y_vertical.x;
 	while (y < ray->y_vertical.y)
 	{

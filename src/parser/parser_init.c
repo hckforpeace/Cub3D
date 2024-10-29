@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:33:41 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/28 22:34:57 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:36:49 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_data	*ft_init_data(t_file *file)
 {
 	t_data		*data;
 	t_raycast	*ray;
+	t_floorcast	*floorcast;
 	t_img		*img;
 	t_player	*p;
 	t_spriteray	*spriteray;
@@ -35,14 +36,19 @@ t_data	*ft_init_data(t_file *file)
 	spriteray = (t_spriteray *)malloc(sizeof(t_spriteray));
 	if (!spriteray)
 		parser_exit(NULL, "failed malloc", 0);
+	floorcast = (t_floorcast *)malloc(sizeof(t_floorcast));
+	if (!floorcast)
+		parser_exit(NULL, "failed malloc", 0);
 	ft_bzero(img, sizeof(img));
 	ft_bzero(ray, sizeof(ray));
 	ft_bzero(p, sizeof(p));
 	ft_bzero(spriteray, sizeof(spriteray));
+	ft_bzero(floorcast, sizeof(floorcast));
 	data->img = img;
 	data->ray = ray;
 	data->p = p;
 	data->spriteray = spriteray;
+	data->floorcast = floorcast;
 	data->file = file;
 	return (data);
 }

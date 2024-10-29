@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:12:17 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 20:14:30 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:31:59 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_textures_init(t_data *data)
 		return ;
 	ft_bzero(tex, sizeof(tex));
 	data->tex = tex;
-	tex->img = ft_calloc(sizeof(t_img), 22);
+	tex->img = ft_calloc(sizeof(t_img), 24);
 	if (!tex->img)
 		return ;
 	ft_xpm_to_img(data, data->tex, data->file->NO, NORTH);
@@ -94,4 +94,6 @@ void	ft_textures_init(t_data *data)
 	ft_xpm_to_door(data, data->tex, "./door/5.xpm", DOOR_5);
 	ft_xpm_to_door(data, data->tex, "./door/6.xpm", DOOR_6);
 	ft_xpm_to_door(data, data->tex, "./door/7.xpm", DOOR_7);
+	ft_xpm_to_img(data, data->tex, "./textures/floor.xpm", FLOOR);
+	ft_xpm_to_img(data, data->tex, "./textures/ceiling.xpm", CEILING);
 }

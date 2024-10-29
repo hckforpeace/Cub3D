@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/29 12:30:54 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/29 19:33:55 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef enum e_dir
 	DOOR_5=19,
 	DOOR_6=20,
 	DOOR_7=21,
+	FLOOR=22,
+	CEILING=23,
 }	t_dir;
 
 typedef struct	s_rgb
@@ -108,6 +110,15 @@ typedef struct s_bresenham
 	struct s_point	p;
 	struct s_point	p_inc;
 }	t_bresenham;
+
+typedef struct s_floorcast
+{
+	struct s_point	dir0;
+	struct s_point	dir1;
+	struct s_point	step;
+	struct s_point	floor;
+	double			row_dist;
+}	t_floorcast;
 
 typedef struct s_raycast
 {
@@ -135,7 +146,9 @@ typedef struct s_player
 	struct s_point	mouse;
 	double			angle;
 	double			speed;
-	int				hide_mouse;
+	int				pitch;
+	int				jump;
+	//int				hide_mouse;
 	int				ceiling_col;
 	int				floor_col;
 	int				move_up;
@@ -144,6 +157,8 @@ typedef struct s_player
 	int				move_right;
 	int				rotate_right;
 	int				rotate_left;
+	int				rotate_up;
+	int				rotate_down;
 	int				open_door;
 	int				close_door;
 	int				speed_up;
@@ -232,6 +247,7 @@ typedef struct s_data
 	t_player	*p;
 	t_raycast	*ray;
 	t_spriteray	*spriteray;
+	t_floorcast	*floorcast;
 	t_sprite	*sprite;
 	t_door		*door;
 	t_minimap	*minimap;
@@ -242,7 +258,7 @@ typedef struct s_data
 t_file	*init_file(void);
 t_data	*ft_init_data(t_file *file);
 /*Mlx*/
-int		ft_mlx_init(t_data *data);
+void		ft_mlx_init(t_data *data);
 //void	ft_events(t_data *data);
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
@@ -253,7 +269,7 @@ int		ft_count_row(char **map);
 int		ft_count_column(char *map);
 
 /*Player*/
-int		ft_player_init(t_data *data);
+void	ft_player_init(t_data *data);
 
 /*Minimap*/
 void	ft_minimap(t_data *data);
@@ -283,15 +299,16 @@ void	ft_dda_door(t_raycast *ray, t_data *data, int i);
 void	ft_calculate_wall_door(t_raycast *ray, t_player *p);
 void	ft_calculate_door_text(t_data *data, t_raycast *ray, t_door *door, int x);
 void	ft_apply_texture_color(t_data *data, int id, int x, int y);
+void	ft_floor_ceiling_raycast(t_floorcast *floorcast, t_player *p, t_data *data);
 
 /*Draw*/
 void	ft_draw_background(t_data *data);
-//void	ft_draw_vertical(int x, t_point y_vertical, int col, t_data *data);
 int		ft_render_map(t_data *data);
 int		ft_rgb_to_hex(int *rgb);
 void	ft_textures_init(t_data *data);
 void	ft_bresenham(t_point start, t_point end, t_data *data);
 int		ft_color_dark(int color, double factor);
+void	ft_draw_cursor(t_data *data);
 
 /*Color*/
 unsigned int	ft_get_pixel_color(t_img *img, int x, int y);
@@ -302,12 +319,13 @@ void			ft_put_pixel_blurred(t_img *img, t_point *p, unsigned int color);
 // ./src/sprite/
 void	ft_transform_sprite(t_data *data, int index);
 void	ft_calc_width_height(t_data *data);
-void	ft_draw_sprites(t_data *data, int i);
+void	ft_draw_sprites(t_data *data, int index);
 void	ft_sort_sprites_by_dist(t_data *data);
 void	ft_sort_doors_by_dist(t_data *data);
-void		ft_animate_sprite(t_data *data);
+void	ft_animate_sprite(t_data *data);
 void	ft_animate_open_door(t_data *data);
 void	ft_animate_close_door(t_data *data);
+void	ft_animate_jump(t_data *data);
 
 // ./src/parser/parser.c
 void	parser_exit(t_file *file, char *exmessage, int exno);
@@ -344,9 +362,5 @@ int		is_valid_door(int x, int y, char **map);
 int		get_lstlen(t_list *list);
 int		end_of_map(t_list *list, int len);
 void	ft_free_tab(int	**tab);
-
-// ./src/animation/init_animation.c
-//t_animation		*init_animation(int width, int height, int delay);
-//t_animation		*slice_sprite(t_data *data, int frames, int delay);
 
 #endif

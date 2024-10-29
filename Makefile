@@ -14,7 +14,7 @@ INIT= mlx.c player.c
 
 EVENT= handler.c moves.c
 
-RAYCAST= utils.c raycast.c sprite_raycast.c
+RAYCAST= utils.c raycast.c sprite_raycast.c floor_cast.c
 
 DRAW= draw.c color.c minimap.c bresenham.c
 
@@ -50,7 +50,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C libft
-	 $(CC) $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -lft -L./libft -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	 $(CC) $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -lft -L./libft -Imlx_linux -lXext -lX11 -lXrender -lm -lz -o $(NAME)
 
 %.o : %.c
 	$(CC) $(CFLAGS) -I./include -I/usr/include -Imlx_linux -O3 -c $< -o $@
