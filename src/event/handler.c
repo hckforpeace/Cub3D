@@ -6,23 +6,11 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 18:17:29 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 21:39:09 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	ft_rotate_up(t_player *p)
-{
-	if (p->pitch > -2800)
-		p->pitch -= 20;
-}
-
-void	ft_rotate_down(t_player *p)
-{
-	if (p->pitch < 2800)
-		p->pitch += 20;
-}
 
 void	ft_update_motion(t_data *data, t_player *p)
 {
@@ -50,6 +38,18 @@ void	ft_update_motion(t_data *data, t_player *p)
 		ft_speed_up(p);
 }
 
+static void	ft_key_press_aux(int keycode, t_player *p)
+{
+	if (keycode == XK_e)
+		p->open_door = 1;
+	else if (keycode == XK_q)
+		p->close_door = 1;
+	else if (keycode == XK_Shift_L)
+		p->speed_up = 1;
+	else if (keycode == XK_space)
+		p->jump = 1;
+}
+
 int	ft_key_press(int keycode, t_data *data)
 {
 	t_player	*p;
@@ -73,15 +73,22 @@ int	ft_key_press(int keycode, t_data *data)
 		p->rotate_up = 1;
 	else if (keycode == XK_Down)
 		p->rotate_down = 1;
-	else if (keycode == XK_e)
-		p->open_door = 1;
-	else if (keycode == XK_q)
-		p->close_door = 1;
-	else if (keycode == XK_Shift_L)
-		p->speed_up = 1;
-	else if (keycode == XK_space)
-		p->jump = 1;
+	else
+		ft_key_press_aux(keycode, data->p);
 	return (0);
+}
+
+static void	ft_key_release_aux(int keycode, t_player *p)
+{
+	if (keycode == XK_e)
+		p->open_door = 0;
+	else if (keycode == XK_q)
+		p->close_door = 0;
+	else if (keycode == XK_Shift_L)
+	{
+		p->speed = 0.15;
+		p->speed_up = 0;
+	}
 }
 
 int	ft_key_release(int keycode, t_data *data)
@@ -105,68 +112,7 @@ int	ft_key_release(int keycode, t_data *data)
 		p->rotate_up = 0;
 	else if (keycode == XK_Down)
 		p->rotate_down = 0;
-	else if (keycode == XK_e)
-		p->open_door = 0;
-	else if (keycode == XK_q)
-		p->close_door = 0;
-	else if (keycode == XK_Shift_L)
-	{
-		p->speed = 0.15;
-		p->speed_up = 0;
-	}
-	return (0);
-}
-
-static void	ft_trap_mouse(int x, int y, t_data *data)
-{
-	if (x > WIDTH - 10)
-	{
-		x = 10;
-		mlx_mouse_move(data->mlx, data->mlx_win, x, y);
-	}
-	if (x < 10)
-	{
-		x = WIDTH - 10;
-		mlx_mouse_move(data->mlx, data->mlx_win, x, y);
-	}
-	if (y > HEIGHT - 10)
-	{
-		y = 10;
-		mlx_mouse_move(data->mlx, data->mlx_win, x, y);
-	}
-	if (y < 10)
-	{
-		y = HEIGHT - 10;
-		mlx_mouse_move(data->mlx, data->mlx_win, x, y);
-	}
-}
-
-int	ft_mouse(int x, int y, t_data *data)
-{
-	t_player	*p;
-	int			old_x;
-	int			old_y;
-
-	p = data->p;
-	mlx_mouse_hide(data->mlx, data->mlx_win);
-	ft_trap_mouse(x, y, data);
-	old_x = p->mouse.x;
-	if (x > old_x)
-		ft_rotate(p, p->angle / 1.2);
-	if (x < old_x)
-		ft_rotate(p, -p->angle / 1.2);
-	p->mouse.x = x;
-	old_y = p->mouse.y;
-	if (y > old_y)
-		ft_rotate_down(p);
-	if (y < old_y)
-		ft_rotate_up(p);
-	p->mouse.y = y;
-	return (0);
-}
-
-int	ft_close(t_data *data)
-{
-	ft_free_all(data, NULL, 0);
+	else
+		ft_key_release_aux(keycode, data->p);
 	return (0);
 }

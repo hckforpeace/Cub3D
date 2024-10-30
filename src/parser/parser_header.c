@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:49:22 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/30 18:16:00 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:11:23 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ static t_list	*parse_texture_color(t_file *file, t_list *list)
 
 int	no_duplicate(t_file *file)
 {
-	if (file->EA == NULL || file->WE == NULL || file->SO == NULL
-		|| file->NO == NULL || file->crgb[0] == -1 || file->frgb[0] == -1)
+	if (file->ea == NULL || file->we == NULL || file->so == NULL
+		|| file->no == NULL || file->crgb[0] == -1 || file->frgb[0] == -1)
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/30 19:04:48 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:38:15 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <math.h>
+# include <sys/time.h>
 
+# define WELCOME_MSG "Welcome to cub3d ! To move around press {A, W, S, D} \
+keys, move the view with the mouse, sprint with 'L_Shift' and jump with \
+'Space'. Enjoy ;)"
 # define INPUT_ERROR "wrong input:\n\n expected ./cub3d file_name.cub\n"
 # define INVALIDFD_ERROR "invalid file:\n\n expected ./cub3d file_name.cub\n"
 # define INVALID_MAPCONTENT "Invalid characters in MAP !\n\t the map can \
@@ -67,8 +71,6 @@ void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 /*Maths Utils*/
 int		ft_min(int a, int b);
 void	ft_draw_circle(t_point center, int radius, int color, t_data *data);
-int		ft_count_row(char **map);
-int		ft_count_column(char *map);
 
 /*Player*/
 void	ft_player_init(t_data *data);
@@ -76,6 +78,17 @@ int		ft_sprite_in_map(t_data *data);
 
 /*Minimap*/
 void	ft_minimap(t_data *data);
+void	ft_init_minimap(t_data *data);
+int		ft_start_x(t_minimap *minimap, t_data *data);
+int		ft_start_y(t_minimap *minimap, t_data *data);
+void	ft_choose_tile_color(t_data *data, int x, int y, t_point r_c);
+int		ft_count_row(char **map);
+int		ft_count_column(char *map);
+
+/*Doors*/
+long	ft_get_time(void);
+void	ft_print_door_message(t_data *data);
+void	ft_print_welcome_message(t_data *data);
 int		ft_door_status(t_data *data, int y, int x);
 int		ft_is_near_door(t_data *data, int i);
 int		ft_door_is_opening(t_data *data);
@@ -89,6 +102,8 @@ int		ft_key_release(int keycode, t_data *data);
 int		ft_mouse(int x, int y, t_data *data);
 int		ft_wall_collision(double x, double y, t_data *data);
 void	ft_rotate(t_player *p, double angle);
+void	ft_rotate_up(t_player *p);
+void	ft_rotate_down(t_player *p);
 void	ft_move_up(t_player *p, t_data *data);
 void	ft_move_down(t_player *p, t_data *data);
 void	ft_move_left(t_player *p, t_data *data);
@@ -100,14 +115,22 @@ void	ft_speed_up(t_player *p);
 
 /*Raycast*/
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data);
+void	ft_init_rays(t_raycast *ray, t_player *p, int x);
+void	ft_step(t_raycast *ray, t_player *p);
+void	ft_dda(t_raycast *ray, t_data *data);
+void	ft_calculate_wall(t_raycast *ray, t_player *p);
+void	ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x);
+void	ft_get_texture_orientation(t_texture *tex, t_raycast *ray);
+void	ft_apply_texture_color(t_data *data, int id, int x, int y);
 void	ft_dda_door(t_raycast *ray, t_data *data, int i);
 void	ft_calculate_wall_door(t_raycast *ray, t_player *p);
-void	ft_calculate_door_text(t_data *data, t_raycast *ray, t_elem *elem, int x);
+void	ft_calc_door_text(t_data *data, t_raycast *ray, t_elem *elem, int x);
 void	ft_apply_texture_color(t_data *data, int id, int x, int y);
-void	ft_floor_ceiling_raycast(t_floorcast *floorcast, t_player *p, t_data *data);
+void	ft_floor_raycast(t_floorcast *ray, t_player *p, t_data *data);
+void	ft_ceiling_raycast(t_floorcast *ray, t_player *p, t_data *data);
 
 /*Draw*/
-void	ft_draw_background(t_data *data);
+//void	ft_draw_background(t_data *data);
 int		ft_render_map(t_data *data);
 int		ft_rgb_to_hex(int *rgb);
 void	ft_textures_init(t_data *data);
@@ -116,10 +139,8 @@ int		ft_color_dark(int color, double factor);
 void	ft_draw_cursor(t_data *data);
 
 /*Color*/
-unsigned int	ft_get_pixel_color(t_img *img, int x, int y);
-void			ft_put_pixel_blurred(t_img *img, t_point *p, unsigned int color);
-
-// added by Pierre
+int		ft_get_pixel_color(t_img *img, int x, int y);
+void	ft_put_pixel_blurred(t_img *img, t_point *p, unsigned int color);
 
 // ./src/sprite/
 void	ft_transform_sprite(t_data *data, int index);
@@ -131,21 +152,15 @@ void	ft_animate_sprite(t_data *data);
 void	ft_animate_open_door(t_data *data);
 void	ft_animate_close_door(t_data *data);
 void	ft_animate_jump(t_data *data);
-void	ft_print_door_message(t_data *data);
 
-// ./src/parser/parser.c
 void	ft_free_all(t_data *data, char *message, int code);
 
-// ./src/parser/parser.c
+/*Parsing*/
 void	parser(int argc, char **argv, t_file *file, t_data *data);
 t_list	*parse_header(t_file *file, t_list *list, t_data *data);
 void	ft_parse_sprites_doors(t_file *file, t_data *data);
-
-// ./src/parser/parse_save.c
 void	parse_savetxture(char **info, t_file *file);
 int		parse_savecolor(char **info, t_file *file);
-
-// ./src/parser/parser_maopen x, int y, char **map);
 void	parse_map(t_file *file, t_list *list, t_data *data);
 int		is_valid_zero(int x, int y, char **map);
 int		save_map(int len, t_file *file, t_list *list);

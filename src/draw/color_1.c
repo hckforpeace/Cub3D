@@ -1,53 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.c                                            :+:      :+:    :+:   */
+/*   color_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 14:16:35 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 12:10:41 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 21:05:50 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int    ft_color_dark(int color, double factor)
-{
-    return ((int)((color >> 16 & 0xFF) * factor) << 16) + ((int)((color >> 8 & 0xFF) * factor) << 8) + (int)((color & 0xFF) * factor);
-}
-
-int	ft_rgb_to_hex(int *rgb)
-{
-	if (rgb[0] < 0)
-		rgb[0] = 0;
-	if (rgb[0] > 255)
-		rgb[0] = 255;
-	if (rgb[1] < 0)
-		rgb[1] = 0;
-	if (rgb[1] > 255)
-		rgb[1] = 255;
-	if (rgb[2] < 0)
-		rgb[2] = 0;
-	if (rgb[2] > 255)
-		rgb[2] = 255;
-	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
-}
-
-int	ft_get_r(int rgb)
-{
-	return ((rgb >> 16) & 0xFF);
-}
-
-int	ft_get_g(int rgb)
-{
-	return ((rgb >> 8) & 0xFF);
-}
-
-int	ft_get_b(int rgb)
-{
-	return (rgb & 0xFF);
-}
 
 static void	ft_blur_radius(int *count, t_point *p, t_rgb *total, t_img *img)
 {
@@ -67,9 +30,9 @@ static void	ft_blur_radius(int *count, t_point *p, t_rgb *total, t_img *img)
 			if (new.x >= 0 && new.x < WIDTH && new.y >= 0 && new.y < HEIGHT)
 			{
 				color = ft_get_pixel_color(img, new.x, new.y);
-				total->r += ft_get_r(color);
-				total->g += ft_get_g(color);
-				total->b += ft_get_b(color);
+				total->r += (color >> 16) & 0xFF;
+				total->g += (color >> 8) & 0xFF;
+				total->b += color & 0xFF;
 				(*count)++;
 			}
 			j++;
@@ -107,12 +70,12 @@ void	ft_put_pixel_blurred(t_img *img, t_point *p, unsigned int color)
 	t_rgb			blur;
 
 	bg_color = ft_blur(img, p);
-	front.r = ft_get_r(color);
-	front.g = ft_get_g(color);
-	front.b = ft_get_b(color);
-	back.r = ft_get_r(bg_color);
-	back.g = ft_get_g(bg_color);
-	back.b = ft_get_b(bg_color);
+	front.r = (color >> 16) & 0xFF;
+	front.g = (color >> 8) & 0xFF;
+	front.b = color & 0xFF;
+	back.r = (bg_color >> 16) & 0xFF;
+	back.g = (bg_color >> 8) & 0xFF;
+	back.b = bg_color & 0xFF;
 	blur.r = (int)((1 - 0.1) * back.r + 0.1 * front.r);
 	blur.g = (int)((1 - 0.1) * back.g + 0.1 * front.g);
 	blur.b = (int)((1 - 0.1) * back.b + 0.1 * front.b);

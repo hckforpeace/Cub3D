@@ -6,24 +6,11 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:29:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 19:04:12 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 20:24:53 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	ft_print_door_message(t_data *data)
-{
-	int	i;
-
-	i = ft_find_nearest_door_index(data);
-	if (i == -1)
-		return ;
-	if (data->elem[i].status == CLOSE && ft_is_near_door(data, i))
-		mlx_string_put(data->mlx, data->mlx_win, WIDTH / 2, 4 * HEIGHT / 5, WHITE, "Press 'E' to open the door !");
-	if (data->elem[i].status == OPEN && ft_is_near_door(data, i))
-		mlx_string_put(data->mlx, data->mlx_win, WIDTH / 2, 4 * HEIGHT / 5, WHITE, "Press 'Q' to close the door !");
-}
 
 int	ft_door_is_opening(t_data *data)
 {
@@ -66,9 +53,7 @@ int	ft_find_nearest_door_index(t_data *data)
 int	ft_is_near_door(t_data *data, int i)
 {
 	if (data->elem[i].dist <= 9)
-	{
 		return (1);
-	}
 	return (0);
 }
 

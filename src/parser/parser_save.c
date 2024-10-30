@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 18:16:15 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/28 20:21:09 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:11:59 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,27 @@ void	parse_savetxture(char **info, t_file *file)
 {
 	if (!ft_strcmp(info[0], "NO"))
 	{
-		if (file->NO)
-			free(file->NO);
-		file->NO = ft_strndup(info[1], ft_strlen(info[1]) - 1);
+		if (file->no)
+			free(file->no);
+		file->no = ft_strndup(info[1], ft_strlen(info[1]) - 1);
 	}
 	if (!ft_strcmp(info[0], "SO"))
 	{
-		if (file->SO)
-			free(file->SO);
-		file->SO = ft_strndup(info[1], ft_strlen(info[1]) - 1);
+		if (file->so)
+			free(file->so);
+		file->so = ft_strndup(info[1], ft_strlen(info[1]) - 1);
 	}
 	if (!ft_strcmp(info[0], "WE"))
 	{
-		if (file->WE)
-			free(file->WE);
-		file->WE = ft_strndup(info[1], ft_strlen(info[1]) - 1);
+		if (file->we)
+			free(file->we);
+		file->we = ft_strndup(info[1], ft_strlen(info[1]) - 1);
 	}
 	if (!ft_strcmp(info[0], "EA"))
 	{
-		if (file->EA)
-			free(file->EA);
-		file->EA = ft_strndup(info[1], ft_strlen(info[1]) - 1);
+		if (file->ea)
+			free(file->ea);
+		file->ea = ft_strndup(info[1], ft_strlen(info[1]) - 1);
 	}
 }
 

@@ -12,15 +12,17 @@ DISPLAY= display.c
 
 INIT= mlx.c player.c
 
-EVENT= handler.c moves.c
+EVENT= handler.c moves_1.c moves_2.c mouse.c
 
-RAYCAST= utils.c raycast.c sprite_raycast.c floor_cast.c
+MINIMAP= minimap_1.c minimap_2.c minimap_3.c
 
-DRAW= draw.c color.c minimap.c bresenham.c
+RENDER= utils.c raycast.c sprite_raycast.c floor_cast.c render.c wall_raycast.c
+
+DRAW= draw.c color_1.c color_2.c bresenham.c
 
 TEXTURES= textures.c
 
-DOOR= door_raycast.c door_utils.c
+DOOR= door_raycast.c door_utils_1.c door_utils_2.c
 
 OBJS_PARSER = $(addprefix src/parser/, $(PARSER:.c=.o))
 OBJS_DISPLAY = $(addprefix src/display/, $(DISPLAY:.c=.o))
@@ -30,7 +32,7 @@ OBJS_INIT = $(addprefix src/init/, $(INIT:.c=.o))
 
 OBJS_EVENT = $(addprefix src/event/, $(EVENT:.c=.o))
 
-OBJS_RAYCAST = $(addprefix src/raycast/, $(RAYCAST:.c=.o))
+OBJS_RENDER = $(addprefix src/render/, $(RENDER:.c=.o))
 
 OBJS_DRAW = $(addprefix src/draw/, $(DRAW:.c=.o))
 
@@ -40,7 +42,9 @@ OBJS_SPRITE = $(addprefix src/sprite/, $(SPRITE:.c=.o))
 
 OBJS_DOOR = $(addprefix src/door/, $(DOOR:.c=.o))
 
-OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RAYCAST) $(OBJS_DRAW) $(OBJS_TEXTURES) $(OBJS_SPRITE) $(OBJS_DOOR)
+OBJS_MINIMAP = $(addprefix src/minimap/, $(MINIMAP:.c=.o))
+
+OBJS= $(OBJS_PARSER) $(MAIN:.c=.o) $(OBJS_DISPLAY) $(OBJS_UTILS) $(OBJS_INIT) $(OBJS_EVENT) $(OBJS_RENDER) $(OBJS_DRAW) $(OBJS_TEXTURES) $(OBJS_SPRITE) $(OBJS_DOOR) $(OBJS_MINIMAP)
 
 CFLAGS= -Wall -Werror -Wextra -g3
 

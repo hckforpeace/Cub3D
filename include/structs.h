@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 18:23:58 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 18:31:05 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:30:38 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef enum e_dir
 	DOOR_7=23,
 }	t_dir;
 
-typedef struct	s_rgb
+typedef struct s_rgb
 {
 	int	r;
 	int	g;
@@ -78,6 +78,10 @@ typedef struct s_floorcast
 	struct s_point	dir1;
 	struct s_point	step;
 	struct s_point	floor;
+	double			pos_z;
+	int				pos;
+	int				cell_x;
+	int				cell_y;
 	double			row_dist;
 }	t_floorcast;
 
@@ -121,6 +125,7 @@ typedef struct s_player
 	int				open_door;
 	int				close_door;
 	int				speed_up;
+	int				welcome;
 }	t_player;
 
 typedef struct s_img
@@ -172,10 +177,10 @@ typedef struct s_file
 	int		frgb[3];
 	char	orientation;
 	double	start[2];
-	char	*NO;
-	char	*SO;
-	char	*WE;
-	char	*EA;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
 	int		fd;
 	int		elem_count;
 }	t_file;

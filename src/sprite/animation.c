@@ -6,11 +6,39 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:04:46 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 16:09:58 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:01:05 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	ft_animate_sprite_aux(t_data *data, int *fps)
+{
+	if (*fps < 63)
+		data->elem->sprite_id = SPRITE_7;
+	else if (*fps < 66)
+		data->elem->sprite_id = SPRITE_8;
+	else if (*fps < 106)
+		data->elem->sprite_id = SPRITE_9;
+	else if (*fps < 109)
+		data->elem->sprite_id = SPRITE_8;
+	else if (*fps < 112)
+		data->elem->sprite_id = SPRITE_7;
+	else if (*fps < 115)
+		data->elem->sprite_id = SPRITE_6;
+	else if (*fps < 118)
+		data->elem->sprite_id = SPRITE_5;
+	else if (*fps < 121)
+		data->elem->sprite_id = SPRITE_4;
+	else if (*fps < 124)
+		data->elem->sprite_id = SPRITE_3;
+	else if (*fps < 127)
+		data->elem->sprite_id = SPRITE_2;
+	else if (*fps < 130)
+		data->elem->sprite_id = SPRITE_1;
+	else
+		*fps = 0;
+}
 
 void	ft_animate_sprite(t_data *data)
 {
@@ -30,30 +58,8 @@ void	ft_animate_sprite(t_data *data)
 		data->elem->sprite_id = SPRITE_5;
 	else if (fps < 58)
 		data->elem->sprite_id = SPRITE_6;
-	else if (fps < 63)
-		data->elem->sprite_id = SPRITE_7;
-	else if (fps < 66)
-		data->elem->sprite_id = SPRITE_8;
-	else if (fps < 106)
-		data->elem->sprite_id = SPRITE_9;
-	else if (fps < 109)
-		data->elem->sprite_id = SPRITE_8;
-	else if (fps < 112)
-		data->elem->sprite_id = SPRITE_7;
-	else if (fps < 115)
-		data->elem->sprite_id = SPRITE_6;
-	else if (fps < 118)
-		data->elem->sprite_id = SPRITE_5;
-	else if (fps < 121)
-		data->elem->sprite_id = SPRITE_4;
-	else if (fps < 124)
-		data->elem->sprite_id = SPRITE_3;
-	else if (fps < 127)
-		data->elem->sprite_id = SPRITE_2;
-	else if (fps < 130)
-		data->elem->sprite_id = SPRITE_1;
 	else
-		fps = 0;
+		ft_animate_sprite_aux(data, &fps);
 	fps++;
 }
 

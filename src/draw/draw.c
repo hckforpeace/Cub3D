@@ -6,22 +6,17 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:32:03 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 19:11:11 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 21:02:59 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_draw_cursor(t_data *data)
+static void	ft_draw_cursor_x(t_data *data)
 {
-	t_point center;
-	t_point x_line;
-	t_point	y_line;
+	t_point	x_line;
 	int		i;
 
-	center.x = WIDTH / 2;
-	center.y = HEIGHT / 2;
-	ft_draw_circle(center, 1, WHITE, data);
 	x_line.x = WIDTH / 2 - 4;
 	x_line.y = HEIGHT / 2 - 10;
 	i = x_line.x;
@@ -38,6 +33,13 @@ void	ft_draw_cursor(t_data *data)
 		ft_mlx_pixel_put(data->img, i, x_line.y, WHITE);
 		i++;
 	}
+}
+
+static void	ft_draw_cursor_y(t_data *data)
+{
+	t_point	y_line;
+	int		i;
+
 	y_line.x = WIDTH / 2 - 10;
 	y_line.y = HEIGHT / 2 - 4;
 	i = y_line.y;
@@ -56,43 +58,15 @@ void	ft_draw_cursor(t_data *data)
 	}
 }
 
-void	ft_init_img(t_data *data, t_img *img)
+void	ft_draw_cursor(t_data *data)
 {
-	img->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	if (!img->img)
-	{
-		mlx_destroy_window(data->mlx, data->mlx_win);
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		return ((void)printf(MLX_IMG));
-	}
-	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len, \
-		&img->endian);
-}
+	t_point	center;
 
-int	ft_render_map(t_data *data)
-{	
-	if (ft_sprite_in_map(data))
-		ft_animate_sprite(data);
-	if (ft_door_is_opening(data))
-		ft_animate_open_door(data);
-	if (ft_door_is_closing(data))
-		ft_animate_close_door(data);
-	if (data->p->jump)
-		ft_animate_jump(data);
-	mlx_destroy_image(data->mlx, data->img->img);
-	data->img->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	data->img->addr = mlx_get_data_addr(data->img->img, &data->img->bpp, \
-		&data->img->line_len, &data->img->endian);
-	ft_update_motion(data, data->p);
-	ft_floor_ceiling_raycast(data->floorcast, data->p, data);
-	ft_raycast(data->ray, data->p, data);
-	ft_minimap(data);
-	ft_draw_cursor(data);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
-	//ft_print_welcome_message(data);
-	ft_print_door_message(data);
-	return (0);
+	center.x = WIDTH / 2;
+	center.y = HEIGHT / 2;
+	ft_draw_circle(center, 1, WHITE, data);
+	ft_draw_cursor_x(data);
+	ft_draw_cursor_y(data);
 }
 
 void	ft_draw_circle(t_point center, int radius, int color, t_data *data)
@@ -114,30 +88,30 @@ void	ft_draw_circle(t_point center, int radius, int color, t_data *data)
 	}
 }
 
-void	ft_draw_background(t_data *data)
-{
-	int	y;
-	int	x;
+// void	ft_draw_background(t_data *data)
+// {
+// 	int	y;
+// 	int	x;
 
-	y = 0;
-	while (y <= HEIGHT / 2 - data->p->pitch)
-	{
-		x = 0;
-		while (x <= WIDTH)
-		{
-			ft_mlx_pixel_put(data->img, x, y, data->p->ceiling_col);
-			x++;
-		}
-		y++;
-	}
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x <= WIDTH)
-		{
-			ft_mlx_pixel_put(data->img, x, y, data->p->floor_col);
-			x++;
-		}
-		y++;
-	}
-}
+// 	y = 0;
+// 	while (y <= HEIGHT / 2 - data->p->pitch)
+// 	{
+// 		x = 0;
+// 		while (x <= WIDTH)
+// 		{
+// 			ft_mlx_pixel_put(data->img, x, y, data->p->ceiling_col);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	while (y < HEIGHT)
+// 	{
+// 		x = 0;
+// 		while (x <= WIDTH)
+// 		{
+// 			ft_mlx_pixel_put(data->img, x, y, data->p->floor_col);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }

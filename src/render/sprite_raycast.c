@@ -6,20 +6,20 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:26:10 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 15:41:52 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:06:46 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_apply_sprite_texture(t_data *data, t_elem *elem, int x, int y, int index)
+static void	ft_apply_sprite_texture(t_data *data, int x, int y, int index)
 {
-	int	color;
+	int		color;
 	double	dist_factor;
-	
-	dist_factor = 1.0 / (1.0 + pow(elem[index].dist, 2) * 0.0002);
-	color = ft_get_pixel_color(&data->tex->img[elem->sprite_id], data->spriteray->tex.x, \
-		data->spriteray->tex.y);
+
+	dist_factor = 1.0 / (1.0 + pow(data->elem[index].dist, 2) * 0.0002);
+	color = ft_get_pixel_color(&data->tex->img[data->elem->sprite_id], \
+		data->spriteray->tex.x, data->spriteray->tex.y);
 	if ((color & 0x00FFFFFF) != 0)
 		ft_mlx_pixel_put(data->img, x, y, ft_color_dark(color, dist_factor));
 }
@@ -71,21 +71,22 @@ void	ft_draw_sprites(t_data *data, int index)
 
 	spr = data->spriteray;
 	stripe = spr->draw_start.x - 1;
-	while (stripe < spr->draw_end.x)
+	while (stripe++ < spr->draw_end.x)
 	{
 		y = spr->draw_start.y;
 		spr->tex.x = (int)(256 * (stripe - (-spr->sprite_width / 2 + \
 			spr->screen_x)) * SPRITE_SIZE / spr->sprite_width) / 256;
-		if (spr->trans.y > 0 && stripe > 0 && stripe < WIDTH && spr->trans.y < data->ray->dist_buffer_wall[stripe]/* && spr->trans.y < data->ray->dist_buffer_door[x]*/)
+		if (spr->trans.y > 0 && stripe > 0 && stripe < WIDTH \
+			&& spr->trans.y < data->ray->dist_buffer_wall[stripe])
 		{
 			while (y < spr->draw_end.y)
 			{
-				d = (y + data->p->pitch) * 256 - HEIGHT * 128 + spr->sprite_height * 128;
+				d = (y + data->p->pitch) * 256 - HEIGHT * 128 \
+					+ spr->sprite_height * 128;
 				spr->tex.y = ((d * SPRITE_SIZE) / spr->sprite_height) / 256;
-				ft_apply_sprite_texture(data, data->elem, stripe, y, index);
+				ft_apply_sprite_texture(data, stripe, y, index);
 				y++;
 			}
 		}
-		stripe++;
 	}
 }

@@ -6,13 +6,13 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:24:10 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 15:37:52 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:57:54 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int			ft_sprite_in_map(t_data *data)
+int	ft_sprite_in_map(t_data *data)
 {
 	int	i;
 
