@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 19:36:13 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:17:29 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ int	ft_key_press(int keycode, t_data *data)
 		p->speed_up = 1;
 	else if (keycode == XK_space)
 		p->jump = 1;
-	//else if (keycode == XK_h)
-	//	p->hide_mouse *= -1;
 	return (0);
 }
 
@@ -150,10 +148,7 @@ int	ft_mouse(int x, int y, t_data *data)
 	int			old_y;
 
 	p = data->p;
-	//if (p->hide_mouse == -1)
 	mlx_mouse_hide(data->mlx, data->mlx_win);
-	//if (p->hide_mouse == 1)
-	//	mlx_mouse_show(data->mlx, data->mlx_win);
 	ft_trap_mouse(x, y, data);
 	old_x = p->mouse.x;
 	if (x > old_x)
@@ -172,11 +167,6 @@ int	ft_mouse(int x, int y, t_data *data)
 
 int	ft_close(t_data *data)
 {
-	mlx_destroy_image(data->mlx, data->img->img);
-	mlx_destroy_window(data->mlx, data->mlx_win);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
-	free(data->img);
-	free(data);
-	exit(0);
+	ft_free_all(data, NULL, 0);
+	return (0);
 }

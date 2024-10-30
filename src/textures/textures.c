@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 14:12:17 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 19:31:59 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:40:34 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ static void	ft_xpm_to_door(t_data *data, t_texture *tex, char *path, int id)
 	door_size = DOOR_SIZE;
 	img = mlx_xpm_file_to_image(data->mlx, path, &door_size, &door_size);
 	if (!img)
-		return ((void)printf("door texture not found"));
+		ft_free_all(data, "Texture not found", 1);
 	tex->img[id].img = img;
 	tex->img[id].addr = mlx_get_data_addr(img, &tex->img[id].bpp, \
 		&tex->img[id].line_len, &tex->img[id].endian);
 	if (!tex->img[id].addr)
-		return ((void)printf("mlx_get_data_addr failed"));
+		ft_free_all(data, MLX_ADDR, 1);
 }
 
 static void	ft_xpm_to_sprite(t_data *data, t_texture *tex, char *path, int id)
@@ -36,12 +36,12 @@ static void	ft_xpm_to_sprite(t_data *data, t_texture *tex, char *path, int id)
 	sprite_size = SPRITE_SIZE;
 	img = mlx_xpm_file_to_image(data->mlx, path, &sprite_size, &sprite_size);
 	if (!img)
-		return ((void)printf("sprite texture not found"));
+		ft_free_all(data, "Texture not found", 1);
 	tex->img[id].img = img;
 	tex->img[id].addr = mlx_get_data_addr(img, &tex->img[id].bpp, \
 		&tex->img[id].line_len, &tex->img[id].endian);
 	if (!tex->img[id].addr)
-		return ((void)printf("door mlx_get_data_addr failed"));
+		ft_free_all(data, MLX_ADDR, 1);
 }
 
 void	ft_xpm_to_img(t_data *data, t_texture *tex, char *path, int id)
@@ -52,12 +52,12 @@ void	ft_xpm_to_img(t_data *data, t_texture *tex, char *path, int id)
 	tex_size = TEX_SIZE;
 	img = mlx_xpm_file_to_image(data->mlx, path, &tex_size, &tex_size);
 	if (!img)
-		return ((void)printf("texture not found"));
+		ft_free_all(data, "Texture not found", 1);
 	tex->img[id].img = img;
 	tex->img[id].addr = mlx_get_data_addr(img, &tex->img[id].bpp, \
 		&tex->img[id].line_len, &tex->img[id].endian);
 	if (!tex->img[id].addr)
-		return ((void)printf("texture mlx_get_data_addr failed"));
+		ft_free_all(data, MLX_ADDR, 1);
 }
 
 void	ft_textures_init(t_data *data)
@@ -66,16 +66,18 @@ void	ft_textures_init(t_data *data)
 
 	tex = malloc(sizeof(t_texture));
 	if (!tex)
-		return ;
+		ft_free_all(data, "Malloc failed", 1);
 	ft_bzero(tex, sizeof(tex));
 	data->tex = tex;
 	tex->img = ft_calloc(sizeof(t_img), 24);
 	if (!tex->img)
-		return ;
+		ft_free_all(data, "Malloc failed", 1);
 	ft_xpm_to_img(data, data->tex, data->file->NO, NORTH);
 	ft_xpm_to_img(data, data->tex, data->file->EA, EAST);
 	ft_xpm_to_img(data, data->tex, data->file->SO, SOUTH);
 	ft_xpm_to_img(data, data->tex, data->file->WE, WEST);
+	ft_xpm_to_img(data, data->tex, "./textures/floor.xpm", FLOOR);
+	ft_xpm_to_img(data, data->tex, "./textures/ceiling.xpm", CEILING);
 	ft_xpm_to_sprite(data, data->tex, "./sprite/0.xpm", SPRITE_0);
 	ft_xpm_to_sprite(data, data->tex, "./sprite/1.xpm", SPRITE_1);
 	ft_xpm_to_sprite(data, data->tex, "./sprite/2.xpm", SPRITE_2);
@@ -94,6 +96,4 @@ void	ft_textures_init(t_data *data)
 	ft_xpm_to_door(data, data->tex, "./door/5.xpm", DOOR_5);
 	ft_xpm_to_door(data, data->tex, "./door/6.xpm", DOOR_6);
 	ft_xpm_to_door(data, data->tex, "./door/7.xpm", DOOR_7);
-	ft_xpm_to_img(data, data->tex, "./textures/floor.xpm", FLOOR);
-	ft_xpm_to_img(data, data->tex, "./textures/ceiling.xpm", CEILING);
 }

@@ -6,15 +6,15 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:34:57 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 19:40:21 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:41:05 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_init_rays(t_raycast *ray, t_player *p, int x)
+static void ft_init_rays(t_raycast *ray, t_player *p, int x)
 {
-	double	cam_x;
+	double cam_x;
 
 	cam_x = 2 * x / (double)WIDTH - 1;
 	ray->dir.x = p->dir.x + p->plane.x * cam_x;
@@ -27,7 +27,7 @@ static void	ft_init_rays(t_raycast *ray, t_player *p, int x)
 		ray->delta.y = fabs(1 / ray->dir.y);
 }
 
-static void	ft_step(t_raycast *ray, t_player *p)
+static void ft_step(t_raycast *ray, t_player *p)
 {
 	if (ray->dir.x < 0)
 	{
@@ -51,7 +51,7 @@ static void	ft_step(t_raycast *ray, t_player *p)
 	}
 }
 
-static	void	ft_dda(t_raycast *ray, t_data *data)
+static void ft_dda(t_raycast *ray, t_data *data)
 {
 	while (1)
 	{
@@ -68,18 +68,16 @@ static	void	ft_dda(t_raycast *ray, t_data *data)
 			ray->side_col = 1;
 		}
 		if (data->file->map[(int)ray->map.y][(int)ray->map.x] == '1')
-			break ;
+			break;
 	}
 }
 
-static void	ft_calculate_wall(t_raycast *ray, t_player *p)
+static void ft_calculate_wall(t_raycast *ray, t_player *p)
 {
 	if (ray->side_col == 0)
-		ray->wall_dist = (ray->map.x - p->pos.x + (1 - ray->step.x) / 2) \
-			/ ray->dir.x;
+		ray->wall_dist = (ray->map.x - p->pos.x + (1 - ray->step.x) / 2) / ray->dir.x;
 	else
-		ray->wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) \
-			/ ray->dir.y;
+		ray->wall_dist = (ray->map.y - p->pos.y + (1 - ray->step.y) / 2) / ray->dir.y;
 	ray->height = (int)(HEIGHT / ray->wall_dist);
 	ray->y_vertical.x = -ray->height / 2 + HEIGHT / 2 - p->pitch;
 	ray->y_vertical.y = ray->height + ray->y_vertical.x;
@@ -92,7 +90,7 @@ static void	ft_calculate_wall(t_raycast *ray, t_player *p)
 	ray->wall_x -= floor(ray->wall_x);
 }
 
-void	ft_get_texture_orientation(t_texture *tex, t_raycast *ray)
+void ft_get_texture_orientation(t_texture *tex, t_raycast *ray)
 {
 	if (ray->side_col == 0)
 	{
@@ -110,9 +108,9 @@ void	ft_get_texture_orientation(t_texture *tex, t_raycast *ray)
 	}
 }
 
-void	ft_apply_texture_color(t_data *data, int id, int x, int y)
+void ft_apply_texture_color(t_data *data, int id, int x, int y)
 {
-	int	color;
+	int color;
 
 	data->ray->dist_factor = 1.0 / (1.0 + pow(data->ray->wall_dist, 2) * 0.008);
 	color = ft_get_pixel_color(&data->tex->img[id], data->tex->x, data->tex->y);
@@ -120,14 +118,13 @@ void	ft_apply_texture_color(t_data *data, int id, int x, int y)
 		ft_mlx_pixel_put(data->img, x, y, ft_color_dark(color, data->ray->dist_factor));
 }
 
-void	ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x)
+void ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x)
 {
-	int		y;
+	int y;
 
 	ft_get_texture_orientation(tex, ray);
 	tex->x = (int)(ray->wall_x * TEX_SIZE);
-	if ((ray->side_col == 0 && ray->dir.x < 0) \
-		|| (ray->side_col == 1 && ray->dir.y > 0))
+	if ((ray->side_col == 0 && ray->dir.x < 0) || (ray->side_col == 1 && ray->dir.y > 0))
 		tex->x = TEX_SIZE - tex->x - 1;
 	tex->step = 1.0 * TEX_SIZE / ray->height;
 	tex->pos = (ray->y_vertical.x - HEIGHT / 2 + data->p->pitch + ray->height / 2) * tex->step;
@@ -141,10 +138,10 @@ void	ft_calculate_text(t_data *data, t_texture *tex, t_raycast *ray, int x)
 	}
 }
 
-void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
+void ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 {
-	int	x;
-	int	i;
+	int x;
+	int i;
 
 	x = 0;
 	while (x < WIDTH)
@@ -158,29 +155,28 @@ void	ft_raycast(t_raycast *ray, t_player *p, t_data *data)
 		x++;
 	}
 	i = 0;
-	ft_sort_doors_by_dist(data);
-	while (i < data->file->door_count)
+	ft_sort_elem_by_dist(data);
+	while (i < data->file->elem_count)
 	{
-		x = 0;
-		while (x < WIDTH)
+		if (data->elem[i].type == SPRITE)
 		{
-			ft_init_rays(&data->door[i].ray, p, x);
-			ft_step(&data->door[i].ray, p);
-			ft_dda_door(&data->door[i].ray, data, i);
-			ft_calculate_wall_door(&data->door[i].ray, p);
-			ft_calculate_door_text(data, &data->door[i].ray, &data->door[i], x);
-			//ray->dist_buffer_door[x] = data->door[i].ray.wall_dist;
-			x++;
+			ft_transform_sprite(data, i);
+			ft_calc_width_height(data);
+			ft_draw_sprites(data, i);
 		}
-		i++;
-	}
-	i = 0;
-	ft_sort_sprites_by_dist(data);
-	while (i < data->file->sprite_count)
-	{
-		ft_transform_sprite(data, i);
-		ft_calc_width_height(data);
-		ft_draw_sprites(data, i);
+		if (data->elem[i].type == DOOR)
+		{
+			x = 0;
+			while (x < WIDTH)
+			{
+				ft_init_rays(&data->elem[i].ray, p, x);
+				ft_step(&data->elem[i].ray, p);
+				ft_dda_door(&data->elem[i].ray, data, i);
+				ft_calculate_wall_door(&data->elem[i].ray, p);
+				ft_calculate_door_text(data, &data->elem[i].ray, &data->elem[i], x);
+				x++;
+			}
+		}
 		i++;
 	}
 }

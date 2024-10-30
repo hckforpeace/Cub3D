@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:11:48 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/28 20:47:56 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:46:36 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 int	ft_wall_collision(double x, double y, t_data *data)
 {
-	if (data->file->map[(int)y][(int)x] == '1' || (data->file->map[(int)y][(int)x] == 'D' && data->door[data->file->door_count - 1].status)/*|| data->file->map[(int)y][(int)x] == 'X'*/)
+	int	i;
+	
+	i = ft_find_nearest_door_index(data);
+	if (data->file->map[(int)y][(int)x] == '1' || (data->file->map[(int)y][(int)x] == 'D' && data->elem[i].status))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:05:33 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/29 12:06:48 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:16:22 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,21 +113,21 @@ int	parse_map_aux(t_list *list, int len)
 	return (0);
 }
 
-void	parse_map(t_file *file, t_list *list)
+void	parse_map(t_file *file, t_list *list, t_data *data)
 {
 	int	len;
 
 	len = get_lstlen(list);
 	if (!end_of_map(list, len))
-		parser_exit(file, "Invalid content\ncharachters after map", 1);
+		ft_free_all(data, "Invalid content\ncharachters after map", 1);
 	if (len == 0)
-		parser_exit(file, "Missing map !", 1);
+		ft_free_all(data, "Missing map !", 1);
 	if (!parse_map_aux(list, len))
-		parser_exit(file, INVALID_MAPCONTENT, 1);
+		ft_free_all(data, INVALID_MAPCONTENT, 1);
 	if (save_map(len, file, list) != -1 || !set_playerpos(file))
-		parser_exit(file, "UNEXPECTED ERROR", 1);
+		ft_free_all(data, "UNEXPECTED ERROR", 1);
 	if (map_flood_fill(file->map, file->start[0], file->start[1], file))
-		printf("ok\n");
+		return ;
 	else
-		parser_exit(file, INVALID_MAPSHAPE, 1);
+		ft_free_all(data, INVALID_MAPSHAPE, 1);
 }

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/29 19:33:55 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:04:48 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/includes/libft.h"
 # include "../mlx_linux/mlx.h"
+# include "./structs.h"
 # include <stdio.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -26,23 +27,18 @@
 containt only white spaces, 0, 1, and only one  (N, S, E, W)"
 # define INVALID_MAPSHAPE "Invalid map !\n\t The player must be surrounded \
 by walls"
-# define INVALIDFD_ERROR "invalid file:\n\n expected ./cub3d file_name.cub\n"
-# define MLX_CON "\n\nError while initilaizing the mlx\n"
-# define MLX_WIN "\n\nError while creating\n"
-# define MLX_IMG "\n\nError while creating the image\n"
+# define MLX_CON "\n\nError while initilaizing the mlx"
+# define MLX_WIN "\n\nError while creating the window"
+# define MLX_IMG "\n\nError while creating the image"
+# define MLX_ADDR "\n\n Error while creating the image address"
 
-/*Dimensions*/
-# define WIDTH		 1920
-# define HEIGHT 	 1015
-# define TEX_SIZE	 64
-# define DOOR_SIZE   64
-# define SPRITE_SIZE 32
-# define TILE_SIZE	 10
+/*States or type*/
 # define OPEN		 0
 # define CLOSE		 1
 # define IS_OPENING  2
 # define IS_CLOSING  3
-
+# define SPRITE		 4
+# define DOOR		 5
 
 /*Colors*/
 # define WHITE 0xFFFFFFF
@@ -60,206 +56,12 @@ by walls"
 # define BLUE 0x779ECB
 # define ORANGE 0xF5B895
 
-typedef struct s_data	t_data;
+/*Init*/
+t_file	*init_file(t_data *data);
+t_data	*ft_init_data(void);
 
-typedef struct s_point
-{
-	double	x;
-	double	y;
-}	t_point;
-
-typedef enum e_dir
-{
-	NORTH=0,
-	EAST=1,
-	SOUTH=2,
-	WEST=3,
-	SPRITE_0=4,
-	SPRITE_1=5,
-	SPRITE_2=6,
-	SPRITE_3=7,
-	SPRITE_4=8,
-	SPRITE_5=9,
-	SPRITE_6=10,
-	SPRITE_7=11,
-	SPRITE_8=12,
-	SPRITE_9=13,
-	DOOR_0=14,
-	DOOR_1=15,
-	DOOR_2=16,
-	DOOR_3=17,
-	DOOR_4=18,
-	DOOR_5=19,
-	DOOR_6=20,
-	DOOR_7=21,
-	FLOOR=22,
-	CEILING=23,
-}	t_dir;
-
-typedef struct	s_rgb
-{
-	int	r;
-	int	g;
-	int	b;
-	int	rgb[3];
-}	t_rgb;
-
-typedef struct s_bresenham
-{
-	struct s_point	delta;
-	struct s_point	p;
-	struct s_point	p_inc;
-}	t_bresenham;
-
-typedef struct s_floorcast
-{
-	struct s_point	dir0;
-	struct s_point	dir1;
-	struct s_point	step;
-	struct s_point	floor;
-	double			row_dist;
-}	t_floorcast;
-
-typedef struct s_raycast
-{
-	struct s_point	dir;
-	struct s_point	map;
-	struct s_point	side;
-	struct s_point	delta;
-	struct s_point	step;
-	struct s_point	y_vertical;
-	double			wall_dist;
-	double			wall_x;
-	double			dist_factor;
-	int				height;
-	int				side_col;
-	double			dist_buffer_wall[WIDTH];
-	double			dist_buffer_door[WIDTH];
-}	t_raycast;
-
-typedef struct s_player
-{
-	char			direction;
-	struct s_point	pos;
-	struct s_point	dir;
-	struct s_point	plane;
-	struct s_point	mouse;
-	double			angle;
-	double			speed;
-	int				pitch;
-	int				jump;
-	//int				hide_mouse;
-	int				ceiling_col;
-	int				floor_col;
-	int				move_up;
-	int				move_down;
-	int				move_left;
-	int				move_right;
-	int				rotate_right;
-	int				rotate_left;
-	int				rotate_up;
-	int				rotate_down;
-	int				open_door;
-	int				close_door;
-	int				speed_up;
-}	t_player;
-
-typedef struct s_img
-{
-	int		width;
-	int		height;
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_len;
-	int		endian;
-}	t_img;
-
-typedef struct s_sprite
-{
-	t_point	pos;
-	double	dist;
-	int		sprite_id;
-}	t_sprite;
-
-typedef struct s_door
-{
-	t_point		pos;
-	t_raycast	ray;
-	double		dist;
-	int			status;
-	int			door_id;
-}	t_door;
-
-typedef struct s_spriteray
-{
-	t_point	ray;
-	t_point	trans;
-	t_point	draw_start;
-	t_point	draw_end;
-	t_point	tex;
-	double	inv_det;
-	int		screen_x;
-	int		sprite_height;
-	int		sprite_width;
-}	t_spriteray;
-
-typedef struct s_minimap
-{
-	double	size;
-	t_point	start;
-}	t_minimap;
-
-typedef struct s_file
-{
-	t_list	*fd_list;
-	char	**map;
-	int		crgb[3];
-	int		frgb[3];
-	char	orientation;
-	double	start[2];
-	char	*NO;
-	char	*SO;
-	char	*WE;
-	char	*EA;
-	int		fd;
-	int		sprite_count;
-	int		door_count;
-}	t_file;
-
-typedef struct s_texture
-{
-	t_img		*img;
-	int			x;
-	int			y;
-	double		step;
-	double		pos;
-	int			orientation;
-}	t_texture;
-
-typedef struct s_data
-{
-	void		*mlx;
-	void		*mlx_win;
-	t_texture	*tex;
-	t_img		*img;
-	t_file		*file;
-	t_player	*p;
-	t_raycast	*ray;
-	t_spriteray	*spriteray;
-	t_floorcast	*floorcast;
-	t_sprite	*sprite;
-	t_door		*door;
-	t_minimap	*minimap;
-}	t_data;
-
-// added by Pablo
-
-t_file	*init_file(void);
-t_data	*ft_init_data(t_file *file);
 /*Mlx*/
-void		ft_mlx_init(t_data *data);
-//void	ft_events(t_data *data);
+void	ft_mlx_init(t_data *data);
 void	ft_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 /*Maths Utils*/
@@ -270,11 +72,14 @@ int		ft_count_column(char *map);
 
 /*Player*/
 void	ft_player_init(t_data *data);
+int		ft_sprite_in_map(t_data *data);
 
 /*Minimap*/
 void	ft_minimap(t_data *data);
 int		ft_door_status(t_data *data, int y, int x);
-int		ft_is_near_door(t_data *data);
+int		ft_is_near_door(t_data *data, int i);
+int		ft_door_is_opening(t_data *data);
+int		ft_door_is_closing(t_data *data);
 int		ft_select_door(t_data *data, int y, int x, int i);
 
 /*Events handlers*/
@@ -297,7 +102,7 @@ void	ft_speed_up(t_player *p);
 void	ft_raycast(t_raycast *ray, t_player *p, t_data *data);
 void	ft_dda_door(t_raycast *ray, t_data *data, int i);
 void	ft_calculate_wall_door(t_raycast *ray, t_player *p);
-void	ft_calculate_door_text(t_data *data, t_raycast *ray, t_door *door, int x);
+void	ft_calculate_door_text(t_data *data, t_raycast *ray, t_elem *elem, int x);
 void	ft_apply_texture_color(t_data *data, int id, int x, int y);
 void	ft_floor_ceiling_raycast(t_floorcast *floorcast, t_player *p, t_data *data);
 
@@ -320,19 +125,20 @@ void			ft_put_pixel_blurred(t_img *img, t_point *p, unsigned int color);
 void	ft_transform_sprite(t_data *data, int index);
 void	ft_calc_width_height(t_data *data);
 void	ft_draw_sprites(t_data *data, int index);
-void	ft_sort_sprites_by_dist(t_data *data);
-void	ft_sort_doors_by_dist(t_data *data);
+int		ft_find_nearest_door_index(t_data *data);
+void	ft_sort_elem_by_dist(t_data *data);
 void	ft_animate_sprite(t_data *data);
 void	ft_animate_open_door(t_data *data);
 void	ft_animate_close_door(t_data *data);
 void	ft_animate_jump(t_data *data);
+void	ft_print_door_message(t_data *data);
 
 // ./src/parser/parser.c
-void	parser_exit(t_file *file, char *exmessage, int exno);
+void	ft_free_all(t_data *data, char *message, int code);
 
 // ./src/parser/parser.c
 void	parser(int argc, char **argv, t_file *file, t_data *data);
-t_list	*parse_header(t_file *data, t_list *list);
+t_list	*parse_header(t_file *file, t_list *list, t_data *data);
 void	ft_parse_sprites_doors(t_file *file, t_data *data);
 
 // ./src/parser/parse_save.c
@@ -340,7 +146,7 @@ void	parse_savetxture(char **info, t_file *file);
 int		parse_savecolor(char **info, t_file *file);
 
 // ./src/parser/parser_maopen x, int y, char **map);
-void	parse_map(t_file *file, t_list *list);
+void	parse_map(t_file *file, t_list *list, t_data *data);
 int		is_valid_zero(int x, int y, char **map);
 int		save_map(int len, t_file *file, t_list *list);
 

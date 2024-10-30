@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/29 11:13:22 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:15:42 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ void	parser(int argc, char **argv, t_file *file, t_data *data)
 	t_list	*temp;
 
 	if (argc != 2 || !is_valid_file_name(argv[1]))
-		parser_exit(file, "invalid filename", 1);
+		ft_free_all(data, "invalid filename", 1);
 	file->fd = open(argv[1], O_RDONLY);
 	if (file->fd < 0)
-		parser_exit(file, "failed to open the file !", 1);
+		ft_free_all(data, "failed to open the file !", 1);
 	file_to_list(file);
 	close(file->fd);
-	temp = parse_header(file, file->fd_list);
-	parse_map(file, temp);
+	temp = parse_header(file, file->fd_list, data);
+	parse_map(file, temp, data);
 	reset_map(file->map);
 	ft_parse_sprites_doors(file, data);
 }

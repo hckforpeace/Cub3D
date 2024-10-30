@@ -6,19 +6,19 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:26:10 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 16:50:47 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:41:52 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_apply_sprite_texture(t_data *data, t_sprite *sprite, int x, int y, int index)
+static void	ft_apply_sprite_texture(t_data *data, t_elem *elem, int x, int y, int index)
 {
 	int	color;
 	double	dist_factor;
 	
-	dist_factor = 1.0 / (1.0 + pow(sprite[index].dist, 2) * 0.0002);
-	color = ft_get_pixel_color(&data->tex->img[sprite->sprite_id], data->spriteray->tex.x, \
+	dist_factor = 1.0 / (1.0 + pow(elem[index].dist, 2) * 0.0002);
+	color = ft_get_pixel_color(&data->tex->img[elem->sprite_id], data->spriteray->tex.x, \
 		data->spriteray->tex.y);
 	if ((color & 0x00FFFFFF) != 0)
 		ft_mlx_pixel_put(data->img, x, y, ft_color_dark(color, dist_factor));
@@ -31,8 +31,8 @@ void	ft_transform_sprite(t_data *data, int index)
 
 	spr = data->spriteray;
 	p = data->p;
-	spr->ray.x = data->sprite[index].pos.x - p->pos.x;
-	spr->ray.y = data->sprite[index].pos.y - p->pos.y;
+	spr->ray.x = data->elem[index].pos.x - p->pos.x;
+	spr->ray.y = data->elem[index].pos.y - p->pos.y;
 	spr->inv_det = 1.0 / (p->plane.x * p->dir.y - p->dir.x * p->plane.y);
 	spr->trans.x = spr->inv_det * \
 		(p->dir.y * spr->ray.x - p->dir.x * spr->ray.y);
@@ -82,7 +82,7 @@ void	ft_draw_sprites(t_data *data, int index)
 			{
 				d = (y + data->p->pitch) * 256 - HEIGHT * 128 + spr->sprite_height * 128;
 				spr->tex.y = ((d * SPRITE_SIZE) / spr->sprite_height) / 256;
-				ft_apply_sprite_texture(data, data->sprite, stripe, y, index);
+				ft_apply_sprite_texture(data, data->elem, stripe, y, index);
 				y++;
 			}
 		}

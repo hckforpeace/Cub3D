@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 12:13:06 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 19:35:50 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:00:07 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void ft_speed_up(t_player *p)
 {
-	p->speed = 0.3;
+	p->speed = 0.25;
 }
 
 void ft_rotate(t_player *p, double angle)
@@ -63,12 +63,22 @@ void ft_move_right(t_player *p, t_data *data)
 
 void ft_open_door(t_data *data)
 {
-	if (data->door[data->file->door_count - 1].status == CLOSE && ft_is_near_door(data))
-		data->door[data->file->door_count - 1].status = IS_OPENING;
+	int	i;
+	
+	i = ft_find_nearest_door_index(data);
+	if (i == -1)
+		return ;
+	if (data->elem[i].status == CLOSE && ft_is_near_door(data, i))
+		data->elem[i].status = IS_OPENING;
 }
 
 void ft_close_door(t_data *data)
 {
-	if (data->door[data->file->door_count - 1].status == OPEN && ft_is_near_door(data) && !ft_select_door(data, data->p->pos.y, data->p->pos.x, data->file->door_count - 1))
-		data->door[data->file->door_count - 1].status = IS_CLOSING;
+	int	i;
+	
+	i = ft_find_nearest_door_index(data);
+	if (i == -1)
+		return ;
+	if (data->elem[i].status == OPEN && ft_is_near_door(data, i) && !ft_select_door(data, data->p->pos.y, data->p->pos.x, i))
+		data->elem[i].status = IS_CLOSING;
 }

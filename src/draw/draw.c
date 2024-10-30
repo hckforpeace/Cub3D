@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 10:32:03 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 18:59:37 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 19:11:11 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ void	ft_init_img(t_data *data, t_img *img)
 }
 
 int	ft_render_map(t_data *data)
-{
-	if (data->file->sprite_count > 0)
+{	
+	if (ft_sprite_in_map(data))
 		ft_animate_sprite(data);
-	if (data->door[data->file->door_count - 1].status == IS_OPENING)
+	if (ft_door_is_opening(data))
 		ft_animate_open_door(data);
-	if (data->door[data->file->door_count - 1].status == IS_CLOSING)
+	if (ft_door_is_closing(data))
 		ft_animate_close_door(data);
 	if (data->p->jump)
 		ft_animate_jump(data);
@@ -85,12 +85,13 @@ int	ft_render_map(t_data *data)
 	data->img->addr = mlx_get_data_addr(data->img->img, &data->img->bpp, \
 		&data->img->line_len, &data->img->endian);
 	ft_update_motion(data, data->p);
-	//ft_draw_background(data);
 	ft_floor_ceiling_raycast(data->floorcast, data->p, data);
 	ft_raycast(data->ray, data->p, data);
 	ft_minimap(data);
 	ft_draw_cursor(data);
 	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img->img, 0, 0);
+	//ft_print_welcome_message(data);
+	ft_print_door_message(data);
 	return (0);
 }
 

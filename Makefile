@@ -2,9 +2,9 @@ NAME= cub3D
 
 MAIN= src/main.c
 
-PARSER= parser.c parser_header.c parser_map.c parser_save.c parser_exit.c parser_init.c parser_sprite.c
+PARSER= parser.c parser_header.c parser_map.c parser_save.c parser_init.c parser_sprite.c
 
-UTILS= utils_parse.c utils_lst.c utils_save_map.c utils_parse2.c
+UTILS= utils_parse.c utils_lst.c utils_save_map.c utils_parse2.c free.c
 
 SPRITE= sprite_utils.c animation.c
 
@@ -50,7 +50,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C libft
-	 $(CC) $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -lft -L./libft -Imlx_linux -lXext -lX11 -lXrender -lm -lz -o $(NAME)
+	 $(CC) $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -lft -L./libft -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 %.o : %.c
 	$(CC) $(CFLAGS) -I./include -I/usr/include -Imlx_linux -O3 -c $< -o $@

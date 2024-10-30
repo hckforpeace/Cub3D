@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 22:46:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 14:10:25 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:28:26 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_select_door(t_data *data, int y, int x, int i)
 {
-	if (((int)data->door[i].pos.x == x) && ((int)data->door[i].pos.y == y))
+	if (((int)data->elem[i].pos.x == x) && ((int)data->elem[i].pos.y == y))
 		return (1);
 	return (0);
 }
@@ -73,17 +73,17 @@ void	ft_calculate_wall_door(t_raycast *ray, t_player *p)
 	ray->wall_x -= floor(ray->wall_x);
 }
 
-void	ft_apply_door_texture(t_data *data, t_door *door, int x, int y)
+void	ft_apply_door_texture(t_data *data, t_elem *elem, int x, int y)
 {
 	int	color;
 
-	door->ray.dist_factor = 1.0 / (1.0 + pow(door->ray.wall_dist, 2) * 0.008);
-	color = ft_get_pixel_color(&data->tex->img[door->door_id], data->tex->x, data->tex->y);
+	elem->ray.dist_factor = 1.0 / (1.0 + pow(elem->ray.wall_dist, 2) * 0.008);
+	color = ft_get_pixel_color(&data->tex->img[elem->door_id], data->tex->x, data->tex->y);
 	if (color > 0 && (color & 0x00FFFFFF) != 0)
-		ft_mlx_pixel_put(data->img, x, y, ft_color_dark(color, door->ray.dist_factor));
+		ft_mlx_pixel_put(data->img, x, y, ft_color_dark(color, elem->ray.dist_factor));
 }
 
-void ft_calculate_door_text(t_data *data, t_raycast *ray, t_door *door, int x)
+void ft_calculate_door_text(t_data *data, t_raycast *ray, t_elem *elem, int x)
 {
 	int y;
 
@@ -97,8 +97,8 @@ void ft_calculate_door_text(t_data *data, t_raycast *ray, t_door *door, int x)
 	{
 		data->tex->y = (int)data->tex->pos & (DOOR_SIZE - 1);
 		data->tex->pos += data->tex->step;
-		if (ray->wall_dist < data->ray->dist_buffer_wall[x])
-			ft_apply_door_texture(data, door, x, y);
+		if (ray->wall_dist < data->ray->dist_buffer_wall[x] /*&& ray->wall_dist < data->spriteray->trans.y*/)
+			ft_apply_door_texture(data, elem, x, y);
 		y++;
 	}
 }

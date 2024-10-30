@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 13:10:23 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 12:08:15 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:41:51 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void ft_init_minimap(t_data *data)
 
 	minimap = (t_minimap *)malloc(sizeof(t_minimap));
 	if (!minimap)
-		return;
+		ft_free_all(data, "Malloc failed", 1);
 	data->minimap = minimap;
 	minimap->size = ft_min(WIDTH, HEIGHT) / 6;
 	minimap->start.x = WIDTH / 50;

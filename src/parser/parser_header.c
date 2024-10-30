@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:49:22 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/28 20:21:09 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 18:16:00 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,20 @@ int	no_duplicate(t_file *file)
 
 //TODO add check that there is at least white 
 // space after the first two blocks
-t_list	*parse_header(t_file *file, t_list *list)
+t_list	*parse_header(t_file *file, t_list *list, t_data *data)
 {
 	if (!list)
-		parser_exit(file, "Empty file !", 1);
+		ft_free_all(data, "Empty file !", 1);
 	while (list && ft_isemptyline((char *)list->content))
 		list = list->next;
 	if (!list)
-		parser_exit(file, "Invalid format !", 1);
+		ft_free_all(data, "Invalid format !", 1);
 	list = parse_texture_color(file, list);
 	if (!list || !no_duplicate(file))
-		parser_exit(file, "Invalid format !", 1);
+		ft_free_all(data, "Invalid format !", 1);
 	while (list && ft_isemptyline((char *)list->content))
 		list = list->next;
 	if (!list)
-		parser_exit(file, "Missing map", 1);
+		ft_free_all(data, "Missing map", 1);
 	return (list);
 }

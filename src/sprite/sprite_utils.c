@@ -6,81 +6,57 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 16:24:10 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/29 11:32:02 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/30 15:37:52 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_calc_door_dist(t_data *data, t_player *p)
+int			ft_sprite_in_map(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < data->file->door_count)
+	while (i < data->file->elem_count)
 	{
-		data->door[i].dist = pow(p->pos.x - data->door[i].pos.x, 2) + \
-			pow(p->pos.y - data->door[i].pos.y, 2);
+		if (data->elem[i].type == SPRITE)
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
-static void	ft_calc_sprite_dist(t_data *data, t_player *p)
+static void	ft_calc_elem_dist(t_data *data, t_player *p)
 {
 	int	i;
 
 	i = 0;
-	while (i < data->file->sprite_count)
+	while (i < data->file->elem_count)
 	{
-		data->sprite[i].dist = pow(p->pos.x - data->sprite[i].pos.x, 2) + \
-			pow(p->pos.y - data->sprite[i].pos.y, 2);
+		data->elem[i].dist = pow(p->pos.x - data->elem[i].pos.x, 2) + \
+			pow(p->pos.y - data->elem[i].pos.y, 2);
 		i++;
 	}
 }
 
-void	ft_sort_sprites_by_dist(t_data *data)
+void	ft_sort_elem_by_dist(t_data *data)
 {
 	int			i;
 	int			j;
-	t_sprite	tmp;
+	t_elem		tmp;
 
-	ft_calc_sprite_dist(data, data->p);
+	ft_calc_elem_dist(data, data->p);
 	i = 0;
-	while (i < data->file->sprite_count)
+	while (i < data->file->elem_count)
 	{
 		j = 0;
-		while (j < data->file->sprite_count - 1)
+		while (j < data->file->elem_count - 1)
 		{
-			if (data->sprite[j].dist < data->sprite[j + 1].dist)
+			if (data->elem[j].dist < data->elem[j + 1].dist)
 			{
-				tmp = data->sprite[j];
-				data->sprite[j] = data->sprite[j + 1];
-				data->sprite[j + 1] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	ft_sort_doors_by_dist(t_data *data)
-{
-	int			i;
-	int			j;
-	t_door		tmp;
-
-	ft_calc_door_dist(data, data->p);
-	i = 0;
-	while (i < data->file->door_count)
-	{
-		j = 0;
-		while (j < data->file->door_count - 1)
-		{
-			if (data->door[j].dist < data->door[j + 1].dist)
-			{
-				tmp = data->door[j];
-				data->door[j] = data->door[j + 1];
-				data->door[j + 1] = tmp;
+				tmp = data->elem[j];
+				data->elem[j] = data->elem[j + 1];
+				data->elem[j + 1] = tmp;
 			}
 			j++;
 		}
