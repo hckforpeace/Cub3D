@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 17:26:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 23:12:43 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:00:20 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	ft_free_all_aux(t_data *data)
 		free(data->elem);
 	if (data->minimap)
 		free(data->minimap);
-	if (data->mlx && data->img->img)
+	if (data->mlx && data->img && data->img->img)
 		mlx_destroy_image(data->mlx, data->img->img);
 	if (data->mlx && data->mlx_win)
 		mlx_destroy_window(data->mlx, data->mlx_win);

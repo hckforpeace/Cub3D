@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:33 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/30 23:38:15 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:49:14 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define WELCOME_MSG "Welcome to cub3d ! To move around press {A, W, S, D} \
 keys, move the view with the mouse, sprint with 'L_Shift' and jump with \
 'Space'. Enjoy ;)"
+# define CLOSE_MSG "(To close this message, press 'Enter')"
 # define INPUT_ERROR "wrong input:\n\n expected ./cub3d file_name.cub\n"
 # define INVALIDFD_ERROR "invalid file:\n\n expected ./cub3d file_name.cub\n"
 # define INVALID_MAPCONTENT "Invalid characters in MAP !\n\t the map can \
@@ -141,8 +142,9 @@ void	ft_draw_cursor(t_data *data);
 /*Color*/
 int		ft_get_pixel_color(t_img *img, int x, int y);
 void	ft_put_pixel_blurred(t_img *img, t_point *p, unsigned int color);
+void	ft_free_all(t_data *data, char *message, int code);
 
-// ./src/sprite/
+/*Sprite*/
 void	ft_transform_sprite(t_data *data, int index);
 void	ft_calc_width_height(t_data *data);
 void	ft_draw_sprites(t_data *data, int index);
@@ -153,8 +155,6 @@ void	ft_animate_open_door(t_data *data);
 void	ft_animate_close_door(t_data *data);
 void	ft_animate_jump(t_data *data);
 
-void	ft_free_all(t_data *data, char *message, int code);
-
 /*Parsing*/
 void	parser(int argc, char **argv, t_file *file, t_data *data);
 t_list	*parse_header(t_file *file, t_list *list, t_data *data);
@@ -164,22 +164,12 @@ int		parse_savecolor(char **info, t_file *file);
 void	parse_map(t_file *file, t_list *list, t_data *data);
 int		is_valid_zero(int x, int y, char **map);
 int		save_map(int len, t_file *file, t_list *list);
-
-// ./src/parser/display
-void	display(t_list *lst);
-void	display_data(t_file *file);
-
-// ./src/utils/utils_parse.c
 int		ft_istexture(char *str);
 int		ft_iscolor(char *str);
 int		ft_isemptyline(char *str);
 t_list	*save_texture(t_list *list, t_file *file);
 t_list	*save_color(t_list *list, t_file *file);
-
-// ./src/utils_parse2.c
 int		is_valid_door(int x, int y, char **map);
-
-// ./src/utils/utils_lst.c
 int		get_lstlen(t_list *list);
 int		end_of_map(t_list *list, int len);
 void	ft_free_tab(int	**tab);

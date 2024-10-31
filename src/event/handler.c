@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 14:12:22 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 21:39:09 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/31 15:42:11 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	ft_key_press_aux(int keycode, t_player *p)
 		p->speed_up = 1;
 	else if (keycode == XK_space)
 		p->jump = 1;
+	else if (keycode == 65293)
+		p->welcome = 0;
 }
 
 int	ft_key_press(int keycode, t_data *data)

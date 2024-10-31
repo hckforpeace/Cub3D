@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 11:57:19 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/30 23:38:58 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:00:27 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ int	main(int argc, char **argv)
 		return (printf(INPUT_ERROR), 1);
 	data = ft_init_data();
 	parser(argc, argv, data->file, data);
+	ft_player_init(data);
 	ft_mlx_init(data);
 	ft_textures_init(data);
-	ft_player_init(data);
 	mlx_loop_hook(data->mlx, ft_render_map, data);
 	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, ft_key_press, data);
 	mlx_hook(data->mlx_win, KeyRelease, KeyReleaseMask, ft_key_release, data);

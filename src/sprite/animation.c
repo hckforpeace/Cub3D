@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:04:46 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 23:01:05 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:47:37 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,14 @@ void	ft_animate_jump(t_data *data)
 {
 	static int	fps = 0;
 
-	if (fps < 10)
-		data->p->pitch -= 10;
+	if (fps < 5)
+		data->p->pitch -= 15;
+	else if (fps < 10)
+		data->p->pitch -= 4;
 	else if (fps < 15)
-		data->p->pitch -= 2;
+		data->p->pitch += 4;
 	else if (fps < 20)
-		data->p->pitch += 2;
-	else if (fps < 30)
-		data->p->pitch += 10;
+		data->p->pitch += 15;
 	else
 	{
 		data->p->jump = 0;

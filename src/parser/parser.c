@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:01:20 by pierre            #+#    #+#             */
-/*   Updated: 2024/10/30 18:15:42 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:04:28 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ void	parser(int argc, char **argv, t_file *file, t_data *data)
 {
 	t_list	*temp;
 
+	if (TEX_SIZE != 64 || DOOR_SIZE != 64 || SPRITE_SIZE != 32 \
+		|| TILE_SIZE != 10)
+		ft_free_all(data, "Texture size macros not compatible with .xmp", 1);
+	if (WIDTH < 1000 || HEIGHT < 500)
+		ft_free_all(data, "Window dimensions too small", 1);
 	if (argc != 2 || !is_valid_file_name(argv[1]))
 		ft_free_all(data, "invalid filename", 1);
 	file->fd = open(argv[1], O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 18:23:58 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/30 23:30:38 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:05:05 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_player
 	struct s_point	mouse;
 	double			angle;
 	double			speed;
+	long			old_time;
 	int				pitch;
 	int				jump;
 	int				ceiling_col;
@@ -148,6 +149,7 @@ typedef struct s_elem
 	int			status;
 	int			door_id;
 	int			sprite_id;
+	int			sprite_up;
 }	t_elem;
 
 typedef struct s_spriteray
