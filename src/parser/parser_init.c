@@ -6,11 +6,26 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:33:41 by pbeyloun          #+#    #+#             */
-/*   Updated: 2024/10/30 23:12:17 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/11/01 12:25:20 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static void	ft_null_data(t_data *data)
+{
+	data->mlx = NULL;
+	data->mlx_win = NULL;
+	data->tex = NULL;
+	data->img = NULL;
+	data->file = NULL;
+	data->p = NULL;
+	data->ray = NULL;
+	data->spriteray = NULL;
+	data->floorcast = NULL;
+	data->elem = NULL;
+	data->minimap = NULL;
+}
 
 static void	ft_init_data_aux(t_data *data)
 {
@@ -50,6 +65,7 @@ t_data	*ft_init_data(void)
 	data = (t_data *)malloc(sizeof(t_data));
 	if (!data)
 		ft_free_all(data, "Malloc failed", 1);
+	ft_null_data(data);
 	data->file = init_file(data);
 	ray = (t_raycast *)malloc(sizeof(t_raycast));
 	if (!ray)

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 14:23:50 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/31 16:32:27 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/11/01 12:24:15 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	ft_player_init(t_data *data)
 	data->p->speed_up = 0;
 	data->p->jump = 0;
 	data->p->welcome = 1;
-	data->p->old_time = 0;
 	data->p->direction = data->file->orientation;
 	data->p->mouse.x = WIDTH / 2;
 	data->p->mouse.y = HEIGHT / 2;

@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:46:27 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/31 16:39:50 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/11/01 12:26:08 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	ft_init_sprite_elem(t_data *data, int *e, int i, int j)
 	data->elem[*e].type = SPRITE;
 	data->elem[*e].status = OPEN;
 	data->elem[*e].sprite_id = SPRITE_0;
-	data->elem[*e].sprite_up = 1;
 	(*e)++;
 }
 

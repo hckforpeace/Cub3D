@@ -6,7 +6,7 @@
 /*   By: pajimene <pajimene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 21:37:15 by pajimene          #+#    #+#             */
-/*   Updated: 2024/10/31 16:15:48 by pajimene         ###   ########.fr       */
+/*   Updated: 2024/11/01 12:34:07 by pajimene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	ft_trap_mouse(int x, int y, t_data *data)
 	}
 }
 
+//mlx_mouse_hide(data->mlx, data->mlx_win);
 int	ft_mouse(int x, int y, t_data *data)
 {
 	t_player	*p;
@@ -43,7 +44,6 @@ int	ft_mouse(int x, int y, t_data *data)
 	int			old_y;
 
 	p = data->p;
-	mlx_mouse_hide(data->mlx, data->mlx_win);
 	ft_trap_mouse(x, y, data);
 	old_x = p->mouse.x;
 	if (x > old_x)
